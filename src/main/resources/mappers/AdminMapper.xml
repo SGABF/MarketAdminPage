@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.green.sga.dao.AdminDAO">
+	
+	<!-- 권한 수정 -->
+	<update id="updateAdmin" parameterType="AdminVO">
+		update admin
+		set
+		roleGroup = #{roleGroup}
+	</update>
+	
+	<!-- 계정 삭제 -->
+	<delete id="deleteAdmin" parameterType="int">
+		delete from admin where
+		admin_idx=#{admin_idx}
+	</delete>
+	
+	<select id="getAdmin" parameterType="int" resultType="AdminVO">
+		select
+		admin_idx,admin_id,admin_name,admin_roleGroup
+		from
+		admin
+	</select>
+	
+
+	
+
+</mapper>

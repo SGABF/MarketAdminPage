@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.green.sga.dao.BackMenuDAO">
+	
+	<!-- 전체 메뉴 리스트 가져오기   -->	
+	<select id="getMenu" parameterType="int" resultType="MenuDBVO">
+		select
+		menuDB_idx,menuDB_name ,menuDB_use
+		from
+		menuDB
+	</select>
+
+</mapper>
