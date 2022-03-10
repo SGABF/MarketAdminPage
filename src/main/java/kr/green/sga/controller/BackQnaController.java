@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class BackQnaController {
 
-	@Autowired
+	@Autowired 
 	private BackQnaServiceImpl backQnaServiceImpl;
 
 	@RequestMapping(value = "/qnaForm")
