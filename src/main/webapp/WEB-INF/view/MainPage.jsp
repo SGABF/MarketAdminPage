@@ -10,5 +10,6 @@
 	<h1>Main Page</h1>
 	
 	<a href="/qna/qnaList">QNA게시판 가기</a>
+	<a href="/authenticate/login">로그인 가기</a>
 </body>
 </html>
