@@ -4,12 +4,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>GKMarket AdminPage</title>
 </head>
 <body>
-	<h1>Main Page</h1>
-	
-	<a href="/qna/qnaList">QNA게시판 가기</a>
-	<a href="/authenticate/login">로그인 가기</a>
+	 <jsp:forward page="/MainView/indexControl">
+ 
+        <jsp:param name="CONTROL" value="intro" />
+        <jsp:param name="PAGE_NUM" value="01" />
+ 
+    </jsp:forward>
 </body>
 </html>

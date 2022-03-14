@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-</head>
+
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script type="text/javascript">
@@ -29,7 +29,7 @@ function json_convert(){
 		success: function(data) {
 			alert("인증 성공");
 			localStorage.setItem('token', data.token);
-			location.replace("/MainPage");
+			location.replace("/MainView/MainPage");
 		},
 		error: function(request, error){
 			alert("인증 실패");
@@ -80,6 +80,7 @@ $(function(){
 
 </script>
 
+</head>
 <body>
 	<h1 style="text-align: center;">관리자용 토큰인증 페이지</h1>
 	<div>
