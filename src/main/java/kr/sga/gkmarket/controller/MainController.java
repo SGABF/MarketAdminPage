@@ -7,11 +7,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class MainController {
 	
+	// '/'지점 지정
 	@RequestMapping(value = "/")
     public String rootPage() {
 		return "/login-form";
 	}
 	
+	//RestFul API 테스트용 추후 삭제 예정
 	@RequestMapping(value = "/hello")
 	@ResponseBody
     public String restTestPage() {
@@ -19,9 +21,18 @@ public class MainController {
 	}
 	
 	
-	@RequestMapping(value = "/MainPage")
-	public String ainPage() {
+	@RequestMapping(value = "/MainView/MainPage")
+	public String MainPage() {
 		return "/MainPage";
 	}
 	
+	@RequestMapping(value = "/MainView/indexControl")
+	public String IndexControlPage() {
+		return "/main/indexControl";
+	}
+	
+	@RequestMapping(value = "/MainView/template")
+	public String TemplatePage() {
+		return "/main/template";
+	}
 }
