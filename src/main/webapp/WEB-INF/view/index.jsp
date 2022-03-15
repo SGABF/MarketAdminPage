@@ -6,8 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Spring Boot Application</title>
-</head>
-
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
@@ -31,6 +29,8 @@ function test(){
 
 
 </script>
+</head>
+
 <body>
 	Hello, Spring Boot App
 	

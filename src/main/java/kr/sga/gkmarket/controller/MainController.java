@@ -25,14 +25,4 @@ public class MainController {
 	public String MainPage() {
 		return "/MainPage";
 	}
-	
-	@RequestMapping(value = "/MainView/indexControl")
-	public String IndexControlPage() {
-		return "/main/indexControl";
-	}
-	
-	@RequestMapping(value = "/MainView/template")
-	public String TemplatePage() {
-		return "/main/template";
-	}
 }
