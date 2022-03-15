@@ -14,6 +14,6 @@ public class LoginController {
 	
 	@RequestMapping(value = "/test")
 	public String testPage() {
-		return "/index";
+		return "/index_test";
 	}
 }

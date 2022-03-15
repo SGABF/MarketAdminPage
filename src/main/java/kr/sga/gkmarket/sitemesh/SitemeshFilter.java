@@ -11,7 +11,6 @@ public class SitemeshFilter extends ConfigurableSiteMeshFilter {
 		// 			본 예시의 첫번째 매개변수의 값은 모든 경로를 의미
         // 두번째 매개변수 : decorator 파일 경로
 		builder.addDecoratorPath("/MainView/*", "/WEB-INF/decorator/decoratorList.jsp");
-		builder.addDecoratorPath("/qna/*", "/WEB-INF/decorator/decoratorList.jsp");
-		builder.addDecoratorPath("/hello", "/WEB-INF/decorator/decoratorList.jsp");
+//		builder.addDecoratorPath("/qna/*", "/WEB-INF/decorator/decoratorList.jsp");
 	}
 }
