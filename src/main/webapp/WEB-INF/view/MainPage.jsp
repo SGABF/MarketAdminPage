@@ -7,11 +7,12 @@
 <title>GKMarket AdminPage</title>
 </head>
 <body>
-	 <jsp:forward page="/MainView/indexControl">
- 
-        <jsp:param name="CONTROL" value="intro" />
-        <jsp:param name="PAGE_NUM" value="01" />
- 
-    </jsp:forward>
+	<h1>MainPage</h1>
+	<div>
+        <a href="/qna/qnaList">QNA게시판 가기</a>
+    </div><br />
+    <div>
+     	<a href="/authenticate/login">로그인 가기</a>
+    </div>
 </body>
 </html>
