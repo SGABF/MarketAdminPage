@@ -1,19 +1,32 @@
 package kr.sga.gkmarket.qna.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import kr.sga.gkmarket.qna.service.BackQnaService;
+import kr.sga.gkmarket.qna.vo.BackQnaFileVO;
 import kr.sga.gkmarket.qna.vo.BackQnaVO;
 import kr.sga.gkmarket.qna.vo.CommVO;
 import kr.sga.gkmarket.qna.vo.PagingVO;
@@ -21,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping(value = "/qna")
+@RequestMapping(value = "/qna")	
 public class BackQnaController {
 
 	@Autowired
@@ -41,15 +54,14 @@ public class BackQnaController {
 		}
 		PagingVO<BackQnaVO> pv = backQnaService.selectList(commVO);
 		model.addAttribute("pv", pv);
-		System.out.println(pv);
 		model.addAttribute("cv", commVO);
 		return "qnaList";
 	}
 	
 	// 내용보기 : 글 1개를 읽어서 보여준다
 		@SuppressWarnings("unchecked")
-		@RequestMapping(value = "/view")
-		public String view(@RequestParam Map<String, String> params, HttpServletRequest request,@ModelAttribute CommVO commVO,Model model) {
+		@RequestMapping(value = "/qnaView")
+		public String view(@RequestParam Map<String, String> params, HttpServletRequest request,@ModelAttribute CommVO commVO,Model model)  {
 			log.info("{}의 view호출 : {}", this.getClass().getName(), commVO);
 			// POST전송된것을 받으려면 RequestContextUtils.getInputFlashMap(request)로 맵이 존재하는지 판단해서
 			// 있으면 POST처리를 하고 없으면 GET으로 받아서 처리를 한다.
@@ -61,8 +73,74 @@ public class BackQnaController {
 				commVO.setB(Integer.parseInt(params.get("b")));
 				commVO.setIdx(Integer.parseInt(params.get("idx")));
 			}
-			
+			BackQnaFileVO backQnaFileVO = backQnaService.selectFiles(commVO.getIdx());
+			model.addAttribute("fv", backQnaFileVO);
 			model.addAttribute("cv", commVO);
-			return "view";
+			return "qnaView";
+		}
+		
+		// 글쓰기 띄우기
+		@RequestMapping(value = "/qnaInsertForm")
+		public String insertForm(@ModelAttribute CommVO commVO, Model model) {
+			model.addAttribute("cv", commVO);
+			return "qnaInsertForm";
+		}
+		
+		// 저장하기
+		@RequestMapping(value = "/qnaInsertOk", method = RequestMethod.GET)
+		public String insertOkGet() {
+			return "redirect:/qna/qnaList";
+		}
+		@RequestMapping(value = "/qnaInsertOk", method = RequestMethod.POST)
+		public String insertOkPost(
+				@ModelAttribute CommVO commVO,
+				@ModelAttribute BackQnaVO backQnaVO, 
+				MultipartHttpServletRequest request, Model model,
+				RedirectAttributes redirectAttributes) { // redirect시 POST전송을 위해 RedirectAttributes 변수 추가
+			// 일단 VO로 받고
+//			fileBoardVO.setIp(request.getRemoteAddr()); // 아이피 추가로 넣어주고 
+//			log.info("{}의 insertOkPost 호출 : {}", this.getClass().getName(), commVO + "\n" + fileBoardVO);
+
+			// 넘어온 파일 처리를 하자
+			List<BackQnaFileVO> fileList = new ArrayList<>(); // 파일 정보를 저장할 리스트
+			
+			List<MultipartFile> multipartFiles = request.getFiles("upfile"); // 넘어온 파일 리스트
+			if(multipartFiles!=null && multipartFiles.size()>0) {  // 파일이 있다면
+				for(MultipartFile multipartFile : multipartFiles) {
+					if(multipartFile!=null && multipartFile.getSize()>0 ) { // 현재 파일이 존재한다면
+						BackQnaFileVO backQnaFileVO = new BackQnaFileVO(); // 객체 생성하고
+						// 파일 저장하고
+						try {
+							// 저장이름
+							String realPath = request.getRealPath("upload");
+							String saveName = UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
+							// 저장
+							File target = new File(realPath, saveName);
+							FileCopyUtils.copy(multipartFile.getBytes(), target);
+							// vo를 채우고
+							backQnaFileVO.setBack_Qnafile_OriName(multipartFile.getOriginalFilename());
+							backQnaFileVO.setBack_Qnafile_SaveName(saveName);
+							// 리스트에 추가하고
+							fileList.add(backQnaFileVO); 
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+			backQnaVO.setFileList(fileList);
+			// 서비스를 호출하여 저장을 수행한다.
+			backQnaService.insert(backQnaVO);
+			
+			// redirect시 GET전송 하기
+			// return "redirect:/board/list?p=1&s=" + commVO.getPageSize() + "&b=" + commVO.getBlockSize();
+			// redirect시 POST전송 하기
+			// Redirect시 POST전송 하려면 map에 넣어서 RedirectAttributes에 담아서 전송하면 된다.
+			Map<String, String> map = new HashMap<>();
+			map.put("p", "1");
+			map.put("s", commVO.getPageSize() + "");
+			map.put("b",commVO.getBlockSize() + "");
+			redirectAttributes.addFlashAttribute("map", map);
+			return "redirect:/qna/QnaList";
 		}
 }
