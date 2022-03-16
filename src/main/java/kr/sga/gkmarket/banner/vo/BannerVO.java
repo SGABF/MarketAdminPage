@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @XmlRootElement
 @Data
 public class BannerVO {
-	private int banner_Idx;
-	private int banner_Show;
-	private String banner_SaveName;
-	private String banner_OriName;
+	private int banner_idx;
+	private int banner_show;
+	private String banner_saveName;
+	private String banner_oriName;
 	private String banner_Col1;
 	private String banner_Col2;
 	private String banner_Col3;
