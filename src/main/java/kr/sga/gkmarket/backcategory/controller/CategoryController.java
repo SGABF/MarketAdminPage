@@ -32,7 +32,7 @@ public class CategoryController {
 
     @RequestMapping("/category") //주소 지정
     @ResponseBody
-    public String openCategoryList(@ModelAttribute BackCategoryVO backCategoryVO){
+    public String openCategoryList(@RequestBody BackCategoryVO backCategoryVO){
     	JsonObject jo = new JsonObject();
     	List<BackCategoryVO> list = categoryService.getCategory();
     	jo.addProperty("category", list.toString());
