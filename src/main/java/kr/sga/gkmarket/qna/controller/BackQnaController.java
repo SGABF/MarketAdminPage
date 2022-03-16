@@ -12,7 +12,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -28,8 +28,8 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import kr.sga.gkmarket.qna.service.BackQnaService;
 import kr.sga.gkmarket.qna.vo.BackQnaFileVO;
 import kr.sga.gkmarket.qna.vo.BackQnaVO;
-import kr.sga.gkmarket.qna.vo.CommVO;
-import kr.sga.gkmarket.qna.vo.PagingVO;
+import kr.sga.gkmarket.vo.CommVO;
+import kr.sga.gkmarket.vo.PagingVO;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -112,6 +112,7 @@ public class BackQnaController {
 						// 파일 저장하고
 						try {
 							// 저장이름
+							@SuppressWarnings("deprecation")
 							String realPath = request.getRealPath("upload");
 							String saveName = UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
 							// 저장
@@ -142,5 +143,30 @@ public class BackQnaController {
 			map.put("b",commVO.getBlockSize() + "");
 			redirectAttributes.addFlashAttribute("map", map);
 			return "redirect:/qna/QnaList";
+		}
+		
+		// 섬머노트에서 이미지 업로드를 담당하는 메서드 : 파일을 업로드하고 이미지 이름을 리턴해주면된다.
+		@RequestMapping(value = "/imageUpload", produces = "text/plain;charset=UTF-8")
+		@ResponseBody
+		public String imageUpload(HttpServletRequest request, MultipartFile file) {
+			log.info("{}의 imageUpload 호출 : {}",this.getClass().getName(),request + "\n" + file);
+			String filePath = "";
+			@SuppressWarnings("deprecation")
+			String realPath = request.getRealPath("contentfile");
+			// 파일은 MultipartFile 객체가 받아준다.
+			if(file!=null && file.getSize()>0) { // 파일이 존재 한다면
+				try {
+					// 저장이름
+					String saveName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+					// 저장
+					File target = new File(realPath, saveName);
+					FileCopyUtils.copy(file.getBytes(), target);
+					filePath = request.getContextPath() + "\\contentfile\\" + saveName;			
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			log.info("{}의 imageUpload 리턴 : {}",this.getClass().getName(),filePath);
+			return filePath;
 		}
 }

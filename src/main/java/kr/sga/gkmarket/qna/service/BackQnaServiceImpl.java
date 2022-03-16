@@ -11,8 +11,8 @@ import kr.sga.gkmarket.qna.dao.BackQnaDAO;
 import kr.sga.gkmarket.qna.dao.BackQnaFileDAO;
 import kr.sga.gkmarket.qna.vo.BackQnaFileVO;
 import kr.sga.gkmarket.qna.vo.BackQnaVO;
-import kr.sga.gkmarket.qna.vo.CommVO;
-import kr.sga.gkmarket.qna.vo.PagingVO;
+import kr.sga.gkmarket.vo.CommVO;
+import kr.sga.gkmarket.vo.PagingVO;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

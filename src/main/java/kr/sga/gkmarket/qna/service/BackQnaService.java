@@ -3,8 +3,8 @@ package kr.sga.gkmarket.qna.service;
 
 import kr.sga.gkmarket.qna.vo.BackQnaFileVO;
 import kr.sga.gkmarket.qna.vo.BackQnaVO;
-import kr.sga.gkmarket.qna.vo.CommVO;
-import kr.sga.gkmarket.qna.vo.PagingVO;
+import kr.sga.gkmarket.vo.CommVO;
+import kr.sga.gkmarket.vo.PagingVO;
 
 
 
