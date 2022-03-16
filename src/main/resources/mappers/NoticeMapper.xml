@@ -8,10 +8,10 @@
 	<!-- 공지사항 등록 -->
 	<insert id="insertNotice" parameterType="BackNoticeVO">
 	
-		insert into back_category
-		(back_category_name,back_category_use)
+		insert into back_notice
+		(back_notice_subject,back_notice_content)
 		values
-		(#{back_Category_Name},#{back_Category_Use})
+		(#{back_Notice_Subject},#{back_Notice_Content})
 	</insert>
 
 	<!-- 공지사항 수정 -->

@@ -18,23 +18,27 @@ import com.google.gson.JsonObject;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import kr.sga.gkmarket.notice.service.NoticeService;
 import kr.sga.gkmarket.notice.vo.BackNoticeVO;
+import lombok.extern.slf4j.Slf4j;
 
 
 @Controller 
-
+@Slf4j
 public class NoticeController {
 	
     @Autowired
     private NoticeService noticeService; //서비스 연결
 
-    @RequestMapping("/notice") //주소 지정
+    @RequestMapping("/blank") //주소 지정
     @ResponseBody
     public String openNoticeList(@ModelAttribute BackNoticeVO backNoticeVO , Model model){
+    	log.info("NoticeController-openNoticeList 호출 : " + backNoticeVO);
     	JsonObject jo = new JsonObject();
-    	List<BackNoticeVO> list = noticeService.getNotice();
-    	
-    	jo.addProperty("notice", list.toString());
-    	model.addAttribute(list);
+    	if(backNoticeVO!=null) {
+    		List<BackNoticeVO> list = noticeService.getNotice();
+    		jo.addProperty("notice", list.toString());
+    		model.addAttribute("vo", list);
+    	}
+    	log.info("NoticeController-openNoticeList 리턴 : " + jo.toString());
     	return jo.toString();
     }
     @RequestMapping(value = "/notice/insertNotice", method=RequestMethod.POST)
