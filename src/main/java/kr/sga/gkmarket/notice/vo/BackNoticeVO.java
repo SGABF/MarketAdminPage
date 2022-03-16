@@ -1,4 +1,4 @@
-package kr.sga.gkmarket.qna.vo;
+package kr.sga.gkmarket.notice.vo;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @XmlRootElement
 @Data
 public class BackNoticeVO {
-	private int backNoticeIdx;
+	private int back_Notice_Idx;
 	private String back_Notice_Subject;
 	private String back_Notice_Content;
 	private String back_Notice_RegDate;

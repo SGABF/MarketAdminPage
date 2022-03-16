@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.sga.gkmarket.backcategory.dao.BackCategoryDAO">
+	<!-- 카테고리 등록 -->
+	<insert id="insertCategory" parameterType="BackCategoryVO">
+		insert into back_category
+		(back_category_name)
+		values
+		(#{back_Category_Name})
+	</insert>
+	
+	<!-- 전체 카테고리 리스트 가져오기   -->	
+	<select id="getCategory" resultType="BackCategoryVO">
+		select
+		back_category_idx,back_category_name
+		from
+		back_category
+	</select>
+	
+	<!-- 카테고리 활성화/비활성화   -->	
+	<update id="activateCategory" parameterType="BackCategoryVO">
+		update 
+		back_category
+		set
+		back_category_use = #{back_Category_Use}
+		where
+		back_category_idx = #{back_Category_Idx}
+	</update>
+	
+	<!-- 카테고리 한개 가져오기   -->
+	<select id="selectByIdx" resultType="BackCategoryVO">
+		select
+		back_category_idx
+		from
+		back_category
+		where
+		back_category_idx = #{back_Category_Idx}
+	</select>
+	
+	
+	
+</mapper>

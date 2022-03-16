@@ -1,4 +1,4 @@
-package kr.sga.gkmarket.qna.vo;
+package kr.sga.gkmarket.backcategory.vo;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @XmlRootElement
 @Data
 public class BackCategoryVO {
-	private int back_Category_Tdx;
+	private int back_Category_Idx;
 	private String back_Category_Name;
 	private int back_Category_Use;
 	private String back_Category_Col1;
