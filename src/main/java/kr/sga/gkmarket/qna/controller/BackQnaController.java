@@ -142,7 +142,7 @@ public class BackQnaController {
 			map.put("s", commVO.getPageSize() + "");
 			map.put("b",commVO.getBlockSize() + "");
 			redirectAttributes.addFlashAttribute("map", map);
-			return "redirect:/qna/QnaList";
+			return "redirect:/qna/qnaList";
 		}
 		
 		// 섬머노트에서 이미지 업로드를 담당하는 메서드 : 파일을 업로드하고 이미지 이름을 리턴해주면된다.
