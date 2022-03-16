@@ -29,12 +29,12 @@ public class NoticeController {
 
     @RequestMapping("/notice") //주소 지정
     @ResponseBody
-    public String openNoticeList(@ModelAttribute BackNoticeVO backNoticeVO){
+    public String openNoticeList(@ModelAttribute BackNoticeVO backNoticeVO , Model model){
     	JsonObject jo = new JsonObject();
     	List<BackNoticeVO> list = noticeService.getNotice();
     	
     	jo.addProperty("notice", list.toString());
-    	
+    	model.addAttribute(list);
     	return jo.toString();
     }
     @RequestMapping(value = "/notice/insertNotice", method=RequestMethod.POST)
