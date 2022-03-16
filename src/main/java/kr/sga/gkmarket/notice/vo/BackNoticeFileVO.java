@@ -1,4 +1,4 @@
-package kr.sga.gkmarket.qna.vo;
+package kr.sga.gkmarket.notice.vo;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
