@@ -31,9 +31,9 @@
 	</update>
 	
 	<!-- 카테고리 한개 가져오기   -->
-	<select id="selectByIdx" resultType="BackCategoryVO">
+	<select id="selectByIdx" parameterType="int" resultType="BackCategoryVO">
 		select
-		back_category_idx
+		*
 		from
 		back_category
 		where

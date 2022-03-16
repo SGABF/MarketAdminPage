@@ -34,12 +34,12 @@ public class CategoryServiceImpl implements CategoryService {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		 log.info("호출 : " + backCategoryVO);
 	      if (backCategoryVO.getBack_Category_Use()==0) {
-	         map.put("back_category_use",1);
-	         map.put("back_category_idx", backCategoryVO.getBack_Category_Idx());
+	         map.put("back_Category_Use",1);
+	         map.put("back_Category_Idx", backCategoryVO.getBack_Category_Idx());
 	         backCategoryDAO.activateCategory(map);
 	      } else {
-	         map.put("back_category_use",0);
-	         map.put("back_category_idx", backCategoryVO.getBack_Category_Idx());
+	         map.put("back_Category_Use",0);
+	         map.put("back_Category_Idx", backCategoryVO.getBack_Category_Idx());
 	         backCategoryDAO.activateCategory(map);
 	      }
 	      log.info("호출 : " + map);
@@ -52,7 +52,10 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 	@Override
 	public BackCategoryVO selectByIdx(int idx) {
-		BackCategoryVO backCategoryVO = backCategoryDAO.selectByIdx(idx); 
+		BackCategoryVO backCategoryVO = null;
+		if(idx!=0) {
+			backCategoryVO = backCategoryDAO.selectByIdx(idx); 
+		}
 	    return backCategoryVO;
 	}
 
