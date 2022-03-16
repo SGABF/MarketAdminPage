@@ -1,4 +1,4 @@
-package kr.sga.gkmarket.qna.vo;
+package kr.sga.gkmarket.vo;
 // 리스트의 페이지 계산을 하는 VO
 // 모든 리스트의 페이징 방법은 동일하므로 제네릭으로 만들자.
 

@@ -1,5 +1,6 @@
 package kr.sga.gkmarket.qna.vo;
 
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 import lombok.AllArgsConstructor;
@@ -18,4 +19,5 @@ public class BackQnaFileVO {
 	private String back_Qna_Col1;
 	private String back_Qna_Col2;
 	private String backvQna_Col3;
+	
 	}

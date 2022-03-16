@@ -14,13 +14,13 @@ public interface BackQnaDAO {
 	// 개수얻기 
 	int selectCount();
 	// 한개 글 가져오기
-	BackQnaVO selectByIdx(int idx) throws SQLException;
+	BackQnaVO selectByIdx(int idx) ;
 	// 한페이지 글 가져오기
-	List<BackQnaVO> selectList(HashMap<String, Integer> map)throws SQLException;
+	List<BackQnaVO> selectList(HashMap<String, Integer> map);
 	// 저장
-	void insert(BackQnaVO backQnaVO) throws SQLException;
+	void insert(BackQnaVO backQnaVO) ;
 	// 수정 
-	void update(BackQnaVO backQnaVO) throws SQLException;
+	void update(BackQnaVO backQnaVO) ;
 	// 삭제 
-	void deleteByIdx(int idx) throws SQLException;
+	void deleteByIdx(int idx) ;
 }

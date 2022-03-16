@@ -1,6 +1,7 @@
 package kr.sga.gkmarket.qna.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -22,4 +23,6 @@ public class BackQnaVO {
 	private String back_Qna_Col1;
 	private String back_Qna_Col2;
 	private String back_Qna_Col3;
-	}
+
+	private List<BackQnaFileVO> fileList;
+}

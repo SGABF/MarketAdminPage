@@ -21,7 +21,7 @@
 		$("#listCount").change(function(){
 			var pageSize = $(this).val();
 			//alert(pageSize);
-			SendPost("/qnaList", {"p":${cv.currentPage},"s" : pageSize ,"b":${cv.blockSize}});
+			SendPost("/qna/qnaList", {"p":${cv.currentPage},"s" : pageSize ,"b":${cv.blockSize}});
 		});	
 	});		
 </script>
@@ -54,14 +54,16 @@
 					<option value="10" ${cv.pageSize==10 ? " selected='selected' " : "" }>10개</option>
 					<option value="20" ${cv.pageSize==20 ? " selected='selected' " : "" }>20개</option>
 					<option value="30" ${cv.pageSize==30 ? " selected='selected' " : "" }>30개</option>
-					<option value="40" ${cv.pageSize==50 ? " selected='selected' " : "" }>50개</option>
+					<option value="40" ${cv.pageSize==40 ? " selected='selected' " : "" }>40개</option>
 				</select>씩 보기	
 			</td>
 		</tr>
 		<tr>
 			<th>No</th>
+			<th width="5%">이름</th>
 			<th width="60%">제목</th>
-			<th>작성일</th>
+			<th width="10%">작성일</th>
+			<th width="5%">답변완료</th>
 			<th>첨부파일</th>
 		</tr>
 		<c:if test="${pv.totalCount==0 }">
@@ -73,12 +75,17 @@
 			<c:forEach var="vo" items="${pv.list }" varStatus="vs">
 				<tr align="center">
 					<td>${vo.back_Qna_Idx }</td>
+					<td>${vo.user_Idx }</td>
 					<td align="left" >
-						<a href="#" onclick='SendPost("${pageContext.request.contextPath }/view" ,{"p":${pv.currentPage },"s":${pv.pageSize },"b":${pv.blockSize },"idx":${vo.back_Qna_Idx },"m":"view","h":"true"},"post")'><c:out value="${vo.back_Qna_Name }"></c:out></a>
+						<a href="#" onclick='SendPost("${pageContext.request.contextPath }/qna/qnaView" ,{"p":${pv.currentPage },"s":${pv.pageSize },"b":${pv.blockSize },"idx":${vo.back_Qna_Idx },"m":"view","h":"true"},"post")'><c:out value="${vo.back_Qna_Name }"></c:out></a>
 					</td>
 					<td>
 						<fmt:formatDate value="${vo.back_Qna_RegDate }" type="date" dateStyle="short"/>
 					</td>
+					<td>
+						
+					</td>
+					<td></td>
 				</tr>		
 			</c:forEach>
 			<tr>
@@ -90,7 +97,7 @@
 		<tr>
 			<td class="info" colspan="5">
 				<button type="button" class="btn btn-outline-success btn-sm" 
-			        onclick='SendPost("${pageContext.request.contextPath }insertForm",{"p":${pv.currentPage },"s":${pv.pageSize },"b":${pv.blockSize }},"post")'>글쓰기</button>
+			        onclick='SendPost("${pageContext.request.contextPath }/qna/qnaInsertForm",{"p":${pv.currentPage },"s":${pv.pageSize },"b":${pv.blockSize }},"post")'>글쓰기</button>
 			</td>
 		</tr>
 	</table>	
