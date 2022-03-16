@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.sga.gkmarket.userbanned.dao.UserBannedDAO">
+	
+	<!-- 회원정보 한개 가져오기   -->
+	<select id="getUser" parameterType="int" resultType="UserBannedVO">
+		select
+		*
+		from
+		user
+		where
+		user_idx = #{user_Idx}
+	</select>
+	
+	<!-- 회원 정보 리스트 가져오기   -->	
+	<select id="getUserList" resultType="UserBannedVO">
+		select
+		user_idx,user_id,user_name
+		from
+		user
+	</select>
+	
+	<!-- 회원 밴 활성화/비활성화   -->	
+	<update id="userBannedActivate" parameterType="UserBannedVO">
+		update 
+		user
+		set
+		user_banned = #{user_Banned}
+		where
+		user_idx = #{user_Idx}
+	</update>
+	
+	
+	
+</mapper>

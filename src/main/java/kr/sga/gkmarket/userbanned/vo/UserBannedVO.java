@@ -13,5 +13,6 @@ import lombok.NoArgsConstructor;
 public class UserBannedVO {
 	private int user_Idx;
 	private String user_Id;
-	private int user_banned;
+	private String uesr_Name;
+	private int user_Banned;
 }
