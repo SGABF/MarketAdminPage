@@ -59,11 +59,12 @@
 			</td>
 		</tr>
 		<tr>
-			<th width="5%">No</th>
+			<th>No</th>
 			<th width="5%">이름</th>
-			<th width="40%">제목</th>
+			<th width="60%">제목</th>
 			<th width="10%">작성일</th>
 			<th width="5%">답변완료</th>
+			<th>첨부파일</th>
 		</tr>
 		<c:if test="${pv.totalCount==0 }">
 			<tr>
@@ -82,7 +83,9 @@
 						<fmt:formatDate value="${vo.back_Qna_RegDate }" type="date" dateStyle="short"/>
 					</td>
 					<td>
+						
 					</td>
+					<td></td>
 				</tr>		
 			</c:forEach>
 			<tr>

@@ -78,13 +78,7 @@
 	//-----------------------------------------------------------------------------------------------------------
 	// 돌아가기버튼 클릭시 사용할 함수
 	function goBack(){
-		SendPost("${pageContext.request.contextPath}/qna/qnaList", {"p":${cv.currentPage},"s":${cv.pageSize},"b":${cv.blockSize}});
-	}
-	function goUpdate(){
-		SendPost("${pageContext.request.contextPath}/qna/qnaUpdate", {"p":${cv.currentPage},"s":${cv.pageSize},"b":${cv.blockSize},"idx":${cv.idx}});
-	}
-	function goDelete(){
-		SendPost("${pageContext.request.contextPath}/qna/qnaDelete", {"p":${cv.currentPage},"s":${cv.pageSize},"b":${cv.blockSize},"idx":${cv.idx}});
+		SendPost("${pageContext.request.contextPath}/qna/qnaView", {"p":${cv.currentPage},"s":${cv.pageSize},"b":${cv.blockSize},"idx":${cv.idx}}});
 	}
 </script>
 <style type="text/css">
@@ -109,53 +103,36 @@
 		<tr>
 			<th>제목</th>
 			<td colspan="3"> 
-				<c:out value="${fv.back_Qna_Name }"></c:out>
+				<c:out value="${bv.back_Qna_Name }"></c:out>
 			</td>
 		</tr>
 		<tr>
 			<th valign="middle">내용</th>
 			<td colspan="3"> 
-				<div id="content">${fv.back_Qna_Content }</div>
+				<div id="content">${bv.back_Qna_Content }</div>
 			</td>
 		</tr>
 		<tr>
 			<th valign="top">자료</th>
 			<td colspan="3"> 
 				<%-- 첨부파일을 다운 받도록 링크를 달아준다. --%>
-				<c:if test="${not empty fv.fileList }">
-					<c:forEach var="fvo" items="${fv.fileList }">
+				<c:if test="${not empty bv.fileList }">
+					<c:forEach var="bvo" items="${bv.fileList }">
 						<c:url var="url" value="/qna/qnaDownload">
-							<c:param name="of" value="${fvo.back_Qnafile_OriName }"></c:param>
-							<c:param name="sf" value="${fvo.back_Qnafile_SaveName }"></c:param>
+							<c:param name="of" value="${bvo.back_Qnafile_OriName }"></c:param>
+							<c:param name="sf" value="${bvo.back_Qnafile_SaveName }"></c:param>
 						</c:url>
-						<a href="${url }" title="${fvo.back_Qnafile_OriName }"><i class="axi axi-download2"></i> ${fvo.back_Qnafile_OriName }</a><br />
+						<a href="${url }" title="${bvo.back_Qnafile_OriName }"><i class="axi axi-download2"></i> ${bvo.back_Qnafile_OriName }</a><br />
 					</c:forEach>
 				</c:if>
 			</td>
 		</tr>
 		<tr>
 			<td colspan="4" class="info">
-				<input type="button" value=" 수정하기 " class="btn btn-outline-success btn-sm" onclick="goUpdate()"/>
-				<input type="button" value=" 삭제가기 " class="btn btn-outline-success btn-sm" onclick="goDelete()"/>
-				<input type="button" value=" 돌아가기 " class="btn btn-outline-success btn-sm" onclick="goBack()"/>
+				<input type="button" value=" 수정취소 " class="btn btn-outline-success btn-sm" onclick="goBack()"/>
 			</td>
 		</tr>
-		<tr>
-			<td colspan="4" class="title" >
-			답변
-			</td>
-		</tr>
-		<tr>
-			<td colspan="4" class="answer">
-				<textarea rows="10" cols="250" style="margin: auto;"></textarea>
-			</td>
-		</tr>
-			<tr>
-			<td colspan="4" class="info">
-				<input type="button" value=" 삭제가기 " class="btn btn-outline-success btn-sm" onclick="goDelete()"/>
-				<input type="button" value=" 돌아가기 " class="btn btn-outline-success btn-sm" onclick="goBack()"/>
-			</td>
-		</tr>
+		
 	</table>
 </body>
 </html>
