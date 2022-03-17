@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -44,22 +46,19 @@ public class BannerController {
 	
 	@RequestMapping(value = "/banner/addBanner", method = RequestMethod.POST)
 	@ResponseBody
-	public String addBanner(
-			@ModelAttribute BannerVO bannerVO, 
-			@RequestParam("file") MultipartFile mfile,
+	public String addBanner( 
+			@RequestPart(value = "fileUp") MultipartFile mfile,
 			HttpServletRequest request,
-			HttpServletResponse response,
-			Model model,
-			RedirectAttributes redirectAttributes
+			Model model
 			) {
-		log.info("{}의 addBanner 호출 : {}", this.getClass().getName(), bannerVO);
+		log.info("{}의 addBanner 호출", this.getClass().getName());
 		
 		BannerVO bannerImageFile = new BannerVO();
 		
-		if(bannerVO != null && mfile != null) {
+		if(mfile != null) {
 			try {
 				String realPath = request.getRealPath("uploadBanner");
-				String saveName = UUID.randomUUID() + "_" + bannerVO.getBanner_oriName();
+				String saveName = UUID.randomUUID() + "_" + mfile.getOriginalFilename();
 				
 				File target = new File(realPath, saveName);
 				mfile.transferTo(target);

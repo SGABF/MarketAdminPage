@@ -11,7 +11,7 @@
 	var sel_file;
 	
 	$(document).ready(function() {
-        $("#file").on("change", handleImgFileSelect);
+        $("#fileUp").on("change", handleImgFileSelect);
     });
  
     function handleImgFileSelect(e) {
@@ -40,21 +40,26 @@
 	function sendFile() {
 		var token = localStorage.getItem("token");
 		var form_data = new FormData();
-		form_data.append( "file", $("#file1")[0] );
+		
+		if($("#fileUp")[0].files.length === 0){
+		    alert("파일은 선택해주세요");
+		    return;
+		}
+		
+		form_data.append( "fileUp", $("#fileUp")[0].files[0] );
       	$.ajax({
         	data: form_data,
         	type: "POST",
         	url: '/banner/addBanner',
+        	enctype: 'multipart/form-data',
         	cache: false,
         	contentType: false,
         	processData: false,
         	beforeSend: function (xhr) {
-                xhr.setRequestHeader("Content-type","application/json");
                 xhr.setRequestHeader("Authorization","Bearer " + token);
             },
         	success: function(img_name) {
         		alert('이미지 객체 반환 : ' + img_name);
-          		$(el).summernote('editor.insertImage', img_name);
         	},
         	error : function(){
         		alert('에러!!!');
@@ -70,9 +75,12 @@
    <div class="container-fluid">
        <!-- Page Heading -->
        <h1 class="h3 mb-4 text-gray-800">Banner 설정</h1>
-       <input type="file" name="file" id="file" required="required"> <br />
+       <form id="uploadForm" enctype="multipart/form-data" method="post">
+       		<input type="file" name="fileUp" id="fileUp"/> 
+       		<br />
+       </form>
 		<br />
-		<input type="button" value="업로드하기" onclick="sendFile();"/>
+		<input type="button" value="업로드하기" onclick="sendFile()"/>
    </div>
    <!-- /.container-fluid -->
                        
