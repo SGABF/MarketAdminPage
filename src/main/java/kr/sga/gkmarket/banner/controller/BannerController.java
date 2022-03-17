@@ -26,11 +26,15 @@ public class BannerController {
 	@Autowired
 	private BannerService bannerService;
 	
+	// 관리자 페이지용 getList 프론트 전용으로 하나 더 만들어야 함
 	@GetMapping(value = "/banner/getList")
 	@ResponseBody
 	public List<BannerVO> getBannerList() {
 		log.info("getBannerList() 호출");
 		List<BannerVO> list = bannerService.selectBannerList();
+		
+		// 파일 이름이랑, 이미지 경로를 보내 준다.
+		
 		
 		log.info("getBannerList() 결과 : " + list);
 		return list;

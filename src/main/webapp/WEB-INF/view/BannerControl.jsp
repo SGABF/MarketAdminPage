@@ -11,9 +11,27 @@
 	var sel_file;
 	
 	$(document).ready(function() {
-        $("#fileUp").on("change", handleImgFileSelect);
+        var token = localStorage.getItem("token");
+		
+		$.ajax({
+			type: "GET",
+			url: "/banner/getList",
+			beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization","Bearer " + token);
+            },
+            success: function(res) {
+        		for(data in res){
+        			$("#bannerList").append($("<div>"+JSON.stringify(res[data])+"</div>"));
+        		}
+        	},
+        	error : function(){
+        		alert('에러!!!');
+        	}
+			
+		})
     });
  
+	//이미지 바로 출력하는 코드 안쓸듯
     function handleImgFileSelect(e) {
         var files = e.target.files;
         var filesArr = Array.prototype.slice.call(files);
@@ -58,14 +76,34 @@
         	beforeSend: function (xhr) {
                 xhr.setRequestHeader("Authorization","Bearer " + token);
             },
-        	success: function(img_name) {
-        		alert('이미지 객체 반환 : ' + img_name);
+        	success: function(img_name) {        
+        		getBannerList();
         	},
         	error : function(){
         		alert('에러!!!');
         	}
       	});
     }
+	
+	function getBannerList(){
+		var token = localStorage.getItem("token");
+		
+		$.ajax({
+			type: "GET",
+			url: "/banner/getList",
+			beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization","Bearer " + token);
+            },
+            success: function(res) {
+        		$("#bannerList").append($("<div>"+JSON.stringify(res[res.length-1])+"</div>"));
+        	},
+        	error : function(){
+        		alert('에러!!!');
+        	}
+			
+		})
+	}
+	
 </script>
 <style type="text/css">
 	#addbanner {
