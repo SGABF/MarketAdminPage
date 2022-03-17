@@ -149,6 +149,13 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>Banner설정</span></a>
             </li>
+            
+            <!-- Nav Item - Swagger -->
+            <li class="nav-item">
+                <a class="nav-link" href="/swagger-ui/">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>SwaggerPage</span></a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -388,7 +395,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Copyright &copy; GKMarket 2022.</span>
                     </div>
                 </div>
             </footer>

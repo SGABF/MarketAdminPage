@@ -34,4 +34,4 @@ build/
 
 
 ### ImageResource ###
-!**/src/main/webapp/uploadBanner
+/src/main/webapp/uploadBanner
