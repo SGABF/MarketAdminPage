@@ -42,7 +42,7 @@
 		var form_data = new FormData();
 		
 		if($("#fileUp")[0].files.length === 0){
-		    alert("파일은 선택해주세요");
+		    alert("파일을 선택해주세요");
 		    return;
 		}
 		
@@ -66,21 +66,43 @@
         	}
       	});
     }
-</script>    
+</script>
+<style type="text/css">
+	#addbanner {
+		text-align: right;
+		border: 2px solid gray;
+		margin: 5px;
+		padding: 5px;
+	}
+	
+	#bannerList {
+		text-align: right;
+		border: 2px solid gray;
+		margin: 5px;
+		padding: 5px;
+	}
+</style>    
 </head>
-
 <body id="page-top">
 
    <!-- Begin Page Content -->
    <div class="container-fluid">
        <!-- Page Heading -->
        <h1 class="h3 mb-4 text-gray-800">Banner 설정</h1>
-       <form id="uploadForm" enctype="multipart/form-data" method="post">
-       		<input type="file" name="fileUp" id="fileUp"/> 
-       		<br />
-       </form>
-		<br />
-		<input type="button" value="업로드하기" onclick="sendFile()"/>
+       
+       <!-- 배너 추가 버튼 클릭 시 -->
+       <div id="addbanner">
+	        <form id="uploadForm" enctype="multipart/form-data" method="post">
+	       		<input type="file" name="fileUp" id="fileUp"/> 
+	       		<br />
+	        </form>
+			<br />
+			<input type="button" value="업로드하기" onclick="sendFile()"/>
+		</div>
+		
+		<div id="bannerList">
+			
+		</div>
    </div>
    <!-- /.container-fluid -->
                        
