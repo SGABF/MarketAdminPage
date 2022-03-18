@@ -11,10 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import kr.sga.gkmarket.banner.service.BannerService;
 import kr.sga.gkmarket.banner.vo.BannerVO;
 import lombok.extern.slf4j.Slf4j;
@@ -81,5 +83,23 @@ public class BannerController {
 	@GetMapping(value = "/MainView/BannerControl")
 	public String BannerControlPage() {
 		return "/BannerControl";
+	}
+	
+	@PostMapping(value = "banner/deleteBanner")
+	@ResponseBody
+	public void deleteBanner(
+			@RequestParam int banner_id
+			) {
+		log.info("{}의 deleteBanner 호출 : {}", this.getClass().getName(), banner_id);
+		
+		String realPath = "";
+		if (os.contains("win")) {
+			realPath = "D:/image/";
+		} else {
+			realPath = "/resources/Back/";
+		}
+		
+		bannerService.BannerDelete(banner_id, realPath);
+		
 	}
 }

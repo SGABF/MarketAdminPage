@@ -45,10 +45,13 @@ public class BannerServiceImpl implements BannerService {
 		tmpVO = bannerDAO.selectByIdx(bannerId);
 		
 		if(tmpVO != null) {
-			File file = new File(realPath + File.separator + tmpVO.getBanner_saveName());
-			log.info("file realpath : " + realPath);
-//			file.delete();
-//			bannerDAO.delete(bannerId);
+			File file = new File(realPath + tmpVO.getBanner_saveName());
+			log.info("file realpath : " + realPath + tmpVO.getBanner_saveName());
+			
+			if(file != null) {
+				file.delete();
+			}
+			bannerDAO.delete(bannerId);
 		}
 	}
 	
