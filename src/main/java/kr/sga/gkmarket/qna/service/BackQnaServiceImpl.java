@@ -13,6 +13,8 @@ import kr.sga.gkmarket.qna.dao.BackQnaDAO;
 import kr.sga.gkmarket.qna.dao.BackQnaFileDAO;
 import kr.sga.gkmarket.qna.vo.BackQnaFileVO;
 import kr.sga.gkmarket.qna.vo.BackQnaVO;
+import kr.sga.gkmarket.qna.vo.QnaPagingVO;
+import kr.sga.gkmarket.qna.vo.QnaUserNameVO;
 import kr.sga.gkmarket.vo.CommVO;
 import kr.sga.gkmarket.vo.PagingVO;
 import lombok.extern.slf4j.Slf4j;
@@ -37,8 +39,8 @@ public class BackQnaServiceImpl implements BackQnaService {
 	@Override
 	public void update(BackQnaVO backQnaVO, String[] delFiles, String realPath) {
 		log.info("{}의 update 호출 : {}", this.getClass().getName(), backQnaVO + "\n" + Arrays.toString(delFiles) + "\n" + realPath);
-		BackQnaVO dbVO = backQnaDAO.selectByIdx(backQnaVO.getBack_Qna_Idx());
 			// 1. 글수정
+		System.out.println("ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ");
 			backQnaDAO.update(backQnaVO);
 			// 2. 새롭게 첨부된 첨부 파일의 정보도 저장해 주어야 한다.
 			List<BackQnaFileVO> list = backQnaVO.getFileList();
@@ -62,6 +64,7 @@ public class BackQnaServiceImpl implements BackQnaService {
 							File file = new File(realPath + File.separator + backQnaFileVO.getBack_Qnafile_SaveName());
 							file.delete(); // 실제 파일삭제
 							backQnaFileDAO.deleteByIdx(idx); // DB에서만 삭제된다.
+							System.out.println("dddddddddddddddddd");
 						}
 					}
 				}
@@ -92,15 +95,15 @@ public class BackQnaServiceImpl implements BackQnaService {
 	}
 
 	@Override
-	public PagingVO<BackQnaVO> selectList(CommVO commVO) {
+	public QnaPagingVO<BackQnaVO> selectList(CommVO commVO) {
 		log.info("{}의 selectList 호출 : {}", this.getClass().getName(), commVO);
 		System.out.println(backQnaDAO.selectCount());
-		PagingVO<BackQnaVO> pagingVO = null;
+		QnaPagingVO<BackQnaVO> pagingVO = null;
 		try {
 			// 전체 개수구하기
 			int totalCount = backQnaDAO.selectCount();
 			// 페이지 계산
-			pagingVO = new PagingVO<>(commVO.getCurrentPage(), commVO.getPageSize(), commVO.getBlockSize(), totalCount);
+			pagingVO = new QnaPagingVO<>(commVO.getCurrentPage(), commVO.getPageSize(), commVO.getBlockSize(), totalCount);
 			// 글 읽어오기
 			HashMap<String, Integer> map = new HashMap<String, Integer>();
 			map.put("startNo", pagingVO.getStartNo());
@@ -118,6 +121,7 @@ public class BackQnaServiceImpl implements BackQnaService {
 			// 완성된 리스트를 페이징 객체에 넣는다.
 
 			pagingVO.setList(list);
+			pagingVO.setNamelist(backQnaDAO.selectUserName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -130,5 +134,14 @@ public class BackQnaServiceImpl implements BackQnaService {
 		@SuppressWarnings("unused")
 		BackQnaFileVO backQnaFileVO = backQnaFileDAO.selectFiles(idx);
 		return null;
+	}
+
+	@Override
+	public List<QnaUserNameVO> selectUserName() {
+		log.info("{}의 selectByIdx 호출", this.getClass().getName());
+		List<QnaUserNameVO> userNameList = null;
+		userNameList = backQnaDAO.selectUserName();
+		log.info("{}의 selectByIdx 리턴 : {}", this.getClass().getName(), userNameList);
+		return userNameList;
 	}
 }

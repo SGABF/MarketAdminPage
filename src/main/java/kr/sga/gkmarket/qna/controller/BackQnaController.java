@@ -28,9 +28,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import kr.sga.gkmarket.qna.service.BackQnaService;
 import kr.sga.gkmarket.qna.vo.BackQnaFileVO;
 import kr.sga.gkmarket.qna.vo.BackQnaVO;
+import kr.sga.gkmarket.qna.vo.QnaPagingVO;
+import kr.sga.gkmarket.qna.vo.QnaUserNameVO;
 import kr.sga.gkmarket.vo.CommVO;
 import kr.sga.gkmarket.vo.PagingVO;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +58,7 @@ public class BackQnaController {
 			commVO.setS(Integer.parseInt(params.get("s")));
 			commVO.setB(Integer.parseInt(params.get("b")));
 		}
-		PagingVO<BackQnaVO> pv = backQnaService.selectList(commVO);
+		QnaPagingVO<BackQnaVO> pv = backQnaService.selectList(commVO);
 		model.addAttribute("pv", pv);
 		model.addAttribute("cv", commVO); 
 		return "qnaList";
@@ -94,45 +97,45 @@ public class BackQnaController {
 		public String insertOkGet() {
 			return "redirect:/qna/qnaList";
 		}
-		@RequestMapping(value = "/qnaInsertOk", method = RequestMethod.POST)
-		public String insertOkPost(
-				@ModelAttribute CommVO commVO,
-				@ModelAttribute BackQnaVO backQnaVO, 
-				MultipartHttpServletRequest request, Model model,
-				RedirectAttributes redirectAttributes) { // redirect시 POST전송을 위해 RedirectAttributes 변수 추가
+		@PostMapping(value = "/qnaInsertOk")
+		@ResponseBody
+		public void insertOkPost(
+				@RequestBody  BackQnaVO backQnaVO 
+				//MultipartHttpServletRequest request
+				) { // redirect시 POST전송을 위해 RedirectAttributes 변수 추가
 			// 일단 VO로 받고
 //			fileBoardVO.setIp(request.getRemoteAddr()); // 아이피 추가로 넣어주고 
 //			log.info("{}의 insertOkPost 호출 : {}", this.getClass().getName(), commVO + "\n" + fileBoardVO);
-
-			// 넘어온 파일 처리를 하자
-			List<BackQnaFileVO> fileList = new ArrayList<>(); // 파일 정보를 저장할 리스트
 			
-			List<MultipartFile> multipartFiles = request.getFiles("upfile"); // 넘어온 파일 리스트
-			if(multipartFiles!=null && multipartFiles.size()>0) {  // 파일이 있다면
-				for(MultipartFile multipartFile : multipartFiles) {
-					if(multipartFile!=null && multipartFile.getSize()>0 ) { // 현재 파일이 존재한다면
-						BackQnaFileVO backQnaFileVO = new BackQnaFileVO(); // 객체 생성하고
-						// 파일 저장하고
-						try {
-							// 저장이름
-							@SuppressWarnings("deprecation")
-							String realPath = request.getRealPath("qnaUpload");
-							String saveName = UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
-							// 저장
-							File target = new File(realPath, saveName);
-							FileCopyUtils.copy(multipartFile.getBytes(), target);
-							// vo를 채우고
-							backQnaFileVO.setBack_Qnafile_OriName(multipartFile.getOriginalFilename());
-							backQnaFileVO.setBack_Qnafile_SaveName(saveName);
-							// 리스트에 추가하고
-							fileList.add(backQnaFileVO); 
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			}
-			backQnaVO.setFileList(fileList);
+			// 넘어온 파일 처리를 하자
+//			List<BackQnaFileVO> fileList = new ArrayList<>(); // 파일 정보를 저장할 리스트
+//			
+//			List<MultipartFile> multipartFiles = request.getFiles("upfile"); // 넘어온 파일 리스트
+//			if(multipartFiles!=null && multipartFiles.size()>0) {  // 파일이 있다면
+//				for(MultipartFile multipartFile : multipartFiles) {
+//					if(multipartFile!=null && multipartFile.getSize()>0 ) { // 현재 파일이 존재한다면
+//						BackQnaFileVO backQnaFileVO = new BackQnaFileVO(); // 객체 생성하고
+//						// 파일 저장하고
+//						try {
+//							// 저장이름
+//							@SuppressWarnings("deprecation")
+//							String realPath = request.getRealPath("qnaUpload");
+//							String saveName = UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
+//							// 저장
+//							File target = new File(realPath, saveName);
+//							FileCopyUtils.copy(multipartFile.getBytes(), target);
+//							// vo를 채우고
+//							backQnaFileVO.setBack_Qnafile_OriName(multipartFile.getOriginalFilename());
+//							backQnaFileVO.setBack_Qnafile_SaveName(saveName);
+//							// 리스트에 추가하고
+//							fileList.add(backQnaFileVO); 
+//						} catch (IOException e) {
+//							e.printStackTrace();
+//						}
+//					}
+//				}
+//			}
+//			backQnaVO.setFileList(fileList);
 			// 서비스를 호출하여 저장을 수행한다.
 			backQnaService.insert(backQnaVO);
 			
@@ -140,12 +143,7 @@ public class BackQnaController {
 			// return "redirect:/board/list?p=1&s=" + commVO.getPageSize() + "&b=" + commVO.getBlockSize();
 			// redirect시 POST전송 하기
 			// Redirect시 POST전송 하려면 map에 넣어서 RedirectAttributes에 담아서 전송하면 된다.
-			Map<String, String> map = new HashMap<>();
-			map.put("p", "1");
-			map.put("s", commVO.getPageSize() + "");
-			map.put("b",commVO.getBlockSize() + "");
-			redirectAttributes.addFlashAttribute("map", map);
-			return "redirect:/qna/qnaList";
+		
 		}
 		
 		@GetMapping(value = "/qnaUpdate")
@@ -167,10 +165,7 @@ public class BackQnaController {
 			return "redirect:/qna/qnaList";
 		}
 		@RequestMapping(value = "/qnaUpdateOK",method = RequestMethod.POST)
-		public String updateOKPost(@ModelAttribute CommVO commVO,
-				@ModelAttribute BackQnaVO backQnaVO, 
-				MultipartHttpServletRequest request, Model model,
-				RedirectAttributes redirectAttributes) {
+		public String updateOKPost(@ModelAttribute CommVO commVO, @ModelAttribute BackQnaVO backQnaVO, MultipartHttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
 			// 일단 VO로 받고
 			log.info("{}의 updateOKPost 호출 : {}", this.getClass().getName(), commVO + "\n" + backQnaVO);
 
@@ -206,7 +201,10 @@ public class BackQnaController {
 			String[] delFiles = request.getParameterValues("delfile");
 			// 서비스를 호출하여 저장을 수행한다.
 			String realPath = request.getRealPath("qnaUpload");
+			System.out.println("dddddddddddddddddddd");
+			System.out.println("gggg");
 			backQnaService.update(backQnaVO, delFiles, realPath);
+			System.out.println("zzzz");
 			
 			// redirect시 GET전송 하기
 			// return "redirect:/board/list?p=1&s=" + commVO.getPageSize() + "&b=" + commVO.getBlockSize();
@@ -255,4 +253,6 @@ public class BackQnaController {
 			mv.addObject("sfileName", sfileName);
 			return mv;
 		}
+		
+		
 }

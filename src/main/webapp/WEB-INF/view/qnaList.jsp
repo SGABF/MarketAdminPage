@@ -74,7 +74,13 @@
 			<c:forEach var="vo" items="${pv.list }" varStatus="vs">
 				<tr align="center">
 					<td>${vo.back_Qna_Idx }</td>
-					<td>${vo.user_Idx }</td>
+					<td>
+						<c:forEach var="nme" items="${pv.namelist }" varStatus="vs">
+							<c:if test="${nme.back_qna_idx == vo.back_Qna_Idx }">
+								${nme.user_name }
+							</c:if>
+						</c:forEach>
+					</td>
 					<td align="left" >
 						<a href="#" onclick='SendPost("${pageContext.request.contextPath }/qna/qnaView" ,{"p":${pv.currentPage },"s":${pv.pageSize },"b":${pv.blockSize },"idx":${vo.back_Qna_Idx },"m":"view","h":"true"},"post")'><c:out value="${vo.back_Qna_Name }"></c:out></a>
 					</td>

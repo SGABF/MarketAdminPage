@@ -1,12 +1,12 @@
 package kr.sga.gkmarket.qna.dao;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.sga.gkmarket.qna.vo.BackQnaVO;
+import kr.sga.gkmarket.qna.vo.QnaUserNameVO;
 
 
 @Mapper
@@ -23,4 +23,6 @@ public interface BackQnaDAO {
 	void update(BackQnaVO backQnaVO) ;
 	// 삭제 
 	void deleteByIdx(int idx) ;
+	// 유저이름 가져오기
+	List<QnaUserNameVO> selectUserName();
 }
