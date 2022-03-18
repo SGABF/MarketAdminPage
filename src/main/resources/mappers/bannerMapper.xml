@@ -12,7 +12,7 @@
   		 	(0, #{banner_show}, #{banner_saveName}, #{banner_oriName});
   	</insert>
   	<!-- 2. 파일 삭제 -->
-  	<delete id="deleteByIdx" parameterType="int">
+  	<delete id="delete" parameterType="int">
   		delete from banner where banner_idx=#{idx}
   	</delete> 
   	<!-- 3. 배너 1개 가져오기 -->
