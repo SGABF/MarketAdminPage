@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.sga.gkmarket.qna.dao.BackQnaReplyDAO">
+	
+	<!-- 저장 (1:1 문의 답변등록) --> 
+	<insert id="insert" parameterType="BackQnaReplyVO">
+		INSERT into 
+			back_QnaReply (back_Qna_Reply_Content,back_Qna_Idx)
+		values
+			(
+				#{back_Qna_Reply_Content}
+				#{back_Qna_Idx}
+			)	
+	</insert>
+	
+	<!-- 수정 (1:1 문의 답변수정)  -->
+	<update id="update" parameterType="BackQnaReplyVO">
+		update back_QnaReply set
+			back_Qna_Reply_Content = #{back_Qna_Reply_Content}
+		where back_Qna_Idx = #{back_Qna_Idx}
+	</update>
+	
+	<!-- 삭제 (1:1 문의 답변삭제) -->
+	<delete id="delete" parameterType="int">
+		delete from back_QnaReply where back_Qna_Idx= #{back_Qna_Idx}
+	</delete>	
+	
+</mapper>

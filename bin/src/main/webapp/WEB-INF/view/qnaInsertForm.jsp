@@ -44,7 +44,7 @@
       	$.ajax({
         	data: form_data,
         	type: "POST",
-        	url: '${pageContext.request.contextPath}/qnaImageUpload',
+        	url: '${pageContext.request.contextPath}/imageUpload',
         	cache: false,
         	contentType: false,
         	enctype: 'multipart/form-data',
@@ -146,13 +146,13 @@
 			<tr>
 				<th>제목</th>
 				<td colspan="3"> 
-					<input type="text" id="subject" name="back_Qna_Name" size="140" />
+					<input type="text" id="subject" name="subject" size="140" />
 				</td>
 			</tr>
 			<tr>
 				<th valign="top">내용</th>
 				<td colspan="3"> 
-					<textarea name="back_Qna_Content" id="content" cols="135" rows="7"></textarea>
+					<textarea name="content" id="content" cols="135" rows="7"></textarea>
 				</td>
 			</tr>
 			<tr>

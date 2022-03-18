@@ -9,7 +9,7 @@ import kr.sga.gkmarket.qna.vo.BackQnaFileVO;
 @Mapper
 public interface BackQnaFileDAO {
 	// 글 하나의 첨부파일 가져오기
-	BackQnaFileVO selectFiles(int idx);
+	BackQnaFileVO selectFiles(int ref);
 	// 첨부파일 저장 
 	void insert(BackQnaFileVO vo);
 	// 수정시 첨부파일 저장 : 이때는 원본글의 ref가 별도로 존재한다. -->
