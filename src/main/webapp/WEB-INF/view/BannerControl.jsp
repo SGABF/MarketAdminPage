@@ -21,7 +21,11 @@
             },
             success: function(res) {
         		for(data in res){
-        			$("#bannerList").append($("<div>"+JSON.stringify(res[data])+"</div>"));
+        			if (JSON.stringify(res[data].banner_show) == 1){       	
+        				$("#bannerList").append($("<img id='img" + data + "' src='/imagePath/"+ JSON.stringify(res[data].banner_saveName).replaceAll("\"", "") +"'><br>"
+        					+ "<div> id : " + JSON.stringify(res[data].banner_idx) + ", filename : " + JSON.stringify(res[data].banner_oriName).replaceAll("\"", "") + "</div><hr>"
+        				));
+        			}       	
         		}
         	},
         	error : function(){
@@ -95,7 +99,11 @@
                 xhr.setRequestHeader("Authorization","Bearer " + token);
             },
             success: function(res) {
-        		$("#bannerList").append($("<div>"+JSON.stringify(res[res.length-1])+"</div>"));
+            	if (JSON.stringify(res[data].banner_show) == 1){       	
+    				$("#bannerList").append($("<img id='img" + data + "' src='/imagePath/"+ JSON.stringify(res[res.length-1].banner_saveName).replaceAll("\"", "") +"'><br>"
+    					+ "<div> id : " + JSON.stringify(res[res.length-1].banner_idx) + ", filename : " + JSON.stringify(res[res.length-1].banner_oriName).replaceAll("\"", "") + "</div><hr>"
+    				));
+    			}
         	},
         	error : function(){
         		alert('에러!!!');
@@ -148,7 +156,7 @@
       <div class="img_wrap">
       	<img id="img">
       </div>
-   </div>                   
+   </div>       
 </body>
 
 </html>

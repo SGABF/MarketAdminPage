@@ -33,5 +33,5 @@ build/
 .vscode/
 
 
-### ImageResource ###
-/src/main/webapp/uploadBanner
+### AddResource ###
+/.tern-project

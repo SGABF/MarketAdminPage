@@ -26,15 +26,14 @@ public class BannerController {
 	@Autowired
 	private BannerService bannerService;
 	
+	private String os = System.getProperty("os.name").toLowerCase();
+	
 	// 관리자 페이지용 getList 프론트 전용으로 하나 더 만들어야 함
 	@GetMapping(value = "/banner/getList")
 	@ResponseBody
 	public List<BannerVO> getBannerList() {
 		log.info("getBannerList() 호출");
 		List<BannerVO> list = bannerService.selectBannerList();
-		
-		// 파일 이름이랑, 이미지 경로를 보내 준다.
-		
 		
 		log.info("getBannerList() 결과 : " + list);
 		return list;
@@ -51,17 +50,24 @@ public class BannerController {
 		log.info("{}의 addBanner 호출", this.getClass().getName());
 		
 		BannerVO bannerImageFile = new BannerVO();
+		String realPath = "";
 		
 		if(mfile != null) {
 			try {
-				String realPath = request.getRealPath("uploadBanner");
+				if (os.contains("win")) {
+					realPath = "D:/image/";
+				} else {
+					realPath = "/resources/Back/";
+				}
 				String saveName = UUID.randomUUID() + "_" + mfile.getOriginalFilename();
 				
-				File target = new File(realPath, saveName);
-				mfile.transferTo(target);
-				
-				bannerImageFile.setBanner_oriName(mfile.getOriginalFilename());
-				bannerImageFile.setBanner_saveName(saveName);
+				if(realPath != null && realPath != "") {
+					File target = new File(realPath, saveName);
+					mfile.transferTo(target);
+					
+					bannerImageFile.setBanner_oriName(mfile.getOriginalFilename());
+					bannerImageFile.setBanner_saveName(saveName);
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
