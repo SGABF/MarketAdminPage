@@ -8,7 +8,7 @@
 
 <head>
 
-    <title>- AdminAccount</title>
+    <title>AdminAccount</title>
 
 <style type="text/css">
 	.col{
