@@ -11,28 +11,7 @@
 	var sel_file;
 	
 	$(document).ready(function() {
-        var token = localStorage.getItem("token");
-		
-		$.ajax({
-			type: "GET",
-			url: "/banner/getList",
-			beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization","Bearer " + token);
-            },
-            success: function(res) {
-        		for(data in res){
-        			if (JSON.stringify(res[data].banner_show) == 1){       	
-        				$("#bannerList").append($("<img id='img" + data + "' src='/imagePath/"+ JSON.stringify(res[data].banner_saveName).replaceAll("\"", "") +"'><br>"
-        					+ "<div> id : " + JSON.stringify(res[data].banner_idx) + ", filename : " + JSON.stringify(res[data].banner_oriName).replaceAll("\"", "") + "</div><hr>"
-        				));
-        			}       	
-        		}
-        	},
-        	error : function(){
-        		alert('에러!!!');
-        	}
-			
-		});
+		fullReload();
 		
 		$("#addbanner").css('display', 'none');
 		$("#addbannerButton").click(function(){
@@ -54,6 +33,34 @@
 		});
 		
     });
+	
+	function fullReload(){
+	 	var token = localStorage.getItem("token");
+		
+		$.ajax({
+			type: "GET",
+			url: "/banner/getList",
+			beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization","Bearer " + token);
+            },
+            success: function(res) {
+        		for(data in res){
+        			if (JSON.stringify(res[data].banner_show) == 1){       	
+        				$("#bannerList").append($("<div class='container'><div class='row align-items-center row-cols-4'><div class='col'><img id='img" + data + "' src='/imagePath/"+ JSON.stringify(res[data].banner_saveName).replaceAll("\"", "") +"'></div>"
+        					+ "<div class='col'> id : " + JSON.stringify(res[data].banner_idx) + "</div>"
+        					+ "<div class='col'> filename : " + JSON.stringify(res[data].banner_oriName).replaceAll("\"", "") + "</div>"
+        					+ "<div class='col'><input type='button' id='deletebannerButton' class='btn btn-danger' value='배너삭제' onclick='deleteBanner(" + JSON.stringify(res[data].banner_idx) + ")'/></div>"
+        					+ "</div></div><hr>"
+        				));
+        			}       	
+        		}
+        	},
+        	error : function(){
+        		alert('에러!!!');
+        	}
+			
+		});
+	}
  
 	//이미지 바로 출력하는 코드 안쓸듯
     function handleImgFileSelect(e) {
@@ -119,11 +126,40 @@
                 xhr.setRequestHeader("Authorization","Bearer " + token);
             },
             success: function(res) {
-            	if (JSON.stringify(res[data].banner_show) == 1){       	
-    				$("#bannerList").append($("<img id='img" + data + "' src='/imagePath/"+ JSON.stringify(res[res.length-1].banner_saveName).replaceAll("\"", "") +"'><br>"
-    					+ "<div> id : " + JSON.stringify(res[res.length-1].banner_idx) + ", filename : " + JSON.stringify(res[res.length-1].banner_oriName).replaceAll("\"", "") + "</div><hr>"
+            	
+            	if (JSON.stringify(res[res.length-1].banner_show) == 1){
+            		
+    				$("#bannerList").append($("<div class='container'><div class='row align-items-center row-cols-4'><div class='col'><img id='img" + data + "' src='/imagePath/"+ JSON.stringify(res[res.length-1].banner_saveName).replaceAll("\"", "") +"'></div>"
+    					+ "<div class='col'> id : " + JSON.stringify(res[res.length-1].banner_idx) + "</div>"
+    					+ "<div class='col'> filename : " + JSON.stringify(res[res.length-1].banner_oriName).replaceAll("\"", "") + "</div>" 
+    					+ "<div class='col'><input type='button' id='deletebannerButton' class='btn btn-danger' value='배너삭제' onclick='deleteBanner("+ JSON.stringify(res[res.length-1].banner_idx) +")'/></div>"
+    					+ "</div></div><hr>"
     				));
+            		
     			}
+        	},
+        	error : function(){
+        		alert('에러!!!');
+        	}
+			
+		})
+	}
+	
+	function deleteBanner(id){
+		var token = localStorage.getItem("token");
+		
+		$.ajax({
+			type: "POST",
+			data: {
+				"banner_id" : id
+			},
+			url: "/banner/deleteBanner",
+			beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization","Bearer " + token);
+            },
+            success: function(res) {
+            	alert('삭제완료');
+				location.reload();
         	},
         	error : function(){
         		alert('에러!!!');
@@ -142,7 +178,6 @@
 	}
 	
 	#bannerList {
-		text-align: left;
 		border: 2px solid gray;
 		margin: 5px;
 		padding: 5px;
@@ -154,6 +189,11 @@
 	    border-radius: 4px;
 	    color: white;
 	    cursor: pointer;
+	}
+	
+	img {
+		width: 100px;
+		height: 100px;
 	}
 </style>    
 </head>
@@ -187,11 +227,7 @@
    </div>
    <!-- /.container-fluid -->
                        
-   <div>
-      <div class="img_wrap">
-      	<img id="img">
-      </div>
-   </div>       
+     
 </body>
 
 </html>
