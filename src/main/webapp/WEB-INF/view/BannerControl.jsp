@@ -32,7 +32,27 @@
         		alert('에러!!!');
         	}
 			
-		})
+		});
+		
+		$("#addbanner").css('display', 'none');
+		$("#addbannerButton").click(function(){
+			if($("#addbanner").css('display') == 'none'){
+				$("#addbanner").slideDown(500);
+			}
+		});
+		
+		$("#uploadcancel").click(function(){
+			if($("#addbanner").css('display') != 'none'){
+				$("#addbanner").slideUp(500);
+			}
+		});
+		
+		$("#fileUp").on('change',function(){
+			  var fileName = $("#fileUp").val();
+			  fileName = fileName.replace('C:\\fakepath\\', '');
+			  $("#addfilename").val(fileName);
+		});
+		
     });
  
 	//이미지 바로 출력하는 코드 안쓸듯
@@ -122,10 +142,18 @@
 	}
 	
 	#bannerList {
-		text-align: right;
+		text-align: left;
 		border: 2px solid gray;
 		margin: 5px;
 		padding: 5px;
+	}
+	
+	.input-file-button{
+	    padding: 6px 25px;
+	    background-color:#FF6600;
+	    border-radius: 4px;
+	    color: white;
+	    cursor: pointer;
 	}
 </style>    
 </head>
@@ -136,14 +164,21 @@
        <!-- Page Heading -->
        <h1 class="h3 mb-4 text-gray-800">Banner 설정</h1>
        
+       <input type="button" id="addbannerButton" class="btn btn-success" value="배너추가"/>
        <!-- 배너 추가 버튼 클릭 시 -->
        <div id="addbanner">
 	        <form id="uploadForm" enctype="multipart/form-data" method="post">
-	       		<input type="file" name="fileUp" id="fileUp"/> 
-	       		<br />
+	        	<div class="input-group mb-3">
+		        	<input type="text" id="addfilename" class="form-control" placeholder="첨부파일" aria-label="Recipient's username" aria-describedby="basic-addon2">
+		        	<label class="btn btn-success" for="fileUp">
+		        		파일 선택
+		        	</label>
+		        </div>
+		        <input type="button" class="btn btn-success" value="업로드하기" onclick="sendFile()"/>
+		        <input type="button" id="uploadcancel" class="btn btn-success" value="업로드취소"/>
+	       		<input type="file" name="fileUp" id="fileUp" style="display: none;"/>
 	        </form>
-			<br />
-			<input type="button" value="업로드하기" onclick="sendFile()"/>
+			
 		</div>
 		
 		<div id="bannerList">
