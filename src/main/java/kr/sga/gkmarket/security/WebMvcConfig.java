@@ -55,7 +55,7 @@ public class WebMvcConfig extends WebSecurityConfigurerAdapter {
         // We don't need CSRF for this example
         httpSecurity.csrf().disable()
             // dont authenticate this particular request
-            .authorizeRequests().antMatchers("/", "/MainView/**", "/static/**", "/resources/**", "/MainPage", "/authenticate/**", "/swagger*/**", "/v2/api-docs", "/qna/**" , "/imagePath/**").permitAll().
+            .authorizeRequests().antMatchers("/", "/MainView/**", "/static/**", "/resources/**", "/MainPage", "/authenticate/**", "/swagger*/**", "/v2/api-docs", "/qna/**", "/imagePath/**").permitAll().
             // all other requests need to be authenticated
                 anyRequest().authenticated().and().  
 //                anyRequest().permitAll().and().  
