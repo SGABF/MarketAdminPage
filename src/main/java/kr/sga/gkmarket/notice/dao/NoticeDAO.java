@@ -1,11 +1,8 @@
 package kr.sga.gkmarket.notice.dao;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.stereotype.Component;
 
 import kr.sga.gkmarket.notice.vo.BackNoticeVO;
 
