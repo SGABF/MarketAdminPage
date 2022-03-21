@@ -8,7 +8,7 @@
 
 <head>
 
-    <title> - Blank</title>
+    <title>Notice</title>
 
 </head>
 
