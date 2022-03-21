@@ -32,30 +32,28 @@ public class NoticeController {
     @ResponseBody
     public String openNoticeList(@ModelAttribute BackNoticeVO backNoticeVO , Model model){
     	log.info("NoticeController-openNoticeList 호출 : " + backNoticeVO);
-    	JsonObject jo = new JsonObject();
     	if(backNoticeVO!=null) {
     		List<BackNoticeVO> list = noticeService.getNotice();
-    		jo.addProperty("notice", list.toString());
     		model.addAttribute("vo", list);
     	}
-    	log.info("NoticeController-openNoticeList 리턴 : " + jo.toString());
-    	return jo.toString();
+    	log.info("NoticeController-openNoticeList 리턴 : " +  model.toString());
+    	return model.toString();
     }
-    @RequestMapping(value = "/notice/insertNotice", method=RequestMethod.POST)
+    @RequestMapping(value = "/blank/insertNotice", method=RequestMethod.POST)
 	public String insertNotice(@RequestBody BackNoticeVO backNoticeVO , Model model) {
 		noticeService.insertNotice(backNoticeVO); // DB에 저장
 		model.addAttribute("vo",backNoticeVO);
 	
 		return "redirect:/notice";
 	}
-    @RequestMapping(value = "/notice/updateNotice" ,method=RequestMethod.POST)
+    @RequestMapping(value = "/blank/updateNotice" ,method=RequestMethod.POST)
     public String updateNotice(@RequestBody BackNoticeVO backNoticeVO , Model model) {
     	noticeService.updateNotice(backNoticeVO);
     	model.addAttribute("vo",backNoticeVO);
 		return "redirect:/notice";
     	
     }
-    @RequestMapping(value="/notice/deleteNotice" , method=RequestMethod.DELETE)
+    @RequestMapping(value="/blank/deleteNotice" , method=RequestMethod.DELETE)
     public String deleteNotice(@RequestParam("backNotice") int backNotice){
         
         noticeService.deleteNotice(backNotice);
