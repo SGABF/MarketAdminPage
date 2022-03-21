@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import kr.sga.gkmarket.banner.service.BannerService;
 import kr.sga.gkmarket.banner.vo.BannerVO;
 import lombok.extern.slf4j.Slf4j;
@@ -45,9 +44,7 @@ public class BannerController {
 	@PostMapping(value = "/banner/addBanner")
 	@ResponseBody
 	public String addBanner( 
-			@RequestPart(value = "fileUp") MultipartFile mfile,
-			HttpServletRequest request,
-			Model model
+			@RequestPart(value = "fileUp") MultipartFile mfile
 			) {
 		log.info("{}의 addBanner 호출", this.getClass().getName());
 		
@@ -85,7 +82,7 @@ public class BannerController {
 		return "/BannerControl";
 	}
 	
-	@PostMapping(value = "banner/deleteBanner")
+	@PostMapping(value = "/banner/deleteBanner")
 	@ResponseBody
 	public void deleteBanner(
 			@RequestParam int banner_id
