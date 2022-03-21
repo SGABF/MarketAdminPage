@@ -89,6 +89,10 @@ public class MainController {
 	public String tablesPage() {
 		return "/tables";
 	}
+	@GetMapping(value = "/MainView/adminAccount")
+	public String adminAccount() {
+		return "/adminAccount";
+	}
 	
 	//---------------------------------------------------------------------------------------------------
 	

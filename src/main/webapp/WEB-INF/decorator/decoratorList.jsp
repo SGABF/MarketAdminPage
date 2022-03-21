@@ -150,6 +150,13 @@
                     <span>Banner설정</span></a>
             </li>
             
+            <!-- Nav Item - AdminAccount -->
+            <li class="nav-item">
+                <a class="nav-link" href="/MainView/adminAccount">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>관리자 계정 설정</span></a>
+            </li>
+            
             <!-- Nav Item - Swagger -->
             <li class="nav-item">
                 <a class="nav-link" href="/swagger-ui/">

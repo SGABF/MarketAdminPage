@@ -8,7 +8,7 @@
 
 <head>
 
-    <title>- Blank</title>
+    <title>- AdminAccount</title>
 
 </head>
 
@@ -17,7 +17,10 @@
    <!-- Begin Page Content -->
    <div class="container-fluid">
 	   <!-- Page Heading -->
-	   <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
+	   <h1 class="h3 mb-4 text-gray-800">관리자 계정 설정 페이지</h1>
+	   
+	   <h2>Adminmon</h2>
+	   
    </div>
    <!-- /.container-fluid -->
                        

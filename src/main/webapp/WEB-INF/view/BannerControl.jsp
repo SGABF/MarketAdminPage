@@ -178,7 +178,6 @@
 	}
 	
 	#bannerList {
-		border: 2px solid gray;
 		margin: 5px;
 		padding: 5px;
 	}
