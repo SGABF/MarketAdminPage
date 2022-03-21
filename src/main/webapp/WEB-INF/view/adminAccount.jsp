@@ -8,7 +8,7 @@
 
 <head>
 
-    <title>- AdminAccount</title>
+    <title>AdminAccount</title>
 
 <script type="text/javascript">
 	$(document).ready(function(){
