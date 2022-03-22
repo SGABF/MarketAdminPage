@@ -16,4 +16,5 @@ public interface NoticeDAO {
 	void deleteNotice(int backNoticeVO);
 	// 공지사항 가져오기
 	List<BackNoticeVO> getNotice();
+
 }

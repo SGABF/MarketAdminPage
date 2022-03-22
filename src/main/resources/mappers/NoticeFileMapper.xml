@@ -9,7 +9,7 @@
   		insert into back_noticefile 
   			(back_notice_idx, back_noticefile_saveName, back_noticefile_oriName)
   		values
-  		 	(1, #{back_Noticefile_SaveName}, #{back_Noticefile_OriName});
+  		 	(#{back_Notice_Idx}, #{back_Noticefile_SaveName}, #{back_Noticefile_OriName});
   	</insert>
   	<!-- 2. 파일 삭제 -->
   	<delete id="deleteFile" parameterType="int">

@@ -55,13 +55,12 @@ public class NoticeController {
     @SuppressWarnings("deprecation")
     @PostMapping(value = "/notice/insertNotice")
     @ResponseBody
-	public String insertNotice(@RequestBody BackNoticeVO backNoticeVO, @RequestPart(value = "fileUp") MultipartFile mfile) {
+	public String insertNotice(@RequestBody BackNoticeVO backNoticeVO, @RequestPart(value = "fileUp", required = false) MultipartFile mfile) {
 		noticeService.insertNotice(backNoticeVO); // DB에 저장
-			
 		if(mfile != null ) {
-			
+			BackNoticeVO vo =  new BackNoticeVO();
 			BackNoticeFileVO imageFile = new BackNoticeFileVO();
-			int ref = backNoticeVO.getBack_Notice_Idx();
+			int ref = vo.getBack_Notice_Idx();
 			String realPath = "";
 			try {
 				if (os.contains("win")) {
@@ -81,9 +80,9 @@ public class NoticeController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			imageFile.setBack_Notice_Idx(ref);
 			noticeFileService.insertFile(imageFile);
 		}
-		noticeFileService.insertFile(null);
 
 		
 		return "redirect:/notice/getList";
@@ -116,12 +115,10 @@ public class NoticeController {
     @SuppressWarnings("deprecation")
     @PostMapping(value = "/notice/insertFile")
     @ResponseBody
-    public String insertFile(@RequestPart(value = "fileUp") MultipartFile mfile, BackNoticeVO backNoticeVO) {
+    public String insertFile(@RequestPart(value = "fileUp", required = false) MultipartFile mfile) {
     	BackNoticeFileVO imageFile = new BackNoticeFileVO();
     	String realPath = "";
-    	int ref = backNoticeVO.getBack_Notice_Idx();
-    	
-    	if(mfile != null && ref != 0 ) {
+    	if(mfile != null ) {
 			try {
 				if (os.contains("win")) {
 					realPath = "D:/image/";
@@ -133,16 +130,15 @@ public class NoticeController {
 				if(realPath != null && realPath != "") {
 					File target = new File(realPath, saveName);
 					mfile.transferTo(target);
-					imageFile.setBack_Notice_Idx(ref);
 					imageFile.setBack_Noticefile_OriName(mfile.getOriginalFilename());
 					imageFile.setBack_Noticefile_SaveName(saveName);
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
-		noticeFileService.insertFile(imageFile);
-    	
+			noticeFileService.insertFile(imageFile);
+		}	
+			
     	return imageFile.toString();
     }
     
