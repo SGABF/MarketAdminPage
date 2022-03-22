@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.sga.gkmarket.security.dao.AdminDAO">
+
+	<select id="getUser" resultType="AdminVO"> 
+		select * from admin where admin_id = "test" and admin_password = "1234"
+	</select>
+	
+	<!-- 1. 1개의 계정 정보 얻기 -->
+	<select id="getAdminAccount" parameterType="string" resultType="AdminVO">
+		select * from admin where admin_id = #{admin_id}
+	</select>
+
+	<!-- 2. 전체 계정 정보 얻기 -->
+	<select id="getAllAdminAccount" resultType="hashmap">
+		select * from admin
+	</select>
+	
+	<!-- 3. 계정 추가 -->
+	<insert id="addAdminAccount" parameterType="AdminVO">
+		insert into admin (admin_idx, admin_id, admin_password, admin_name, admin_roleGroup) values (0, #{admin_id}, #{admin_password}, #{admin_name}, #{admin_roleGroup})
+	</insert>
+	
+	<!-- 4. 계정 삭제 -->
+	<delete id="deleteAdminAccount" parameterType="int">
+		delete from admin where admin_idx = #{admin_idx}
+	</delete>
+	
+	<!-- 5. 비밀번호 수정 -->
+	<update id="changePassword" parameterType="AdminVO">
+		update admin set admin_password = #{admin_password} where admin_idx = #{admin_idx}
+	</update>
+	
+	<!-- 6. 비밀번호 얻기 -->
+	<select id="getAdminPassword" parameterType="string" resultType="string">
+		select admin_password from admin where admin_id = #{admin_id}
+	</select>
+	
+</mapper>

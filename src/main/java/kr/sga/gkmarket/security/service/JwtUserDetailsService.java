@@ -17,7 +17,7 @@ import kr.sga.gkmarket.security.vo.AdminVO;
 public class JwtUserDetailsService implements UserDetailsService {
 	
 	@Autowired
-	private AdminDAO adminDAO;
+	private AdminService adminService;
 
 	// DB 연결 전
 //	@Override
@@ -32,10 +32,10 @@ public class JwtUserDetailsService implements UserDetailsService {
 	// DB 연결 후
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		AdminVO adminVO = adminDAO.getUser();
+		AdminVO adminVO = adminService.getAdminAccount(username);
 		
 		if(adminVO.getAdmin_id().equals(username)) {
-			return new User(adminVO.getAdmin_id(), "$2a$10$m/enYHaLsCwH2dKMUAtQp.ksGOA6lq7Fd2pnMb4L.yT4GyeAPRPyS", new ArrayList<>());
+			return new User(adminVO.getAdmin_id(), adminVO.getAdmin_password(), new ArrayList<>());
 		} else {
 			throw new UsernameNotFoundException("사용자를 찾을 수 없습니다 : " + username);
 		}
