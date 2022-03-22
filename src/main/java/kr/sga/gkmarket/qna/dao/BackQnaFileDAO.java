@@ -18,6 +18,6 @@ public interface BackQnaFileDAO {
 	void deleteByIdx(int idx);
 	// 원본글의 첨부파일 모두 읽기 -->
 	List<BackQnaFileVO> selectList(int ref);
-	// 원본글의 첨부파일 모두 삭제하기 -->
+	// 원본글의 첨부파일 모두 삭제하기 --> 
 	void deleteByRef(int ref);
 }
