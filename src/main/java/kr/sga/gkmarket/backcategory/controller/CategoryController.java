@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,21 +33,18 @@ public class CategoryController {
 
     @RequestMapping("/category") //주소 지정
     @ResponseBody
-    public String openCategoryList(@RequestBody BackCategoryVO backCategoryVO){
-    	JsonObject jo = new JsonObject();
+    public List<BackCategoryVO> openCategoryList(){
     	List<BackCategoryVO> list = categoryService.getCategory();
-    	jo.addProperty("category", list.toString());
-    	
-    	return jo.toString();
+    	return list;
     }
-    @RequestMapping(value = "/category/insert", method=RequestMethod.POST)
+    @PostMapping(value = "/category/insert")
 	public String insertCategory(@RequestBody BackCategoryVO backCategoryVO , Model model) {
     	categoryService.insertCategory(backCategoryVO);
     	model.addAttribute("vo",backCategoryVO);
 	
 		return "redirect:/category";
 	}
-    @RequestMapping(value = "/category/activate", method=RequestMethod.POST)
+    @PostMapping(value = "/category/activate")
     public String activateCategory(@RequestParam(required = false) int back_Category_Idx) {
     	BackCategoryVO dbvo = null;
     	dbvo = categoryService.selectByIdx(back_Category_Idx);
