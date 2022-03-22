@@ -87,7 +87,7 @@ public class BackQnaServiceImpl implements BackQnaService {
 		BackQnaVO backQnaVO = backQnaDAO.selectByIdx(idx); // 글 1개를 가져온다.
 		// 그 글에 해당하는 첨부파일의 정보를 가져온다.
 		if (backQnaVO != null) {
-			List<BackQnaFileVO> list = backQnaFileDAO.selectList(idx);
+			List<BackQnaFileVO> list = backQnaFileDAO.selectList();
 			backQnaVO.setFileList(list);
 		}
 		log.info("{}의 selectByIdx 리턴 : {}", this.getClass().getName(), backQnaVO);
@@ -113,7 +113,7 @@ public class BackQnaServiceImpl implements BackQnaService {
 			if (list != null && list.size() > 0) {
 				for (BackQnaVO vo : list) {
 					// 해당글의 첨부파일 목록을 가져온다.
-					List<BackQnaFileVO> fileList = backQnaFileDAO.selectList(vo.getBack_Qna_Idx());
+					List<BackQnaFileVO> fileList = backQnaFileDAO.selectList();
 					// vo에 넣는다.
 					vo.setFileList(fileList);
 				}
