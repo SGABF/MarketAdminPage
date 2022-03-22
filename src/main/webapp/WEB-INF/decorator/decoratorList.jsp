@@ -157,6 +157,13 @@
                     <span>관리자 계정 설정</span></a>
             </li>
             
+            <!-- Nav Item - notice -->
+            <li class="nav-item">
+                <a class="nav-link" href="/MainView/NoticeControl">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>공지사항 설정</span></a>
+            </li>
+            
             <!-- Nav Item - Swagger -->
             <li class="nav-item">
                 <a class="nav-link" href="/swagger-ui/">

@@ -33,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 	}
 
 	@Override
-	public void insertFile(BackNoticeFileVO backNoticeFileVO) {
+	public void insertFile(BackNoticeFileVO backNoticeFileVO ) {
 		log.info("{}의 insertFile 호출 : {}", this.getClass().getName(),backNoticeFileVO);
 		if(backNoticeFileVO != null) {
 			noticeFileDAO.insertFile(backNoticeFileVO);
