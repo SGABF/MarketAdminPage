@@ -12,6 +12,8 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
+		getFullAdminAccount();
+		
 		const body = document.querySelector('body');
 	    const modal = document.querySelector('.modal');
 	    const btnOpenPopup = document.querySelector('.btn-open-popup');
@@ -55,8 +57,133 @@
         
 	});
 	
+	function getFullAdminAccount(){
+		var token = localStorage.getItem("token");
+		
+		$.ajax({
+			type: "GET",
+			url: "/adminAC/getAdminACList",
+			beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization","Bearer " + token);
+            },
+            success: function(res) {
+            	console.log(res);
+        		for(data in res){
+       				$("#adminTable").append($("<tr><td>" + JSON.stringify(res[data].admin_idx) + "</td>"
+       						+ "<td>" + JSON.stringify(res[data].admin_id).replaceAll("\"", "") + "</td>"
+	       					+ "<td>" + JSON.stringify(res[data].admin_name).replaceAll("\"", "") + "</td>"
+       						+ "<td>" + JSON.stringify(res[data].admin_roleGroup).replaceAll("\"", "") + "</td>"
+       						+ "<td><button type='button' class='btn btn-danger' onclick='delAdminAccount("+ JSON.stringify(res[data].admin_idx) +")'>계정삭제</button> &nbsp;"
+       						+ "<button type='button' class='btn btn-success' onclick='location.href=\"/swagger-ui/\"'>비밀번호변경</button></td>"
+       						+ "</tr>"
+       				));	       	
+        		}
+        	},
+        	error : function(){
+        		alert('에러!!!');
+        	}
+			
+		});
+	}
 	
+	function delAdminAccount(idx){
+		var token = localStorage.getItem("token");
+		
+		$.ajax({
+			type: "POST",
+			url: "/adminAC/deleteAdminAccount",
+			data: {
+				"admin_idx" : idx
+			},
+			beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization","Bearer " + token);
+            },
+            success: function(res) {
+            	alert('삭제성공');
+            	location.reload();
+        	},
+        	error : function(){
+        		alert('에러!!!');
+        	}
+			
+		});
+	}
 	
+	function changePassword(id){
+		var token = localStorage.getItem("token");
+		
+		$.ajax({
+			type: "POST",
+			url: "/adminAC/ChangePassword",
+			data: {
+				"id" : id
+			},
+			beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization","Bearer " + token);
+            },
+            success: function(res) {
+            	alert('비밀번호 변경 성공');
+        	},
+        	error : function(){
+        		alert('에러!!!');
+        	}
+			
+		});
+	}
+	
+	function addAdminAccount(){
+		var token = localStorage.getItem("token");
+		
+		var admin_id = $("#inputAdminId").val();
+		var admin_password = $("#inputAdminPW").val();
+		var admin_name = $("#inputAdminUser").val();
+		var admin_roleGroup = $("#roleGroup").val();
+		
+		if(admin_id == "" || admin_id == null){
+			alert('아이디를 입력해주세요.');
+			$("#inputAdminId").focus();
+			return
+		}
+		
+		if(admin_password == "" || admin_password == null){
+			alert('비밀번호를 입력해주세요.');
+			$("#inputAdminPW").focus();
+			return
+		}
+		
+		if(admin_name == "" || admin_name == null){
+			alert('사용자명을 입력해주세요.');
+			$("#inputAdminUser").focus();
+			return
+		}
+		
+		if(admin_roleGroup == "권한 선택"){
+			alert('권한을 선택해 주세요.');
+			return
+		}
+		
+		$.ajax({
+			type: "POST",
+			url: "/adminAC/addAdminAccount",
+			data: {
+				"admin_id" : admin_id,
+				"admin_password" : admin_password,
+				"admin_name" : admin_name,
+				"admin_roleGroup" : admin_roleGroup
+			},
+			beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization","Bearer " + token);
+            },
+            success: function(res) {
+            	alert('계정 추가 성공');
+            	location.reload();
+        	},
+        	error : function(){
+        		alert('계정을 추가하지 못했습니다. 다음의 이유일 가능성이 높습니다. ex)계정 중복');
+        	}
+			
+		});
+	}
 
 </script>
 
@@ -73,6 +200,12 @@
 	}
 	
 	th {
+		border: 3px solid black;
+		text-align: center;
+		padding: 15px;
+	}
+	
+	td {
 		border: 3px solid black;
 		text-align: center;
 		padding: 15px;
@@ -101,7 +234,7 @@
        left: 50%;
 
        width: 400px;
-       height: 600px;
+       height: 400px;
 
        padding: 40px;
 
@@ -129,30 +262,30 @@
 				<h1>관리자 계정 생성</h1>
 				
 				<div class="input-group mb-3">
-				  <span class="input-group-text" id="basic-addon1">Admin ID : </span>
-				  <input type="text" class="form-control" placeholder="ID 입력" aria-label="admin_id" aria-describedby="basic-addon1">
+				  <span class="input-group-text">Admin ID : </span>
+				  <input type="text" id="inputAdminId" class="form-control" placeholder="ID 입력" aria-label="admin_id" aria-describedby="basic-addon1">
 				</div>
 				
 				<div class="input-group mb-3">
-				  <span class="input-group-text" id="basic-addon1">Admin PW : </span>
-				  <input type="text" class="form-control" placeholder="Password 입력" aria-label="admin_password" aria-describedby="basic-addon1">
+				  <span class="input-group-text">Admin PW : </span>
+				  <input type="password" id="inputAdminPW" class="form-control" placeholder="Password 입력" aria-label="admin_password" aria-describedby="basic-addon1">
 				</div>
 				
 				<div class="input-group mb-3">
-				  <span class="input-group-text" id="basic-addon1">사용자 이름 : </span>
-				  <input type="text" class="form-control" placeholder="사용자 이름 입력" aria-label="admin_name" aria-describedby="basic-addon1">
+				  <span class="input-group-text">사용자 이름 : </span>
+				  <input type="text" id="inputAdminUser" class="form-control" placeholder="사용자 이름 입력" aria-label="admin_name" aria-describedby="basic-addon1">
 				</div>
 				
-				<select class="form-select" aria-label="privilege_select">
+				<select id="roleGroup" class="form-select" aria-label="privilege_select">
 				  <option selected>권한 선택</option>
-				  <option value="1">ADMIN</option>
-				  <option value="2">USER</option>
-				  <option value="3">OTHER</option>
+				  <option value="ADMIN">ADMIN</option>
+				  <option value="USER">USER</option>
+				  <option value="OTHER">OTHER</option>
 				</select>
 				
-				<br>
+				<br><br>
 			
-				<button class="btn btn-warning btn-confirm">확인</button>
+				<button class="btn btn-warning btn-confirm" onclick='addAdminAccount();'>확인</button>
 				<button class="btn btn-warning btn-close-popup">취소</button>
 			</div>
 		</div>
@@ -162,12 +295,11 @@
 			<tr>
 				<th width="10%">No</hd>
 				<th width="20%">계정명</th>
+				<th width="20%">사용자명</th>
 				<th width="20%">권한</th>
 				<th>Control</th>
 			</tr>
-			<tr id="adminAccount">
-				
-			</tr>
+			
 		</table>
 	</div>
 	<!-- /.container-fluid -->

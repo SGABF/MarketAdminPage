@@ -1,5 +1,6 @@
 package kr.sga.gkmarket.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,11 +42,15 @@ public class AdminAccountController {
 	@PostMapping("/adminAC/addAdminAccount")
 	public void addAdminAccountPost(
 			@RequestBody AdminVO adminVO
-			) {
+			) throws SQLException {
 		if(adminVO != null) {
 			adminVO.setAdmin_password(bCryptPasswordEncoder.encode(adminVO.getAdmin_password())); 
 			
-			adminService.addAdminAccount(adminVO);
+			if(adminService.getAdminAccount(adminVO.getAdmin_id()) == null) {
+				adminService.addAdminAccount(adminVO);
+			} else {
+				throw new SQLException();
+			}
 		}
 	}
 	
