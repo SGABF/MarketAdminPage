@@ -47,6 +47,6 @@
 		from
 		back_notice
 	</select>
-	
+	<!--  -->
 
 </mapper>
