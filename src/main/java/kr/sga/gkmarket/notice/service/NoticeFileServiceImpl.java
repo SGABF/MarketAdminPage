@@ -42,9 +42,9 @@ import lombok.extern.slf4j.Slf4j;
 	}
 
 	@Override
-	public void deleteFile(int noticeFileId, String realPath) {
+	public void deleteFile(int notice_Idx, String realPath) {
 		BackNoticeFileVO vo =null;
-		vo = noticeFileDAO.selectByIdx(noticeFileId);
+		vo = noticeFileDAO.selectByIdx(notice_Idx);
 		
 		if(vo != null) {
 			File file = new File(realPath + vo.getBack_Noticefile_SaveName());
@@ -52,7 +52,7 @@ import lombok.extern.slf4j.Slf4j;
 			if(file != null) {
 				file.delete();
 			}
-			noticeFileDAO.deleteFile(noticeFileId);
+			noticeFileDAO.deleteFile(notice_Idx);
 		}
 		
 		

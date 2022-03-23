@@ -10,8 +10,17 @@
 
     <title>Notice</title>
 	<script type="text/javascript">
-	function getNoticeList(){
-		var token = localStorage.getItem("token");
+	
+	$(document).ready(function() {
+		fullReload();
+		
+	
+    });
+	
+	
+	
+	function fullReload(){
+	 	var token = localStorage.getItem("token");
 		
 		$.ajax({
 			type: "GET",
@@ -20,20 +29,26 @@
                 xhr.setRequestHeader("Authorization","Bearer " + token);
             },
             success: function(res) {
-    				$("#noticeList").append($("<div class='container'><div class='row align-items-center row-cols-4'><div class='col'><img id='img" + data + "' src='/imagePath/""'></div>"
-    					+ "<div class='col'> id : " + JSON.stringify(res[res.length-1].back_Notice_Idx) + "</div>"
-    					+ "<div class='col'> filename : " + JSON.stringify(res[res.length-1].back_Notice_Subject).replaceAll("\"", "") + "</div>" 
-    					+ "<div class='col'><input type='button' id='deletebannerButton' class='btn btn-danger' value='삭제' onclick='deleteNotice("+ JSON.stringify(res[res.length-1].back_Notice_Idx) +")'/></div>"
-    					+ "</div></div><hr>"
-    				));
+            	console.log(res);
+            	for(data in res){
+        			    
+        				$("#noticeList").append($("<div class='container'><div class='row align-items-center row-cols-4'><div class='col'></div>"
+        					+ "<div class='col'> 글번호 : " + JSON.stringify(res[data].back_Notice_Idx) + "</div>"
+        					+ "<div class='col'> 제목 : " + JSON.stringify(res[data].back_Notice_Subject).replaceAll("\"", "") + "</div>"
+        					+ "<div class='col'><input type='button' id='deleteBannerButton' class='btn btn-danger' value='삭제' onclick='deleteNotice(" + JSON.stringify(res[data].back_Notice_Idx) + ")'/></div>"
+        					+ "</div></div><hr>"
+        				));
+        			       	
+        		}
         	},
         	error : function(){
         		alert('에러!!!');
         	}
 			
-		})
+		});
 	}
 	
+
 	function deleteNotice(id){
 		var token = localStorage.getItem("token");
 		
@@ -42,7 +57,7 @@
 			data: {
 				"backNotice" : id
 			},
-			url: "/notice/deleteNotice"
+			url: "/notice/deleteNotice",
 			beforeSend: function (xhr) {
                 xhr.setRequestHeader("Authorization","Bearer " + token);
             },
@@ -93,8 +108,7 @@
 	   <!-- Page Heading -->
 	   <h1 class="h3 mb-4 text-gray-800">공지사항 설정</h1>
 	   
-	   <h2>Notice</h2>
-	   
+	 
 	   <div id="noticeList">
    </div>
    <!-- /.container-fluid -->
