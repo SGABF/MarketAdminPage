@@ -40,6 +40,16 @@ public class BannerController {
 		return list;
 	}
 	
+	@GetMapping(value = "/MainView/getList")
+	@ResponseBody
+	public List<BannerVO> getBannerListUserSide() {
+		log.info("getBannerList() 호출");
+		List<BannerVO> list = bannerService.selectBannerList();
+		
+		log.info("getBannerList() 결과 : " + list);
+		return list;
+	}
+	
 	@SuppressWarnings("deprecation")
 	@PostMapping(value = "/banner/addBanner")
 	@ResponseBody

@@ -93,6 +93,11 @@ public class MainController {
 	public String adminAccount() {
 		return "/adminAccount";
 	}
+	@GetMapping(value = "/MainView/hellotest")
+	@ResponseBody
+	public String testhello() {
+		return "192.168.0.124 hello";
+	}
 	
 	//---------------------------------------------------------------------------------------------------
 	
