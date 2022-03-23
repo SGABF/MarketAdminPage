@@ -10,18 +10,14 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import kr.sga.gkmarket.notice.dao.NoticeDAO;
 import kr.sga.gkmarket.notice.service.NoticeFileService;
 import kr.sga.gkmarket.notice.service.NoticeService;
 import kr.sga.gkmarket.notice.vo.BackNoticeFileVO;
@@ -58,7 +54,7 @@ public class NoticeController {
     @SuppressWarnings("deprecation")
     @PostMapping(value = "/notice/insertNotice")
     @ResponseBody
-	public String insertNotice(@RequestBody BackNoticeVO backNoticeVO, @RequestPart(value = "fileUp", required = false) MultipartFile mfile) {
+	public void insertNotice(@RequestBody BackNoticeVO backNoticeVO, @RequestPart(value = "fileUp", required = false) MultipartFile mfile) {
 		noticeService.insertNotice(backNoticeVO); // DB에 저장
 		if(mfile != null ) {
 			BackNoticeFileVO imageFile = new BackNoticeFileVO();
@@ -85,15 +81,16 @@ public class NoticeController {
 			noticeFileService.insertFile(imageFile);
 			imageFile.toString();
 		}
-
 		
-		return "redirect:/notice/getList";
 	}
     @PostMapping(value = "/notice/updateNotice")
     @ResponseBody
-    public String updateNotice(@RequestBody BackNoticeVO backNoticeVO ) {
+    public void updateNotice(@RequestBody BackNoticeVO backNoticeVO ) {
+    	
     	noticeService.updateNotice(backNoticeVO);
-		return "redirect:/notice";
+    	
+    	
+		
     	
     }
     @PostMapping(value = "/notice/deleteNotice")

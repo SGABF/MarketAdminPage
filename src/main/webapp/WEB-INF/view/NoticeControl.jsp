@@ -48,6 +48,32 @@
 		});
 	}
 	
+	function insertNotice() {
+		var token = localStorage.getItem("token");
+		var form_data = new FormData();
+		
+		form_data.append( "fileUp", $("#fileUp")[0].files[0] );
+      	$.ajax({
+        	data: form_data,
+        	type: "POST",
+        	url: '/notice/insertNotice',
+        	enctype: 'multipart/form-data',
+        	cache: false,
+        	contentType: false,
+        	processData: false,
+        	beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization","Bearer " + token);
+            },
+        	success: function(res) {        
+        		console.log(res);
+        	
+        	},
+        	error : function(){
+        		alert('에러!!!');
+        	}
+      	});
+    }
+	
 
 	function deleteNotice(id){
 		var token = localStorage.getItem("token");
@@ -107,7 +133,7 @@
    <div class="container-fluid">
 	   <!-- Page Heading -->
 	   <h1 class="h3 mb-4 text-gray-800">공지사항 설정</h1>
-	   
+	   <input type="button" id="insertNotice" class="btn btn-success" value="공지사항 추가"/>
 	 
 	   <div id="noticeList">
    </div>
