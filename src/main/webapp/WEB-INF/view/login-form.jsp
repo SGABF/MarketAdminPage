@@ -29,6 +29,7 @@ function json_convert(){
 		success: function(data) {
 			alert("인증 성공");
 			localStorage.setItem('token', data.token);
+			localStorage.setItem('admin', username.value);
 			location.replace("/MainView/MainPage");
 		},
 		error: function(request, error){
