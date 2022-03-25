@@ -59,4 +59,12 @@ import lombok.extern.slf4j.Slf4j;
 
 	}
 
+	@Override
+	public List<BackNoticeFileVO> selectRefList(int ref) {
+		
+		List<BackNoticeFileVO> list = noticeFileDAO.selectRefList();
+		
+		return list;
+	}
+
 }

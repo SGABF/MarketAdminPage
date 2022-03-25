@@ -35,7 +35,7 @@
 	<!-- 공지사항 가져오기 -->
 	<select id="getNotice" resultType="BackNoticeVO">
 		select
-		back_notice_idx,back_notice_subject
+		back_notice_idx,back_notice_subject,back_notice_content
 		from
 		back_notice
 	</select>
@@ -47,6 +47,15 @@
 		from
 		back_notice
 	</select>
-	<!--  -->
+	
+	<!--  1개 글 가져오기 -->
+	<select id="selectIdx" resultType="int">
+		select
+		*
+		from
+		back_notice
+		where
+		back_notice_idx = #{back_Notice_Idx}
+	</select>
 
 </mapper>

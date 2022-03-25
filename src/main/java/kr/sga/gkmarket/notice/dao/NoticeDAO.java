@@ -18,5 +18,7 @@ public interface NoticeDAO {
 	List<BackNoticeVO> getNotice();
 	// 현재저장한 idx 가져오기	
 	int selectSeq();
+	// 글 1개 가져오기
+	BackNoticeVO selectIdx(int idx);
 
 }

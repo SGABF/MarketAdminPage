@@ -12,5 +12,6 @@ public interface NoticeFileService {
 	void insertFile(BackNoticeFileVO backNoticeFileVO);
 	
 	void deleteFile(int notice_Idx, String realPath);
-
+	
+	List<BackNoticeFileVO> selectRefList(int ref);
 }

@@ -1,6 +1,7 @@
 package kr.sga.gkmarket.notice.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -20,4 +21,6 @@ public class BackNoticeVO {
 	private String back_Notice_Col1;
 	private String back_Notice_Col2;
 	private String back_Notice_Col3;
+	
+	private List<BackNoticeFileVO> back_Noticefile;
 	}

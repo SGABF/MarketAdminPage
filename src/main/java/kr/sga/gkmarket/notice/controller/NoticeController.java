@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.JsonObject;
+
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import kr.sga.gkmarket.notice.service.NoticeFileService;
 import kr.sga.gkmarket.notice.service.NoticeService;
@@ -45,7 +47,9 @@ public class NoticeController {
     @ResponseBody
     public List<BackNoticeVO> getNoticeList(){
     	log.info("NoticeController-openNoticeList 호출");
+    	
     	List<BackNoticeVO> list = noticeService.getNotice();
+    	
     	log.info("NoticeController-openNoticeList 리턴 : " +  list);
     	return list;
     }
@@ -83,16 +87,53 @@ public class NoticeController {
 		}
 		
 	}
-    @PostMapping(value = "/notice/updateNotice")
+   /* @PostMapping(value = "/notice/updateNotice")
     @ResponseBody
-    public void updateNotice(@RequestBody BackNoticeVO backNoticeVO ) {
+    public void updateNotice(@RequestBody BackNoticeVO backNoticeVO ,@RequestPart(value = "fileUp", required = false) MultipartFile mfile) {
+    	BackNoticeVO dbVO = noticeService.selectIdx(backNoticeVO.getBack_Notice_Idx());
+    	if(dbVO != null) {
+    		noticeService.updateNotice(backNoticeVO);
+    		
+    		List<BackNoticeFileVO> refList = noticeFileService.selectRefList(backNoticeVO.getBack_Notice_Idx());
+
+    		String realPath = "";
+        	if (os.contains("win")) {
+    			realPath = "D:/image/";
+    		} else {
+    			realPath = "/resources/Back/";
+    		}
+        	noticeFileService.deleteFile(backNoticeVO.getBack_Notice_Idx(), realPath);
+        	}
     	
-    	noticeService.updateNotice(backNoticeVO);
     	
+        	if(mfile != null ) {
+    			BackNoticeFileVO imageFile = new BackNoticeFileVO();
+    			int ref = noticeService.selectSeq();
+    			String realPath = "";
+    			try {
+    				if (os.contains("win")) {
+    					realPath = "D:/image/";
+    				} else {
+    					realPath = "/resources/Back/";
+    				}
+    				String saveName = UUID.randomUUID() + "_" + mfile.getOriginalFilename();
+    				
+    				if(realPath != null && realPath != "") {
+    					File target = new File(realPath, saveName);
+    					mfile.transferTo(target);
+    					imageFile.setBack_Notice_Ref(ref);
+    					imageFile.setBack_Noticefile_OriName(mfile.getOriginalFilename());
+    					imageFile.setBack_Noticefile_SaveName(saveName);
+    				}
+    			} catch (IOException e) {
+    				e.printStackTrace();
+    			}
+    			noticeFileService.insertFile(imageFile);
+    			imageFile.toString();
+    			
+    	}
     	
-		
-    	
-    }
+    }*/
     @PostMapping(value = "/notice/deleteNotice")
     @ResponseBody
     public void deleteNotice(@RequestParam("backNotice") int backNotice){
@@ -112,10 +153,9 @@ public class NoticeController {
   
 //----------------------파일 업로드------------------------//
     
-/*    @GetMapping(value = "/notice/fileList")
+    @GetMapping(value = "/notice/fileList")
     @ResponseBody
     public List<BackNoticeFileVO> getNoticeFileList(){
-    	
     	List<BackNoticeFileVO> list = noticeFileService.getNoticeFileList();
     	
     	return list;
@@ -126,6 +166,7 @@ public class NoticeController {
     @ResponseBody
     public String insertFile(@RequestPart(value = "fileUp", required = false) MultipartFile mfile) {
     	BackNoticeFileVO imageFile = new BackNoticeFileVO();
+    	int ref = noticeService.selectSeq();
     	String realPath = "";
     	if(mfile != null ) {
 			try {
@@ -139,6 +180,7 @@ public class NoticeController {
 				if(realPath != null && realPath != "") {
 					File target = new File(realPath, saveName);
 					mfile.transferTo(target);
+					imageFile.setBack_Notice_Ref(ref);
 					imageFile.setBack_Noticefile_OriName(mfile.getOriginalFilename());
 					imageFile.setBack_Noticefile_SaveName(saveName);
 				}
@@ -151,7 +193,7 @@ public class NoticeController {
     	return imageFile.toString();
     }
     
-    @PostMapping(value = "notice/deleteFile")
+  /*  @PostMapping(value = "notice/deleteFile")
     @ResponseBody
     public void deleteFile(@RequestParam int noticeFileId) {
     	String realPath = "";

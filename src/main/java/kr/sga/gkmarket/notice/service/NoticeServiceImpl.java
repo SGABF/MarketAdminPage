@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.sga.gkmarket.notice.dao.NoticeDAO;
+import kr.sga.gkmarket.notice.dao.NoticeFileDAO;
+import kr.sga.gkmarket.notice.vo.BackNoticeFileVO;
 import kr.sga.gkmarket.notice.vo.BackNoticeVO;
 
 
@@ -24,6 +26,8 @@ public class NoticeServiceImpl implements NoticeService {
 	
 	@Autowired
 	private NoticeDAO noticeDAO;
+	@Autowired
+	private NoticeFileDAO noticeFileDAO;
 	
 	@Override
 	public void insertNotice(BackNoticeVO backNoticeVO) {
@@ -34,9 +38,12 @@ public class NoticeServiceImpl implements NoticeService {
 
 	@Override
 	public void updateNotice(BackNoticeVO backNoticeVO) {
+		BackNoticeVO dbvo = null;
 		if(backNoticeVO!=null) {
+			dbvo = noticeDAO.selectIdx(backNoticeVO.getBack_Notice_Idx());
 			noticeDAO.updateNotice(backNoticeVO);
 		}
+		dbvo = noticeDAO.selectIdx(backNoticeVO.getBack_Notice_Idx());
 	}
 	
 	@Override
@@ -46,10 +53,10 @@ public class NoticeServiceImpl implements NoticeService {
 
 	@Override
 	public List<BackNoticeVO> getNotice() {
+	
+		List<BackNoticeVO> list = noticeDAO.getNotice();
 		
-		System.out.println(noticeDAO.getNotice().toString());
-		
-		return noticeDAO.getNotice();
+		return list;
 	}
 	
 	@Override
@@ -59,4 +66,15 @@ public class NoticeServiceImpl implements NoticeService {
 		
 	}
 
-}
+	@Override
+	public BackNoticeVO selectIdx(int idx) {
+		
+		
+		return noticeDAO.selectIdx(idx);
+	}
+
+		
+		
+	}
+
+
