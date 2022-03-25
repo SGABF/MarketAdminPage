@@ -45,14 +45,14 @@
             },
             success: function(res) {
         		for(data in res){
-        			if (JSON.stringify(res[data].banner_show) == 1){       	
-        				$("#bannerList").append($("<div class='container'><div class='row align-items-center row-cols-4'><div class='col'><img id='img" + data + "' src='/imagePath/"+ JSON.stringify(res[data].banner_saveName).replaceAll("\"", "") +"'></div>"
-        					+ "<div class='col'> id : " + JSON.stringify(res[data].banner_idx) + "</div>"
-        					+ "<div class='col'> filename : " + JSON.stringify(res[data].banner_oriName).replaceAll("\"", "") + "</div>"
-        					+ "<div class='col'><input type='button' id='deleteBannerButton' class='btn btn-danger' value='배너삭제' onclick='deleteBanner(" + JSON.stringify(res[data].banner_idx) + ")'/></div>"
-        					+ "</div></div><hr>"
-        				));
-        			}       	
+       				$("#bannerList").append($("<div class='container'><div class='row align-items-center row-cols-5'><div class='col'><img id='img" + data + "' src='/imagePath/"+ JSON.stringify(res[data].banner_saveName).replaceAll("\"", "") +"'></div>"
+       					+ "<div class='col'> id : " + JSON.stringify(res[data].banner_idx) + "</div>"
+       					+ "<div class='col'> filename : " + JSON.stringify(res[data].banner_oriName).replaceAll("\"", "") + "</div>"
+       					+ "<div class='col'> 활성 여부 : " + (JSON.stringify(res[data].banner_show) == 1? "배너 활성":"배너 비활성") + "</div>"
+       					+ "<div class='col'><input type='button' id='deleteBannerButton' class='btn btn-danger' value='배너삭제' onclick='deleteBanner(" + JSON.stringify(res[data].banner_idx) + ")'/><br>"
+       					+ "<input type='button' id='SwitchingBannerButton' class='btn btn-info' value='배너활성 여부변경' onclick='bannerSwitching("+ JSON.stringify(res[data].banner_idx) +")'/></div>"
+       					+ "</div></div><hr>"
+       				));
         		}
         	},
         	error : function(){
@@ -126,17 +126,38 @@
                 xhr.setRequestHeader("Authorization","Bearer " + token);
             },
             success: function(res) {
-            	
-            	if (JSON.stringify(res[res.length-1].banner_show) == 1){
-            		
-    				$("#bannerList").append($("<div class='container'><div class='row align-items-center row-cols-4'><div class='col'><img id='img" + data + "' src='/imagePath/"+ JSON.stringify(res[res.length-1].banner_saveName).replaceAll("\"", "") +"'></div>"
-    					+ "<div class='col'> id : " + JSON.stringify(res[res.length-1].banner_idx) + "</div>"
-    					+ "<div class='col'> filename : " + JSON.stringify(res[res.length-1].banner_oriName).replaceAll("\"", "") + "</div>" 
-    					+ "<div class='col'><input type='button' id='deleteBannerButton' class='btn btn-danger' value='배너삭제' onclick='deleteBanner("+ JSON.stringify(res[res.length-1].banner_idx) +")'/></div>"
-    					+ "</div></div><hr>"
-    				));
-            		
-    			}
+   				$("#bannerList").append($("<div class='container'><div class='row align-items-center row-cols-5'><div class='col'><img id='img" + data + "' src='/imagePath/"+ JSON.stringify(res[res.length-1].banner_saveName).replaceAll("\"", "") +"'></div>"
+   					+ "<div class='col'> id : " + JSON.stringify(res[res.length-1].banner_idx) + "</div>"
+   					+ "<div class='col'> filename : " + JSON.stringify(res[res.length-1].banner_oriName).replaceAll("\"", "") + "</div>" 
+   					+ "<div class='col'> 활성 여부 : " + (JSON.stringify(res[res.length-1].banner_show) == 1? "배너 활성":"배너 비활성") + "</div>"
+   					+ "<div class='col'><input type='button' id='deleteBannerButton' class='btn btn-danger' value='배너삭제' onclick='deleteBanner("+ JSON.stringify(res[res.length-1].banner_idx) +")'/><br>"
+   					+ "<input type='button' id='SwitchingBannerButton' class='btn btn-info' value='배너활성 여부변경' onclick='bannerSwitching("+ JSON.stringify(res[res.length-1].banner_idx) +")'/></div>"
+   					+ "</div></div><hr>"
+   				));
+        
+        	},
+        	error : function(){
+        		alert('에러!!!');
+        	}
+			
+		})
+	}
+	
+	function bannerSwitching(id){
+		var token = localStorage.getItem("token");
+		
+		$.ajax({
+			type: "POST",
+			data: {
+				"banner_id" : id
+			},
+			url: "/banner/bannerSwitching",
+			beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization","Bearer " + token);
+            },
+            success: function(res) {
+            	alert('활성 여부 변경 완료');
+				location.reload();
         	},
         	error : function(){
         		alert('에러!!!');

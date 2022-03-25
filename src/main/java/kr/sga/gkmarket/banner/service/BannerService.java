@@ -11,4 +11,8 @@ public interface BannerService {
 	void BannerAdd(BannerVO bannerVO);
 	// 3. 배너 삭제
 	void BannerDelete(int bannerId, String realPath);
+	// 4. 활성 배너 얻기
+	public List<BannerVO> canUseBannerList();
+	// 5. 배너 활성 비활성 스위칭
+	public void bannerSwitching(int idx);
 }

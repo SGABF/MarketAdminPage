@@ -40,6 +40,17 @@ public class BannerController {
 		return list;
 	}
 	
+	// 프론트 전용
+	@GetMapping(value = "/banner/getCanUseList")
+	@ResponseBody
+	public List<BannerVO> getCanUseBannerList() {
+		log.info("getCanUseBannerList() 호출");
+		List<BannerVO> list = bannerService.canUseBannerList();
+		
+		log.info("getCanUseBannerList() 결과 : " + list);
+		return list;
+	}
+	
 	@GetMapping(value = "/MainView/getList")
 	@ResponseBody
 	public List<BannerVO> getBannerListUserSide() {
@@ -108,5 +119,15 @@ public class BannerController {
 		
 		bannerService.BannerDelete(banner_id, realPath);
 		
+	}
+	
+	@PostMapping(value = "/banner/bannerSwitching")
+	@ResponseBody
+	public void bannerSwitching(
+			@RequestParam int banner_id
+			) {
+		log.info("{}의 bannerSwitching 호출 : {}", this.getClass().getName(), banner_id);
+		
+		bannerService.bannerSwitching(banner_id);
 	}
 }
