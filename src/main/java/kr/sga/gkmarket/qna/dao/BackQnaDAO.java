@@ -22,7 +22,9 @@ public interface BackQnaDAO {
 	// 수정 
 	void update(BackQnaVO backQnaVO) ;
 	// 삭제 
-	void deleteByIdx(int idx) ;
+	void delete(int idx) ;
 	// 유저이름 가져오기
 	List<QnaUserNameVO> selectUserName();
+	// 저장유저 가져오기
+	int selectSeq();
 }

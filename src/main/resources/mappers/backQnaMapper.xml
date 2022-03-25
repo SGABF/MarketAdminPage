@@ -31,6 +31,7 @@
 	<update id="update" parameterType="BackQnaVO">
 		update back_qna
 		set
+		back_Qna_Name = #{back_Qna_Name},
 		back_Qna_Content= #{back_Qna_Content}
 		where
 		back_Qna_Idx = #{back_Qna_Idx}
@@ -47,5 +48,9 @@
 			back_qna bq , user us
 		where
 			us.user_idx = bq.user_idx
+	</select>
+	
+	<select id="selectSeq" resultType="int">
+		SELECT MAX(back_qna_idx) from back_qna; 
 	</select>
 </mapper>

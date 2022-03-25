@@ -24,5 +24,5 @@ public class BackQnaVO {
 	private String back_Qna_Col2;
 	private String back_Qna_Col3;
 
-	private List<BackQnaFileVO> fileList;
+	private BackQnaFileVO file;
 }

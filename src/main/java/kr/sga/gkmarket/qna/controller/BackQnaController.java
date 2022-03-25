@@ -28,11 +28,13 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import kr.sga.gkmarket.banner.vo.BannerVO;
 import kr.sga.gkmarket.qna.service.BackQnaFileService;
+import kr.sga.gkmarket.qna.service.BackQnaReplyService;
 import kr.sga.gkmarket.qna.service.BackQnaService;
 import kr.sga.gkmarket.qna.vo.BackQnaFileVO;
+import kr.sga.gkmarket.qna.vo.BackQnaReplyVO;
 import kr.sga.gkmarket.qna.vo.BackQnaVO;
 import kr.sga.gkmarket.qna.vo.QnaPagingVO;
 import kr.sga.gkmarket.vo.CommVO;
@@ -48,6 +50,9 @@ public class BackQnaController {
 
 	@Autowired
 	private BackQnaFileService backQnaFileService;
+
+	@Autowired
+	private BackQnaReplyService backQnaReplyService;
 
 	private String os = System.getProperty("os.name").toLowerCase();
 
@@ -114,7 +119,7 @@ public class BackQnaController {
 
 	// 글쓰기 띄우기
 	@PostMapping(value = "/qnaInsertForm")
-	public String insertForm(@ModelAttribute CommVO commVO, Model model) {
+	public String insertForm(@RequestBody CommVO commVO, Model model) {
 		model.addAttribute("cv", commVO);
 		return "qnaInsertForm";
 	}
@@ -174,13 +179,47 @@ public class BackQnaController {
 
 	}
 
+    @SuppressWarnings("deprecation")
+    @PostMapping(value = "/qnaInsertFile")
+    @ResponseBody
+	public String qnaInsertFile(@RequestBody BackQnaVO backQnaVO, @RequestPart(value = "fileUp", required = false) MultipartFile file) {
+		backQnaService.insert(backQnaVO); // DB에 저장
+		if(file != null ) {
+			BackQnaVO vo =  new BackQnaVO();
+			BackQnaFileVO uploadFile = new BackQnaFileVO();
+			int ref = backQnaService.selectSeq();
+			String realPath = "";
+			try {
+				if (os.contains("win")) {
+					realPath = "D:/image/";
+				} else {
+					realPath = "/resources/Back/";
+				}
+				String saveName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+				
+				if(realPath != null && realPath != "") {
+					File target = new File(realPath, saveName);
+					file.transferTo(target);
+					uploadFile.setBack_Qna_Idx(ref);
+					uploadFile.setBack_Qnafile_OriName(file.getOriginalFilename());
+					uploadFile.setBack_Qnafile_SaveName(saveName);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			uploadFile.setBack_Qna_Idx(ref);
+			backQnaFileService.insert(uploadFile);
+		}
+		return "redirect:/qna/qnaList";
+	}
+
 	@GetMapping(value = "/qnaUpdate")
-	public String updateGet(@ModelAttribute CommVO commVO, Model model) {
+	public String updateGet(@RequestBody CommVO commVO, Model model) {
 		return "redirect:/qna/qnaList";
 	}
 
 	@PostMapping(value = "/qnaUpdate")
-	public String updatePost(@ModelAttribute CommVO commVO, Model model) {
+	public String updatePost(@RequestBody CommVO commVO, Model model) {
 		BackQnaVO backQnaVO = backQnaService.selectByIdx(commVO.getIdx());
 		model.addAttribute("bv", backQnaVO);
 		model.addAttribute("cv", commVO);
@@ -194,65 +233,45 @@ public class BackQnaController {
 	}
 
 	@PostMapping(value = "/qnaUpdateOK")
-	public String updateOKPost(@ModelAttribute CommVO commVO, @ModelAttribute BackQnaVO backQnaVO,
-			MultipartHttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
-		// 일단 VO로 받고
-		log.info("{}의 updateOKPost 호출 : {}", this.getClass().getName(), commVO + "\n" + backQnaVO);
-
-		// 넘어온 파일 처리를 하자
-		List<BackQnaFileVO> fileList = new ArrayList<>(); // 파일 정보를 저장할 리스트
-
-		List<MultipartFile> multipartFiles = request.getFiles("upfile"); // 넘어온 파일 리스트
-		if (multipartFiles != null && multipartFiles.size() > 0) { // 파일이 있다면
-			for (MultipartFile multipartFile : multipartFiles) {
-				if (multipartFile != null && multipartFile.getSize() > 0) { // 현재 파일이 존재한다면
-					BackQnaFileVO backQnaFileVO = new BackQnaFileVO(); // 객체 생성하고
-					// 파일 저장하고
-					try {
-						// 저장이름
-						String realPath = request.getRealPath("qnaUpload");
-						String saveName = UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
-						// 저장
-						File target = new File(realPath, saveName);
-						FileCopyUtils.copy(multipartFile.getBytes(), target);
-						// vo를 채우고
-						backQnaFileVO.setBack_Qnafile_OriName(multipartFile.getOriginalFilename());
-						backQnaFileVO.setBack_Qnafile_SaveName(saveName);
-						// 리스트에 추가하고
-						fileList.add(backQnaFileVO);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
+	public String qnaUpdateOK(@RequestBody BackQnaVO backQnaVO, @RequestPart(value = "fileUp", required = false) MultipartFile file, HttpServletRequest request) {
+		System.out.println("backQnaVo : " + backQnaVO + "\n");
+		
+		
+		//파일정보를 저장할 객체
+		int ref = backQnaService.selectSeq();
+		System.out.println("ref : "+ ref + "\n"); 
+		BackQnaFileVO fileVO = new BackQnaFileVO();
+		//넘어온 파일 
+		if(file!=null) {
+			BackQnaFileVO saveFile = new BackQnaFileVO();
+			// 파일 저장 
+			String path = "";
+			if (os.contains("win")) {
+				path = "D:/image/";
+			} else {
+				path = "/resources/Back/";
+			}
+			String saveName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+			//저장
+			if(path != null && path != "") {
+				File target = new File(path, saveName);
+				//vo 채우기
+				saveFile.setBack_Qna_Idx(ref);
+				saveFile.setBack_Qnafile_OriName(file.getOriginalFilename());
+				saveFile.setBack_Qnafile_SaveName(saveName);
+				
+				backQnaVO.setFile(saveFile);
 			}
 		}
-		backQnaVO.setFileList(fileList);
-		// 삭제할 파일 번호를 받아서 삭제할 파일을 삭제해 주어야 한다.
-		String[] delFiles = request.getParameterValues("delfile");
-		// 서비스를 호출하여 저장을 수행한다.
-		String realPath = request.getRealPath("qnaUpload");
+		// 삭제할 파일 글번호를 받아서 삭제할 파일을 삭제해 주어야 한다.
+		int delFiles = backQnaVO.getBack_Qna_Idx();
+		System.out.println("delfiles : "+ delFiles);
+		String realPath = request.getRealPath("upload");
+		log.info("backQnaService.update 호출" + "\n");
 		backQnaService.update(backQnaVO, delFiles, realPath);
-
-		// redirect시 GET전송 하기
-		// return "redirect:/board/list?p=1&s=" + commVO.getPageSize() + "&b=" +
-		// commVO.getBlockSize();
-		// redirect시 POST전송 하기
-		// Redirect시 POST전송 하려면 map에 넣어서 RedirectAttributes에 담아서 전송하면 된다.
-		Map<String, String> map = new HashMap<>();
-		map.put("p", commVO.getCurrentPage() + "");
-		map.put("s", commVO.getPageSize() + "");
-		map.put("b", commVO.getBlockSize() + "");
-		map.put("idx", commVO.getIdx() + "");
-		redirectAttributes.addFlashAttribute("map", map);
-		return "redirect:/view";
+		return "redirect:/qna/qnaView";
 	}
 	
-	@PostMapping(value = "/delete")
-	public String delete(BackQnaVO backQnaVO) {
-		backQnaService.delete(backQnaVO);
-		return "redirect:/qna/qnaList";
-	}
-
 	// 섬머노트에서 이미지 업로드를 담당하는 메서드 : 파일을 업로드하고 이미지 이름을 리턴해주면된다.
 	@PostMapping(value = "/qnaImageUpload", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
@@ -275,11 +294,11 @@ public class BackQnaController {
 			}
 		}
 		log.info("{}의 imageUpload 리턴 : {}", this.getClass().getName(), filePath);
-		return filePath; 
+		return filePath;
 	}
 
 	@PostMapping(value = "/qnaDownload")
-	public ModelAndView download(@RequestParam HashMap<Object, Object> params, ModelAndView mv) {
+	public ModelAndView download(@RequestBody HashMap<Object, Object> params, ModelAndView mv) {
 		String ofileName = (String) params.get("of"); // 원본이름
 		String sfileName = (String) params.get("sf"); // 저장이름
 		mv.setViewName("downloadView");
@@ -331,21 +350,40 @@ public class BackQnaController {
 		return backQnaFileVO.toString();
 	}
 
-
-	@PostMapping(value = "/qnaDeleteFile")
+	@PostMapping(value = "/qnaDelete")
 	@ResponseBody
-	public void qnaDeleteFile(@RequestParam int banner_id) {
-		log.info("{}의 qnaDeleteFile 호출 : {}", this.getClass().getName(), banner_id);
-
-		String realPath = "";
-		if (os.contains("win")) {
-			realPath = "D:/image/";
-		} else {
-			realPath = "/resources/Back/";
-		}
-
-		backQnaFileService.delete(banner_id, realPath);
-
+	public String qnaDeleteFile(@RequestBody BackQnaVO backQnaVO, HttpServletRequest request) {
+		log.info("{}의 qnaDelete 호출 : {}", this.getClass().getName(), request,"backQnaVO : " + backQnaVO);
+		
+		String realPath = request.getRealPath("win");
+		backQnaService.delete(backQnaVO, realPath);
+		
+		return "redirect:/qna/qnaList";
 	}
 
+	// ------------------댓글-----------------------------
+
+	@PostMapping(value = "/insertComment")
+	public void insertComment(BackQnaReplyVO replyVO) {
+		log.info("{}의 insertComment 호출 : {}", this.getClass().getName(), replyVO);
+		if (replyVO != null) {
+			backQnaReplyService.insert(replyVO);
+		}
+	}
+
+	@PostMapping(value = "/updateComment")
+	public void updateComment(BackQnaReplyVO replyVO) {
+		log.info("{}의 updateComment 호출 : {}", this.getClass().getName(), replyVO);
+		if (replyVO != null) {
+			backQnaReplyService.update(replyVO);
+		}
+	}
+
+	@PostMapping(value = "/deleteComment")
+	public void deleteComment(BackQnaReplyVO replyVO) {
+		log.info("{}의 deleteComment 호출 : {}", this.getClass().getName(), replyVO);
+		if (replyVO != null) {
+			backQnaReplyService.delete(replyVO);
+		}
+	}
 }

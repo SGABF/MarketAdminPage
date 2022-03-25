@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+
 import kr.sga.gkmarket.qna.vo.BackQnaFileVO;
 
 @Mapper
@@ -20,4 +21,6 @@ public interface BackQnaFileDAO {
 	List<BackQnaFileVO> selectList();
 	// 원본글의 첨부파일 모두 삭제하기 --> 
 	void deleteByRef(int ref);
+	// 이전 파일가져오기
+	BackQnaFileVO previousSelect(int ref);
 }

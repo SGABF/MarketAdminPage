@@ -25,10 +25,12 @@ public class BackQnaServiceImpl implements BackQnaService {
 
 	@Autowired
 	public BackQnaDAO backQnaDAO;
+	
 
 	@Autowired
 	public BackQnaFileDAO backQnaFileDAO;
 
+	
 	@Override
 	public void insert(BackQnaVO backQnaVO) {
 		if (backQnaVO != null) {
@@ -37,47 +39,53 @@ public class BackQnaServiceImpl implements BackQnaService {
 	}
 
 	@Override
-	public void update(BackQnaVO backQnaVO, String[] delFiles, String realPath) {
-		log.info("{}의 update 호출 : {}", this.getClass().getName(), backQnaVO + "\n" + Arrays.toString(delFiles) + "\n" + realPath);
+	public void update(BackQnaVO backQnaVO, int delFiles, String realPath) {
+		log.info("{}의 update 호출 : {}", this.getClass().getName(), backQnaVO + "\n" + delFiles + "\n" + realPath);
 			// 1. 글수정
-		System.out.println("ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ");
 			backQnaDAO.update(backQnaVO);
+			 
 			// 2. 새롭게 첨부된 첨부 파일의 정보도 저장해 주어야 한다.
-			List<BackQnaFileVO> list = backQnaVO.getFileList();
-			if(list!=null && list.size()>0) {
-				for(BackQnaFileVO vo : list) {
-					vo.setBack_Qna_Idx(backQnaVO.getBack_Qna_Idx()); // 원본글번호
-					backQnaFileDAO.insert(vo);
-				}
-			} 
-			// 3, 이미 첨부되었던 파일 삭제
-			log.info("{}의 update delFiles : {}", this.getClass().getName(), delFiles);
-			if(delFiles!=null && delFiles.length>0) {
-				for(String t : delFiles ) {
-					int idx = Integer.parseInt(t);
-					if(idx>0) {
-						// 실제 파일을 삭제하려면
-						// 1. 해당 글번호의 글을 읽어와서
-						BackQnaFileVO backQnaFileVO = backQnaFileDAO.selectFiles(idx);
-						if(backQnaFileVO!=null) {
-							// 2. 실제 서버의 파일을 삭제해 주어야 한다.
-							File file = new File(realPath + File.separator + backQnaFileVO.getBack_Qnafile_SaveName());
-							file.delete(); // 실제 파일삭제
-							backQnaFileDAO.deleteByIdx(idx); // DB에서만 삭제된다.
-							System.out.println("dddddddddddddddddd");
-						}
-					}
+			BackQnaFileVO fileVO = backQnaVO.getFile();
+			fileVO.setBack_Qna_Idx(backQnaVO.getBack_Qna_Idx());
+			backQnaFileDAO.insert(fileVO);
+			// 3. 이미 첨부되었던 파일 삭제
+			log.info("{}의  delFiles : {}", this.getClass().getName(), delFiles);
+			
+			if(delFiles>0) {
+				//실제파일을 삭제하려면
+				// 1. 해당 글번호의 예전파일을 읽어와서
+				BackQnaFileVO qnaFileVO = backQnaFileDAO.previousSelect(delFiles);
+				System.out.println("qnaFileVO : " + qnaFileVO + "\n");
+				if(qnaFileVO!=null) {
+					//2. 실제 서버의 파일을 삭제해 주어야 한다.
+					File file = new File(realPath + File.separator+ qnaFileVO.getBack_Qnafile_SaveName());
+					System.out.println("qnaFileVO : " + qnaFileVO.getBack_Qnafile_SaveName() + "\n");
+					file.delete(); // 실제 파일 삭제
+					backQnaFileDAO.deleteByIdx(delFiles);
+					System.out.println("qnaFileVO : " + qnaFileVO + "\n");
+
 				}
 			}
-
-		
 	}
 
 	@Override
-	public void delete(BackQnaVO backQnaVO) {
-		if (backQnaVO != null) {
-			backQnaDAO.deleteByIdx(backQnaVO.getBack_Qna_Idx());
-
+	public void delete(BackQnaVO backQnaVO, String realPath) {
+		BackQnaVO qnaVO = backQnaDAO.selectByIdx(backQnaVO.getBack_Qna_Idx());
+		System.out.println(qnaVO);
+		log.info("{}의 delete 호출 : {}", this.getClass().getName(), backQnaVO + "\n" + realPath);
+		BackQnaFileVO file = backQnaFileDAO.selectFiles(qnaVO.getBack_Qna_Idx());
+		log.info("{}의backQnaVO.getBack_Qna_Idx() : {}", qnaVO.getBack_Qna_Idx());
+		//db파일 삭제
+		backQnaFileDAO.deleteByIdx(file.getBack_Qna_Idx());
+		log.info("{}의file.getBack_Qna_Idx() : {}",file.getBack_Qna_Idx());
+		//실제 파일 삭제
+		File realFile = new File(realPath + File.separator + file.getBack_Qnafile_SaveName());
+		realFile.delete();
+		
+		if (qnaVO != null) {
+			System.out.println("qnaVO.getBack_Qna_Idx()   :  " + qnaVO.getBack_Qna_Idx() );
+			backQnaDAO.delete(qnaVO.getBack_Qna_Idx());
+			System.out.println("qnaVO.getBack_Qna_Idx()" + qnaVO.getBack_Qna_Idx());
 		}
 	}
 
@@ -87,8 +95,8 @@ public class BackQnaServiceImpl implements BackQnaService {
 		BackQnaVO backQnaVO = backQnaDAO.selectByIdx(idx); // 글 1개를 가져온다.
 		// 그 글에 해당하는 첨부파일의 정보를 가져온다.
 		if (backQnaVO != null) {
-			List<BackQnaFileVO> list = backQnaFileDAO.selectList();
-			backQnaVO.setFileList(list);
+			BackQnaFileVO list = backQnaFileDAO.selectFiles(idx);
+			backQnaVO.setFile(list);
 		}
 		log.info("{}의 selectByIdx 리턴 : {}", this.getClass().getName(), backQnaVO);
 		return backQnaVO;
@@ -113,9 +121,9 @@ public class BackQnaServiceImpl implements BackQnaService {
 			if (list != null && list.size() > 0) {
 				for (BackQnaVO vo : list) {
 					// 해당글의 첨부파일 목록을 가져온다.
-					List<BackQnaFileVO> fileList = backQnaFileDAO.selectList();
+					BackQnaFileVO fileList = backQnaFileDAO.selectFiles(commVO.getIdx());
 					// vo에 넣는다.
-					vo.setFileList(fileList);
+					vo.setFile(fileList);
 				}
 			}
 			// 완성된 리스트를 페이징 객체에 넣는다.
@@ -143,5 +151,12 @@ public class BackQnaServiceImpl implements BackQnaService {
 		userNameList = backQnaDAO.selectUserName();
 		log.info("{}의 selectByIdx 리턴 : {}", this.getClass().getName(), userNameList);
 		return userNameList;
+	}
+
+	@Override
+	public int selectSeq() {
+		int seq = 0;
+		seq = backQnaDAO.selectSeq();
+		return seq;
 	}
 }

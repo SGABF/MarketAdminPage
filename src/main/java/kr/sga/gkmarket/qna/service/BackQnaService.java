@@ -20,12 +20,14 @@ public interface BackQnaService {
 	// qna 저장
 	void insert(BackQnaVO backQnaVO);
 	// qna 수정    
-	void update(BackQnaVO backQnaVO, String[] delFiles, String realPath);
-	// qna 삭제     
-	void delete(BackQnaVO backQnaVO);
+	void update(BackQnaVO backQnaVO, int delFiles, String realPath);
+	// qna 질문 삭제     
+	void delete(BackQnaVO backQnaVO,  String realPath);
 	// 한글에 저장된 파일 가져오기
 	BackQnaFileVO selectFiles(int idx);
 	// 사용자 이름 가져오기
 	List<QnaUserNameVO> selectUserName();
+	// 마지막으로 저장된 유저 idx
+	int selectSeq();
 	
 }
