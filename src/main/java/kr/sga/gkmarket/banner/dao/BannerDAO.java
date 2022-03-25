@@ -16,4 +16,8 @@ public interface BannerDAO {
 	void insert(BannerVO vo);
 	// <!-- 4. 삭제하기 -->
 	void delete(int idx);
+	// <!-- 5. 활성 배너 얻기 -->
+	List<BannerVO> canUseBannerList();
+	// <!-- 6. 배너 활성 비활성 스위칭 -->
+	void bannerSwitching(int idx);
 }

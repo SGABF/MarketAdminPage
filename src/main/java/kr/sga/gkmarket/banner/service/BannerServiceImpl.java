@@ -55,5 +55,21 @@ public class BannerServiceImpl implements BannerService {
 		}
 	}
 	
+	@Override
+	public List<BannerVO> canUseBannerList(){
+		log.info("{}의 canUseBannerList 호출", this.getClass().getName());
+		
+		List<BannerVO> list = bannerDAO.canUseBannerList();
+		
+		log.info("{}의 canUseBannerList 리턴 : {}", this.getClass().getName(), list);
+		return list;
+	}
+
+	@Override
+	public void bannerSwitching(int idx) {
+		log.info("{}의 bannerSwitching 호출 : {}", this.getClass().getName(), idx);
+		
+		bannerDAO.bannerSwitching(idx);
+	}
 
 }
