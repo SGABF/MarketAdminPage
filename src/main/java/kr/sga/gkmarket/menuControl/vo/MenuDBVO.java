@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @XmlRootElement
 @Data
 public class MenuDBVO {
-	private int menuDB_Idx;
-	private String menuDB_Name;
-	private String menuDB_Use;
-	private String menuDB_Col1;
-	private String menuDB_Col2;
-	private String menuDB_Col3;
+	private int menuDB_idx;
+	private String menuDB_name;
+	private String menuDB_use;
+	private String menuDB_col1;
+	private String menuDB_col2;
+	private String menuDB_col3;
 	}
