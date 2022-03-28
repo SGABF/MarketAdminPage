@@ -42,7 +42,6 @@
 		back_notice.back_notice_idx 
 		= 
 		back_noticefile.back_notice_idx
-
 	</select>
 	
 	<!-- 현재 저장한 idx 가져오기 -->
