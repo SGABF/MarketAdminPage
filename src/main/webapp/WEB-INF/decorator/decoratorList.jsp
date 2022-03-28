@@ -34,6 +34,8 @@
     	$(document).ready(function() {
     		var admin = localStorage.getItem("admin");
 	    	$("#account").html(admin);
+	    	
+	    	getMenuList();
     	});
     
 	    $(function(){
@@ -62,6 +64,33 @@
     	function notuse(){
     		alert("미지원하는 기능입니다.");
     		return
+    	}
+    	
+    	function getMenuList(){
+    		var token = localStorage.getItem("token");
+    		
+    		$.ajax({
+    			type: "GET",
+    			url: "/menuCtl/selectListAll",
+    			beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization","Bearer " + token);
+                },
+                success: function(res) {
+                	for(data in res){
+                		if(JSON.stringify(res[data].menuDB_use).replaceAll("\"", "") == 'Y'){
+		       				$("#menuCtlDiv").append($("<li class='nav-item'><a class='nav-link' href='"+ JSON.stringify(res[data].menuDB_col1).replaceAll("\"", "") +"'>"
+		       				+ "<i class='fas fa-fw fa-table'></i>"
+		       				+ "<span>" + JSON.stringify(res[data].menuDB_name).replaceAll("\"", "") + "</span></a>"
+		       				+ "</li>"
+		       				));
+                		}
+                	}
+            	},
+            	error : function(){
+            		alert('에러!!!');
+            	}
+    			
+    		})
     	}
     
     </script>
@@ -119,6 +148,7 @@
                         <h6 class="collapse-header">Custom Components:</h6>
                         <a class="collapse-item" href="/MainView/buttons">Buttons</a>
                         <a class="collapse-item" href="/MainView/cards">Cards</a>
+                        <a class="collapse-item" href="/MainView/menuControl">메뉴 설정</a>
                     </div>
                 </div>
             </li>
@@ -171,8 +201,8 @@
                     </div>
                 </div>
             </li>
-
-            <!-- Nav Item - Charts -->
+			
+			<!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="/MainView/charts">
                     <i class="fas fa-fw fa-chart-area"></i>
@@ -184,36 +214,18 @@
                 <a class="nav-link" href="/MainView/tables">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Tables</span></a>
-            </li>
-            
-            <!-- Nav Item - Banner -->
-            <li class="nav-item">
-                <a class="nav-link" href="/MainView/BannerControl">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Banner설정</span></a>
-            </li>
-            
-            <!-- Nav Item - AdminAccount -->
-            <li class="nav-item">
-                <a class="nav-link" href="/MainView/adminAccount">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>관리자 계정 설정</span></a>
-            </li>
-            
-            <!-- Nav Item - notice -->
-            <li class="nav-item">
-                <a class="nav-link" href="/MainView/NoticeControl">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>공지사항 설정</span></a>
-            </li>
+        	</li>
+		
+			<div id="menuCtlDiv"> 
+            </div>
             
             <!-- Nav Item - Swagger -->
             <li class="nav-item">
                 <a class="nav-link" href="/swagger-ui/">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-wrench"></i>
                     <span>SwaggerPage</span></a>
             </li>
-
+            
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 

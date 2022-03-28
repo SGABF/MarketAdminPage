@@ -93,6 +93,10 @@ public class MainController {
 	public String adminAccount() {
 		return "/adminAccount";
 	}
+	@GetMapping(value = "/MainView/menuControl")
+	public String menuControl() {
+		return "/MenuControl";
+	}
 	@GetMapping(value = "/MainView/hellotest")
 	@ResponseBody
 	public String testhello() {
