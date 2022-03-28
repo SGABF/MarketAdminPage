@@ -34,10 +34,15 @@
 	
 	<!-- 공지사항 가져오기 -->
 	<select id="getNotice" resultType="BackNoticeVO">
-		select
-		back_notice_idx,back_notice_subject,back_notice_content
-		from
-		back_notice
+		select * FROM 
+		back_notice 
+		LEFT JOIN
+		back_noticefile
+		ON
+		back_notice.back_notice_idx 
+		= 
+		back_noticefile.back_notice_idx
+
 	</select>
 	
 	<!-- 현재 저장한 idx 가져오기 -->

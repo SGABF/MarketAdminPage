@@ -74,7 +74,7 @@
             	for(data in res){
         			    
             		$("#noticeList").append($("<tr><td>" + JSON.stringify(res[data].back_Notice_Idx) + "</td>"
-            				//+ "<td>" +"<img id='img" + data + "' src='/imagePath/"+ JSON.stringify(res[data].back_Noticefile_SaveName).replaceAll("\"", "") +"'>"+ "</td>"
+            				+ "<td>" +"<img id='img" + data + "' src='/imagePath/"+ JSON.stringify(res[data].back_Noticefile_SaveName).replaceAll("\"", "") +"'>"+ "</td>"
        						+ "<td>" + JSON.stringify(res[data].back_Notice_Subject).replaceAll("\"", "") + "</td>"
 	       					+ "<td>" + JSON.stringify(res[data].back_Notice_Content).replaceAll("\"", "") + "</td>"
        						+ "<td><button type='button' class='btn btn-danger' onclick='deleteNotice("+ JSON.stringify(res[data].back_Notice_Idx) +")'>공지사항삭제</button> &nbsp;"
@@ -262,6 +262,10 @@
 
        transform: translateX(-50%) translateY(-50%);
      }
+     img {
+     	width: 100px;
+     	height: 100px;
+     }
 </style>    
 </head>
 
@@ -304,6 +308,7 @@
 		<table id="noticeList">
 			<tr>
 				<th width="10%">No</th>
+				<th width="10%">이미지</th>
 				<th width="20%">제목</th>
 				<th width="30%">내용</th>
 				<th>Control</th>

@@ -53,7 +53,7 @@ public class NoticeServiceImpl implements NoticeService {
 
 	@Override
 	public List<BackNoticeVO> getNotice() {
-	
+		
 		List<BackNoticeVO> list = noticeDAO.getNotice();
 		
 		return list;
