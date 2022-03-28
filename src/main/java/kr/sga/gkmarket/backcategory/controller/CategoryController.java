@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,28 +31,32 @@ public class CategoryController {
 	
     @Autowired
     private CategoryService categoryService; //서비스 연결
-
-    @RequestMapping("/category") //주소 지정
+    
+    @GetMapping(value = "/MainView/BackCategoryControl")
+	public String BackCategoryControlPage() {
+		return "/BackCategoryControl";
+	}
+    
+    @GetMapping("/category/categoryList") //주소 지정
     @ResponseBody
     public List<BackCategoryVO> openCategoryList(){
-    	List<BackCategoryVO> list = categoryService.getCategory();
-    	return list;
+    	
+    	List<BackCategoryVO> categoryList = categoryService.getCategory();
+    	
+    	return categoryList;
     }
-    @PostMapping(value = "/category/insert")
+    @PostMapping(value = "/category/insertCategory")
 	public String insertCategory(@RequestBody BackCategoryVO backCategoryVO , Model model) {
+    	
     	categoryService.insertCategory(backCategoryVO);
-    	model.addAttribute("vo",backCategoryVO);
 	
-		return "redirect:/category";
+		return "/category/categoryList";
 	}
-    @PostMapping(value = "/category/activate")
-    public String activateCategory(@RequestParam(required = false) int back_Category_Idx) {
-    	BackCategoryVO dbvo = null;
-    	dbvo = categoryService.selectByIdx(back_Category_Idx);
-    	categoryService.activateCategory(dbvo);
+    @PostMapping(value = "/category/activateCategory")
+    @ResponseBody
+    public void activateCategory(@RequestParam("back_Category_Idx")int back_Category_Idx) {
     	
-		return "/category/activate";
-    	
+    	categoryService.activateCategory(back_Category_Idx);
     }
     
     

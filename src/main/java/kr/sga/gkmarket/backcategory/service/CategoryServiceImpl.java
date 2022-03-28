@@ -29,20 +29,10 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public void activateCategory(BackCategoryVO backCategoryVO) {
-		
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		 log.info("호출 : " + backCategoryVO);
-	      if (backCategoryVO.getBack_Category_Use()==0) {
-	         map.put("back_Category_Use",1);
-	         map.put("back_Category_Idx", backCategoryVO.getBack_Category_Idx());
-	         backCategoryDAO.activateCategory(map);
-	      } else {
-	         map.put("back_Category_Use",0);
-	         map.put("back_Category_Idx", backCategoryVO.getBack_Category_Idx());
-	         backCategoryDAO.activateCategory(map);
-	      }
-	      log.info("호출 : " + map);
+	public void activateCategory(int back_Category_Idx) {
+		log.info("idx 호출 :" +  back_Category_Idx);
+		backCategoryDAO.activateCategory(back_Category_Idx);
+		log.info("idx 리턴 :" +  back_Category_Idx);
 	}
 
 	@Override

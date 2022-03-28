@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,7 +32,7 @@ public class UserBannedController {
     	jo.addProperty("userBanned", list.toString());
 		return jo.toString();
 	}
-	 @RequestMapping(value = "/userBanned/activate", method=RequestMethod.POST)
+	 @PostMapping(value = "/userBanned/activate")
 	    public String activateCategory(@RequestParam(required = false) int user_Idx) {
 	    	UserBannedVO dbvo = null;
 	    	dbvo = userBannedService.getUser(user_Idx);
