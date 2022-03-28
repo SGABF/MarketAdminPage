@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import kr.sga.gkmarket.notice.vo.BackNoticeVO;
 
-@Mapper 
+@Mapper
 public interface NoticeDAO {
 	// 공지사항 등록
 	void insertNotice(BackNoticeVO backNoticeVO);
@@ -16,4 +16,7 @@ public interface NoticeDAO {
 	void deleteNotice(int backNoticeVO);
 	// 공지사항 가져오기
 	List<BackNoticeVO> getNotice();
+	// 현재저장한 idx 가져오기	
+	int selectSeq();
+
 }

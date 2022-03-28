@@ -39,5 +39,14 @@
 		from
 		back_notice
 	</select>
+	
+	<!-- 현재 저장한 idx 가져오기 -->
+	<select id="selectSeq" resultType="int">
+		select
+		max(back_notice_idx)
+		from
+		back_notice
+	</select>
+	
 
 </mapper>

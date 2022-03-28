@@ -14,5 +14,5 @@ public interface NoticeFileDAO {
 
 	void insertFile(BackNoticeFileVO backNoticeFileVO);
 	
-	void deleteFile(int idx);
+	void deleteFile(int ref);
 }

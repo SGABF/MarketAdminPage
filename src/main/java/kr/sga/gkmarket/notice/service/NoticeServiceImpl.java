@@ -51,5 +51,12 @@ public class NoticeServiceImpl implements NoticeService {
 		
 		return noticeDAO.getNotice();
 	}
+	
+	@Override
+	public int selectSeq() {
+
+		return noticeDAO.selectSeq();
+		
+	}
 
 }

@@ -14,5 +14,8 @@ public interface NoticeService {
 	void deleteNotice(int backNoticeVO);
 	// 공지사항 목록 가져오기
     List<BackNoticeVO> getNotice();
+ // 현재저장한 idx 가져오기
+    int selectSeq();
+    
     
 }
