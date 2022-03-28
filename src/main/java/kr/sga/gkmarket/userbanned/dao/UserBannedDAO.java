@@ -14,5 +14,5 @@ public interface UserBannedDAO {
 	// 관리할 유저 리스트 
 	List<UserBannedVO> getUserList();
 	// 유저 밴 활성화/비활성화
-	void userBannedActivate(HashMap<String, Integer> map);
+	void userBannedActivate(int user_Idx);
 }
