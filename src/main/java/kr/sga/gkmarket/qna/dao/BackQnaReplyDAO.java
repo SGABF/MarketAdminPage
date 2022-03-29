@@ -15,4 +15,6 @@ public interface BackQnaReplyDAO {
 	void delete(int ref) ;
 	// 댓글 개수 세기
 	int commentCount(int ref);
+	// 게시글의 댓글 가져오기
+	BackQnaReplyVO selectComment(int idx);
 }

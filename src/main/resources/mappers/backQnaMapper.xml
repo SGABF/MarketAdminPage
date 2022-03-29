@@ -9,24 +9,22 @@
 		select count(*) from back_qna
 	</select>
 	<!-- 한개 글 가져오기 -->
-	<select id="selectByIdx" parameterType="int"
-		resultType="BackQnaVO">
+	<select id="selectByIdx" parameterType="int" resultType="BackQnaVO">
 		select * from back_qna where back_qna_idx= #{back_qna_idx}
 	</select>
 	<!-- 한페이지 글 가져오기 -->
-	<select id="selectList" parameterType="hashmap"
-		resultType="BackQnaVO">
+	<select id="selectList" parameterType="hashmap" resultType="BackQnaVO">
 		select * from back_qna order by back_qna_idx desc
-		limit #{startNo}, #{pageSize}
 	</select>
 
 	<!-- 저장 -->
 	<insert id="insert" parameterType="BackQnaVO">
 		insert into back_qna
-		(back_Qna_Name,back_Qna_Content,back_Qna_Question,user_idx)
+		(back_Qna_Name,back_Qna_Content,user_idx)
 		values
-		(#{back_Qna_Name},#{back_Qna_Content},#{back_Qna_Question},#{user_Idx})
+		(#{back_Qna_Name},#{back_Qna_Content},#{user_Idx})
 	</insert>
+	
 	<!-- 수정 -->
 	<update id="update" parameterType="BackQnaVO">
 		update back_qna
@@ -53,4 +51,22 @@
 	<select id="selectSeq" resultType="int">
 		SELECT MAX(back_qna_idx) from back_qna; 
 	</select>
+	
+	 	<!-- 수정 (답변 완료 표시)-->
+ 	<update id="replyDone" parameterType="int">
+ 		update back_qna
+		set
+		back_Qna_Question = 1
+		where
+		back_Qna_Idx = #{back_Qna_Idx}
+ 	</update>
+ 	
+	 	<!-- 수정 (답변 미완료 표시)-->
+ 	<update id="replyNotYet" parameterType="int">
+ 		update back_qna
+		set
+		back_Qna_Question = 0
+		where
+		back_Qna_Idx = #{back_Qna_Idx}
+ 	</update>
 </mapper>

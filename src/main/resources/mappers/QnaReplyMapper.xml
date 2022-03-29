@@ -8,9 +8,9 @@
 	<!-- 저장 (1:1 문의 답변등록) --> 
 	<insert id="insert" parameterType="BackQnaReplyVO">
 		INSERT into 
-			back_qnaReply (back_Qna_Reply_Content,back_qna_idx)
+			back_qnaReply (back_Qna_Reply_Content, back_Qna_Idx)
 		values
-			(#{back_Qna_Reply_Content},#{back_Qna_Idx})
+			(#{back_Qna_Reply_Content}, #{back_Qna_Idx})
 	</insert>
 	
 	<!-- 수정 (1:1 문의 답변수정)  -->
@@ -29,5 +29,10 @@
 	<!--게시글 하나의 댓글 개수 세기 -->
 	<select id="commentCount" parameterType="int" resultType="int">
 		select count(*) from back_qnaReply where back_qna_idx=#{back_Qna_Idx}	
+	</select>
+	
+	<!-- 게시글 하나의 댓글 가져오기 -->
+	<select id="selectComment" parameterType="int" resultType="BackQnaReplyVO">
+		select * from back_qnaReply where back_Qna_Idx = #{back_Qna_Idx}
 	</select>
 </mapper>

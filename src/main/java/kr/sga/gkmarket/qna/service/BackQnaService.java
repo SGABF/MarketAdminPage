@@ -16,11 +16,13 @@ public interface BackQnaService {
 	// qna 내용보기
 	BackQnaVO selectByIdx(int idx);
 	// qna 목록보기
-	QnaPagingVO<BackQnaVO> selectList(CommVO commVO);
+	List<BackQnaVO> selectList();
 	// qna 저장
 	void insert(BackQnaVO backQnaVO);
-	// qna 수정    
+	// qna 글수정,파일수정    
 	void update(BackQnaVO backQnaVO, int delFiles, String realPath);
+	// qna 글수정만
+	void updateQna(BackQnaVO backQnaVO);
 	// qna 질문 삭제     
 	void delete(BackQnaVO backQnaVO,  String realPath);
 	// 한글에 저장된 파일 가져오기
@@ -29,5 +31,9 @@ public interface BackQnaService {
 	List<QnaUserNameVO> selectUserName();
 	// 마지막으로 저장된 유저 idx
 	int selectSeq();
+	// 답변완료
+	void doneComment(int idx);
+	// 답변미완료
+	void notYetComment(int idx);
 	
 }

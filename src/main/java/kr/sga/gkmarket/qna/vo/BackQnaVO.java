@@ -25,4 +25,5 @@ public class BackQnaVO {
 	private String back_Qna_Col3;
 
 	private BackQnaFileVO file;
+	private BackQnaReplyVO reply;
 }

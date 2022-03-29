@@ -1,6 +1,5 @@
 package kr.sga.gkmarket.qna.dao;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -16,7 +15,7 @@ public interface BackQnaDAO {
 	// 한개 글 가져오기
 	BackQnaVO selectByIdx(int idx) ;
 	// 한페이지 글 가져오기
-	List<BackQnaVO> selectList(HashMap<String, Integer> map);
+	List<BackQnaVO> selectList();
 	// 저장
 	void insert(BackQnaVO backQnaVO) ;
 	// 수정 
@@ -27,4 +26,8 @@ public interface BackQnaDAO {
 	List<QnaUserNameVO> selectUserName();
 	// 저장유저 가져오기
 	int selectSeq();
+	// 답변완료
+	void replyDone(int idx);
+	// 답변미완료
+	void replyNotYet(int idx);
 }
