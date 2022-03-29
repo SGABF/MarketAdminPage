@@ -133,7 +133,7 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Interface
+                개발메뉴
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -141,13 +141,11 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
+                    <span>관리자 페이지 컨트롤</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="/MainView/buttons">Buttons</a>
-                        <a class="collapse-item" href="/MainView/cards">Cards</a>
+                        <h6 class="collapse-header">관리자 컨트롤:</h6>
                         <a class="collapse-item" href="/MainView/menuControl">메뉴 설정</a>
                     </div>
                 </div>
@@ -158,16 +156,19 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
+                    <span>개발 Utilities</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="/MainView/utilities-color">Colors</a>
-                        <a class="collapse-item" href="/MainView/utilities-border">Borders</a>
-                        <a class="collapse-item" href="/MainView/utilities-animation">Animations</a>
-                        <a class="collapse-item" href="/MainView/utilities-other">Other</a>
+                        <a class="collapse-item" href="/MainView/buttons">Buttons 예제</a>
+                        <a class="collapse-item" href="/MainView/cards">Cards 예제</a>
+                        <a class="collapse-item" href="/MainView/utilities-color">Colors 예제</a>
+                        <a class="collapse-item" href="/MainView/utilities-border">Borders 예제</a>
+                        <a class="collapse-item" href="/MainView/utilities-animation">Animations 예제</a>
+                        <a class="collapse-item" href="/MainView/tables">Tables 예제</a>
+                        <a class="collapse-item" href="/MainView/utilities-other">Other 예제</a>
                     </div>
                 </div>
             </li>
@@ -177,7 +178,7 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Addons
+                기본 메뉴
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -185,13 +186,13 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                     aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
+                    <span>로그인/기본 페이지</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="/authenticate/login">Login</a>
-                        <a class="collapse-item" href="/MainView/login">Login_boot</a>
+                        <a class="collapse-item" href="/authenticate/login">Login(Token)</a>
+                        <a class="collapse-item" href="/MainView/login">Login_View</a>
                         <a class="collapse-item" href="/MainView/register">Register</a>
                         <a class="collapse-item" href="/MainView/forgot-password">Forgot Password</a>
                         <div class="collapse-divider"></div>
@@ -208,13 +209,6 @@
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Charts</span></a>
             </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="/MainView/tables">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-        	</li>
 		
 			<div id="menuCtlDiv"> 
             </div>
