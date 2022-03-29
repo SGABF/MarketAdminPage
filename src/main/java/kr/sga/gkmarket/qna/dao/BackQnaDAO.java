@@ -30,4 +30,9 @@ public interface BackQnaDAO {
 	void replyDone(int idx);
 	// 답변미완료
 	void replyNotYet(int idx);
+	// 제목만 수정
+	void updateName(int idx);
+	// 내용만 수정
+	void updateContent(int idx);
+	
 }

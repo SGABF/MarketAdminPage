@@ -158,7 +158,7 @@ public class BackQnaController {
 				
 				backQnaVO.setFile(saveFile);
 			}
-			// 삭제할 파일 글번호를 받아서 삭제할 파일을 삭제해 주어야 한다.
+			// 삭제할 파일 글번호를 받아서 넘겨주기
 			int delFiles = backQnaVO.getBack_Qna_Idx();
 			System.out.println("delfiles : "+ delFiles);
 			String realPath = request.getRealPath("upload");

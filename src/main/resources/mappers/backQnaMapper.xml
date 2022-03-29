@@ -69,4 +69,22 @@
 		where
 		back_Qna_Idx = #{back_Qna_Idx}
  	</update>
+ 	
+ 		<!-- 제목만 수정 -->
+ 		<update id="updateName" parameterType="int">
+ 			update back_qna
+ 			set
+ 			back_Qna_Name = #{back_Qna_Name}
+ 			where
+ 			back_Qna_Idx = #{back_Qna_Idx}
+ 		</update>
+ 		
+ 		<!-- 내용만 수정 -->
+ 		<update id="updateContent" parameterType="int">
+ 			update back_qna
+ 			set
+ 			back_Qna_Content= #{back_Qna_Content}
+ 			where
+ 			back_Qna_Idx = #{back_Qna_Idx}
+ 		</update>
 </mapper>
