@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import kr.sga.gkmarket.security.service.AdminService;
 import kr.sga.gkmarket.security.vo.AdminVO;
@@ -22,6 +23,7 @@ public class AdminAccountController {
 	
 	private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 	
+	@ApiOperation(value = "계정 정보 가져오기", notes = "계정 ID값과 Password를 이용하여 계정 정보를 가져옵니다.")
 	@PostMapping("/adminAC/getAdminAccount")
 	public AdminVO getAdminAccountPost(
 			@RequestParam String admin_id,
@@ -39,6 +41,7 @@ public class AdminAccountController {
 		return adminVO;
 	}
 	
+	@ApiOperation(value = "계정 추가", notes = "관리자 계정을 추가합니다.")
 	@PostMapping("/adminAC/addAdminAccount")
 	public void addAdminAccountPost(
 			@RequestBody AdminVO adminVO
@@ -54,6 +57,7 @@ public class AdminAccountController {
 		}
 	}
 	
+	@ApiOperation(value = "계정 삭제", notes = "계정 IDX값을 이용하여 관리자 계정을 삭제합니다.")
 	@PostMapping("/adminAC/deleteAdminAccount")
 	public void deleteAdminAccountPost(
 			@RequestParam int admin_idx
@@ -61,6 +65,7 @@ public class AdminAccountController {
 		adminService.deleteAdminAccount(admin_idx);
 	}
 	
+	@ApiOperation(value = "비밀번호 변경", notes = "계정 IDX값과 변경할 Password만 입력하면 됩니다.")
 	@PostMapping("/adminAC/ChangePassword")
 	public void ChangePasswordPost(
 			@RequestBody AdminVO adminVO 
@@ -72,6 +77,7 @@ public class AdminAccountController {
 		}
 	}
 	
+	@ApiOperation(value = "모든 계정 출력", notes = "모든 계정 목록을 출력합니다.")
 	@GetMapping("/adminAC/getAdminACList")
 	public List<AdminVO> getAdminACListGet(){
 		List<AdminVO> list = null;

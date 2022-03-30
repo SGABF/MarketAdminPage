@@ -5,15 +5,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import io.swagger.annotations.ApiOperation;
+
 @Controller
 public class MainController {
 	
 	// '/'지점 지정
+	@ApiOperation(value = "홈 루트", notes = "\'/\' 지점을 로그인 화면으로 설정합니다.(GET)")
 	@GetMapping(value = "/")
     public String rootPageGet() {
 		return "/login-form";
 	}
 	
+	@ApiOperation(value = "홈 루트", notes = "\'/\' 지점을 로그인 화면으로 설정합니다.(POST)")
 	@PostMapping(value = "/")
     public String rootPagePost() {
 		return "/login-form";
