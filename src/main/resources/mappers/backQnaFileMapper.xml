@@ -4,35 +4,48 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kr.sga.gkmarket.qna.dao.BackQnaFileDAO">
-		<!-- 한개 글 가져오기 -->
-		<select id="selectFiles" parameterType="int" resultType="BackQnaFileVO">
-			select * from back_qnafile where back_Qnafile_Idx= #{back_Qnafile_Idx}
-		</select>
-		<!-- 첨부파일 저장  -->
-		<insert id="insert" parameterType="BackQnaFileVO">
-			insert into back_qnafile
-				(back_Qna_Idx,back_Qnafile_SaveName,back_Qnafile_OriName)
-			values
-				(#{back_Qna_Idx},#{back_Qnafile_SaveName},#{back_Qnafile_OriName})
-		</insert>
-		<!-- 수정시 첨부파일 저장 -->
-		<insert id="insertUpdate" parameterType="BackQnaFileVO">
-			 insert into back_qnafile
-				(back_Qna_Idx,back_Qnafile_SaveName,back_Qnafile_OriName)
-			values
-				(#{back_Qna_Idx},#{back_Qnafile_SaveName},#{back_Qnafile_OriName})
-		</insert>
-		<!-- 첨부파일 삭제 -->
-		<delete id="deleteByIdx" parameterType="int">
-  			delete from back_qnafile where back_Qnafile_Idx=#{back_Qnafile_Idx}
-  		</delete> 
-		<!-- 원본글의 첨부파일 모두 읽기 -->
-		<select id="selectList" parameterType="int" resultType="BackQnaFileVO">
-  			select * from back_qnafile where back_Qna_Idx=#{back_Qna_Idx}
-  		</select>
-		<!-- 원본글의 첨부파일 모두 삭제하기 -->
-		<delete id="deleteByRef" parameterType="int">
-  			delete from back_qnafile where back_Qna_Idx=#{back_Qna_Idx}
-  		</delete> 
+	<!-- 한개 글 가져오기 -->
+	<select id="selectFiles" parameterType="int"
+		resultType="BackQnaFileVO">
+		select * from back_qnafile where back_Qna_Idx= #{back_Qna_Idx}
+	</select>
+	<!-- 첨부파일 저장 -->
+	<insert id="insert" parameterType="BackQnaFileVO">
+		insert into back_qnafile
+		(back_Qna_Idx, back_Qnafile_SaveName,back_Qnafile_OriName)
+		values
+		(#{back_Qna_Idx}, #{back_Qnafile_SaveName},#{back_Qnafile_OriName})
+	</insert>
+	<!-- 수정시 첨부파일 저장 -->
+	<insert id="updateInsert" parameterType="BackQnaFileVO">
+		insert into back_qnafile
+		(back_Qna_Idx,back_Qnafile_SaveName,back_Qnafile_OriName)
+		values
+		(#{back_Qna_Idx},#{back_Qnafile_SaveName},#{back_Qnafile_OriName})
+	</insert>
+	<!-- 예전 첨부파일 삭제 (x의 게시물번호를 가진 파일들중에서 파일idx값이 젤 작은파일 삭제 -->
+	<delete id="deleteByIdx" parameterType="int">
+		delete from back_qnafile
+		WHERE back_qna_idx = #{back_Qna_Idx}
+		and back_qnafile_idx = (SELECT c.min from (SELECT MIN(back_qnafile_idx)as
+		min from back_qnafile WHERE back_qna_idx = #{back_Qna_Idx}) c );
+		
+	</delete>
+	<!-- 원본글의 첨부파일 모두 읽기 -->
+	<select id="selectList" resultType="BackQnaFileVO">
+		select * from back_qnafile
+	</select>
+	<!-- 원본글의 첨부파일 모두 삭제하기 -->
+	<delete id="deleteByRef" parameterType="int">
+		delete from back_qnafile where back_Qna_Idx=#{back_Qna_Idx}
+	</delete>
+
+	<!-- 글에 저장되어 있던 이전파일  -->
+	<select id="previousSelect" parameterType="int"
+		resultType="BackQnaFileVO">
+		select * from back_qnafile WHERE back_qna_idx =
+		#{back_qna_idx} and back_qnafile_idx = (SELECT MIN(back_qnafile_idx) from
+		back_qnafile WHERE back_qna_idx = #{back_qna_idx});
+	</select>
 </mapper>
 

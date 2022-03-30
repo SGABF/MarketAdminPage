@@ -19,7 +19,7 @@
 <script	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 <!-- CDN 한글화 -->
 <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/comm.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/comm.js"></script>
 <script>
 	$(function(){
 		$('#content').summernote(
@@ -81,10 +81,10 @@
 		SendPost("${pageContext.request.contextPath}/qna/qnaList", {"p":${cv.currentPage},"s":${cv.pageSize},"b":${cv.blockSize}});
 	}
 	function goUpdate(){
-		SendPost("${pageContext.request.contextPath}/qna/update", {"p":${cv.currentPage},"s":${cv.pageSize},"b":${cv.blockSize},"idx":${cv.idx}});
+		SendPost("${pageContext.request.contextPath}/qna/qnaUpdate", {"p":${cv.currentPage},"s":${cv.pageSize},"b":${cv.blockSize},"idx":${cv.idx}});
 	}
 	function goDelete(){
-		SendPost("${pageContext.request.contextPath}/qna/delete", {"p":${cv.currentPage},"s":${cv.pageSize},"b":${cv.blockSize},"idx":${cv.idx}});
+		SendPost("${pageContext.request.contextPath}/qna/qnaDelete", {"p":${cv.currentPage},"s":${cv.pageSize},"b":${cv.blockSize},"idx":${cv.idx}});
 	}
 </script>
 <style type="text/css">
@@ -95,6 +95,7 @@
 	td.title {border:none; padding: 5px; text-align: center; font-size: 18pt;}
 	td.info {border:none; padding: 5px; text-align: right; }
 	td.info2 {border: 1px solid gray; padding: 5px; text-align: center; }
+	td.answer{width: 80%; margin: auto; border: none;}
 	.fileItem { margin-bottom: 3px;}
 </style>
 </head>
@@ -102,7 +103,7 @@
 	<table id="main_content">
 		<tr>
 			<td colspan="4" class="title" >
-			질문 내용보기
+			질문 
 			</td>
 		</tr>
 		<tr>
@@ -112,7 +113,7 @@
 			</td>
 		</tr>
 		<tr>
-			<th valign="top">내용</th>
+			<th valign="middle">내용</th>
 			<td colspan="3"> 
 				<div id="content">${fv.back_Qna_Content }</div>
 			</td>
@@ -123,18 +124,34 @@
 				<%-- 첨부파일을 다운 받도록 링크를 달아준다. --%>
 				<c:if test="${not empty fv.fileList }">
 					<c:forEach var="fvo" items="${fv.fileList }">
-						<c:url var="url" value="/board/download">
-							<c:param name="of" value="${fvo.oriName }"></c:param>
-							<c:param name="sf" value="${fvo.saveName }"></c:param>
+						<c:url var="url" value="/qna/qnaDownload">
+							<c:param name="of" value="${fvo.back_Qnafile_OriName }"></c:param>
+							<c:param name="sf" value="${fvo.back_Qnafile_SaveName }"></c:param>
 						</c:url>
-						<a href="${url }" title="${fvo.oriName }"><i class="axi axi-download2"></i> ${fvo.oriName }</a><br />
+						<a href="${url }" title="${fvo.back_Qnafile_OriName }"><i class="axi axi-download2"></i> ${fvo.back_Qnafile_OriName }</a><br />
 					</c:forEach>
 				</c:if>
 			</td>
 		</tr>
 		<tr>
 			<td colspan="4" class="info">
-				<input type="button" value=" 수정가기 " class="btn btn-outline-success btn-sm" onclick="goUpdate()"/>
+				<input type="button" value=" 수정하기 " class="btn btn-outline-success btn-sm" onclick="goUpdate()"/>
+				<input type="button" value=" 삭제가기 " class="btn btn-outline-success btn-sm" onclick="goDelete()"/>
+				<input type="button" value=" 돌아가기 " class="btn btn-outline-success btn-sm" onclick="goBack()"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4" class="title" >
+			답변
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4" class="answer">
+				<textarea rows="10" cols="250" style="margin: auto;"></textarea>
+			</td>
+		</tr>
+			<tr>
+			<td colspan="4" class="info">
 				<input type="button" value=" 삭제가기 " class="btn btn-outline-success btn-sm" onclick="goDelete()"/>
 				<input type="button" value=" 돌아가기 " class="btn btn-outline-success btn-sm" onclick="goBack()"/>
 			</td>
