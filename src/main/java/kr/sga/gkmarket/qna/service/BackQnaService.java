@@ -35,5 +35,7 @@ public interface BackQnaService {
 	void doneComment(int idx);
 	// 답변미완료
 	void notYetComment(int idx);
+	// 유저번호 구하기
+	int selectUserIdx(String userId);
 	
 }

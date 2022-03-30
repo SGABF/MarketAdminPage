@@ -87,4 +87,9 @@
  			where
  			back_Qna_Idx = #{back_Qna_Idx}
  		</update>
+ 		
+ 		<!-- 받은 userIdx 로 정보 가져오기  -->
+ 		<select id="selectUserIdx" parameterType="int" resultType="BackQnaVO">
+ 			SELECT user_Idx from user where user_id = #{user_Id}
+ 		</select>
 </mapper>

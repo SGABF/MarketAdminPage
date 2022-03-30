@@ -34,5 +34,7 @@ public interface BackQnaDAO {
 	void updateName(int idx);
 	// 내용만 수정
 	void updateContent(int idx);
+	// 받은 user_Id 로 정보 가져오기 
+	int selectUserId(String userId);
 	
 }
