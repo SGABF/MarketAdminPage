@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
 import kr.sga.gkmarket.security.JwtTokenUtil;
 import kr.sga.gkmarket.security.service.JwtUserDetailsService;
 import kr.sga.gkmarket.security.vo.JwtRequest;
@@ -29,6 +30,7 @@ public class JwtAuthenticationController {
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
 	
+	@ApiOperation(value = "토큰 가져오기", notes = "계정 ID값과 Password를 이용하여 토큰을 반환합니다.")
 	@PostMapping(value = "/authenticate/token")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception{
 		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
