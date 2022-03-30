@@ -1,9 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<!doctype html>
+<html lang="ko">
 <head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
 </head>
-
+	
 <body id="page-top">
 
                 <!-- Begin Page Content -->
@@ -26,8 +31,9 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                               전체글  </div>
+                                               
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><c:out value="${mv.boardCount }"></c:out></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>

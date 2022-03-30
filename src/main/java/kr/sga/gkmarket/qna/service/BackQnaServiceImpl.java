@@ -184,4 +184,13 @@ public class BackQnaServiceImpl implements BackQnaService {
 		log.info("BackQnaService 의 updateQna 실행 ");
 		backQnaDAO.update(backQnaVO);
 	}
+
+	@Override
+	public int selectUserIdx(String userId) {
+		log.info("BackQnaService 의 selectUserIdx 실행 ");
+		
+		int userIdx = 0;
+		userIdx = backQnaDAO.selectUserId(userId);
+		return userIdx;
+	}
 }
