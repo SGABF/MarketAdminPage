@@ -21,17 +21,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.JsonObject;
+
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import kr.sga.gkmarket.notice.dao.NoticeDAO;
 import kr.sga.gkmarket.notice.service.NoticeFileService;
-import kr.sga.gkmarket.notice.service.NoticeService;
+import kr.sga.gkmarket.notice.service.NoticeService; 
 import kr.sga.gkmarket.notice.vo.BackNoticeFileVO;
 import kr.sga.gkmarket.notice.vo.BackNoticeVO;
 import lombok.extern.slf4j.Slf4j;
 
 
 @Controller
-@RestController
 @Slf4j
 public class NoticeController {
 	
@@ -56,16 +57,24 @@ public class NoticeController {
     	return list;
     }
     
-    
     @SuppressWarnings("deprecation")
     @PostMapping(value = "/notice/insertNotice")
     @ResponseBody
 	public String insertNotice(@RequestBody BackNoticeVO backNoticeVO, @RequestPart(value = "fileUp", required = false) MultipartFile mfile) {
-		noticeService.insertNotice(backNoticeVO); // DB에 저장
-		if(mfile != null ) {
-			BackNoticeFileVO imageFile = new BackNoticeFileVO();
-			int ref = noticeService.selectSeq();
-			String realPath = "";
+    	if(backNoticeVO!=null) {
+    		noticeService.insertNotice(backNoticeVO); // DB에 저장
+    	}
+		
+		return "redirect:/notice/getList";
+	}
+    @SuppressWarnings("deprecation")
+    @PostMapping(value = "/notice/insertFile")
+    @ResponseBody
+    public String insertFile(@RequestPart(value = "fileUp", required = false) MultipartFile mfile) {
+    	BackNoticeFileVO imageFile = new BackNoticeFileVO();
+    	int ref = noticeService.selectSeq();
+    	String realPath = "";
+    	if(mfile != null ) {
 			try {
 				if (os.contains("win")) {
 					realPath = "D:/image/";
@@ -85,12 +94,13 @@ public class NoticeController {
 				e.printStackTrace();
 			}
 			noticeFileService.insertFile(imageFile);
-			imageFile.toString();
-		}
-
-		
-		return "redirect:/notice/getList";
-	}
+		}	
+			
+    	return imageFile.toString();
+    }
+    
+    
+   /* 
     @PostMapping(value = "/notice/updateNotice")
     @ResponseBody
     public String updateNotice(@RequestBody BackNoticeVO backNoticeVO ) {
@@ -98,6 +108,8 @@ public class NoticeController {
 		return "redirect:/notice";
     	
     }
+    */
+    
     @PostMapping(value = "/notice/deleteNotice")
     @ResponseBody
     public void deleteNotice(@RequestParam("backNotice") int backNotice){
@@ -113,15 +125,38 @@ public class NoticeController {
         
     }
     // 상세보기
-    @GetMapping(value = "notice/noticedetail")
+    @GetMapping(value = "notice/noticeDetail")
     @ResponseBody
-    public BackNoticeVO noticeDetail(int notice_Idx) {
+    public BackNoticeVO noticeDetail(@RequestParam("notice_Idx")int notice_Idx) {
     	BackNoticeVO backNoticeVO = null;
     	if(notice_Idx != 0){
     		backNoticeVO =noticeService.noticeDetail(notice_Idx);
     	}
 		return backNoticeVO;
     }
+    
+    //--------------------------------------------------------//
+    
+    @GetMapping(value = "/MainView/noticeList") //주소 지정
+    @ResponseBody
+    public List<BackNoticeVO> noticeList(){
+    	log.info("NoticeController-openNoticeList 호출");
+    	List<BackNoticeVO> list = noticeService.getNotice();
+    	log.info("NoticeController-openNoticeList 리턴 : " +  list);
+    	return list;
+    }
+    
+ // 상세보기
+    @GetMapping(value = "MainView/noticeDetail")
+    @ResponseBody
+    public BackNoticeVO detailNotice(@RequestParam("notice_Idx")int notice_Idx) {
+    	BackNoticeVO backNoticeVO = null;
+    	if(notice_Idx != 0){
+    		backNoticeVO =noticeService.noticeDetail(notice_Idx);
+    	}
+		return backNoticeVO;
+    }
+  /*  
   
 //----------------------파일 업로드------------------------//
     
