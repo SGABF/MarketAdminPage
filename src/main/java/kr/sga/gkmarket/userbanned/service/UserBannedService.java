@@ -11,6 +11,6 @@ public interface UserBannedService {
 	// 관리할 유저 리스트 
 	List<UserBannedVO> getUserList();
 	// 유저 밴 활성화/비활성화
-	void userBannedActivate(UserBannedVO userBannedVO);
+	void userBannedActivate(int user_Idx);
 
 }

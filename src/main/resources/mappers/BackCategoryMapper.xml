@@ -7,27 +7,29 @@
 	<!-- 카테고리 등록 -->
 	<insert id="insertCategory" parameterType="BackCategoryVO">
 		insert into back_category
-		(back_category_name)
+		(back_category_name,back_category_use)
 		values
-		(#{back_Category_Name})
+		(#{back_Category_Name},0)
 	</insert>
 	
 	<!-- 전체 카테고리 리스트 가져오기   -->	
 	<select id="getCategory" resultType="BackCategoryVO">
 		select
-		back_category_idx,back_category_name
+		back_category_idx,back_category_name,back_category_use
 		from
 		back_category
 	</select>
 	
 	<!-- 카테고리 활성화/비활성화   -->	
 	<update id="activateCategory" parameterType="BackCategoryVO">
-		update 
-		back_category
-		set
-		back_category_use = #{back_Category_Use}
-		where
-		back_category_idx = #{back_Category_Idx}
+		UPDATE back_category 
+		set back_category_use = (
+		case back_category_use
+		WHEN 1 THEN 0
+		WHEN 0 THEN 1
+		END )
+		WHERE back_category_idx = #{back_Category_Idx}
+
 	</update>
 	
 	<!-- 카테고리 한개 가져오기   -->

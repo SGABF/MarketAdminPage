@@ -40,20 +40,9 @@ public class UserBannedServiceImpl implements UserBannedService {
 	}
 
 	@Override
-	public void userBannedActivate(UserBannedVO userBannedVO) {
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		 log.info("호출 : " + userBannedVO);
-	      if (userBannedVO.getUser_Banned()==0) {
-	         map.put("user_Banned",1);
-	         map.put("user_Idx", userBannedVO.getUser_Idx());
-	         userBannedDAO.userBannedActivate(map);
-	      } else {
-	    	  map.put("user_Banned",0);
-		         map.put("user_Idx", userBannedVO.getUser_Idx());
-		         userBannedDAO.userBannedActivate(map);
-	      }
-	      log.info("호출 : " + map);
+	public void userBannedActivate(int user_Idx) {
 		
+		userBannedDAO.userBannedActivate(user_Idx);
 
 	}
 

@@ -10,7 +10,7 @@ public interface CategoryService {
 	// 등록
 	void insertCategory(BackCategoryVO backCategoryVO);
 	// 수정
-	void activateCategory(BackCategoryVO backCategoryVO);
+	void activateCategory(int back_Category_Idx);
 	// 목록 가져오기
     List<BackCategoryVO> getCategory();
     // 하나 가져오기

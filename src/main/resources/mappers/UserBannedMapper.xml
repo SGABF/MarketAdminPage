@@ -18,19 +18,23 @@
 	<!-- 회원 정보 리스트 가져오기   -->	
 	<select id="getUserList" resultType="UserBannedVO">
 		select
-		user_idx,user_id,user_name
+		user_idx,
+		user_id,
+		user_name,
+		user_banned
 		from
 		user
 	</select>
 	
 	<!-- 회원 밴 활성화/비활성화   -->	
 	<update id="userBannedActivate" parameterType="UserBannedVO">
-		update 
-		user
-		set
-		user_banned = #{user_Banned}
-		where
-		user_idx = #{user_Idx}
+		UPDATE user 
+		set user_banned = (
+		case user_banned
+		WHEN 1 THEN 0
+		WHEN 0 THEN 1
+		END )
+		WHERE user_idx = #{user_Idx}
 	</update>
 	
 	
