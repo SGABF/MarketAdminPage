@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.sga.gkmarket.qna.dao.BackQnaFileDAO">
+		<!-- 한개 글 가져오기 -->
+		<select id="selectFiles" parameterType="int" resultType="BackQnaFileVO">
+			select * from back_qnafile where back_Qnafile_Idx= #{back_Qnafile_Idx}
+		</select>
+		<!-- 첨부파일 저장  -->
+		<insert id="insert" parameterType="BackQnaFileVO">
+			insert into back_qnafile
+				(back_Qna_Idx,back_Qnafile_SaveName,back_Qnafile_OriName)
+			values
+				(#{back_Qna_Idx},#{back_Qnafile_SaveName},#{back_Qnafile_OriName})
+		</insert>
+		<!-- 수정시 첨부파일 저장 -->
+		<insert id="insertUpdate" parameterType="BackQnaFileVO">
+			 insert into back_qnafile
+				(back_Qna_Idx,back_Qnafile_SaveName,back_Qnafile_OriName)
+			values
+				(#{back_Qna_Idx},#{back_Qnafile_SaveName},#{back_Qnafile_OriName})
+		</insert>
+		<!-- 첨부파일 삭제 -->
+		<delete id="deleteByIdx" parameterType="int">
+  			delete from back_qnafile where back_Qnafile_Idx=#{back_Qnafile_Idx}
+  		</delete> 
+		<!-- 원본글의 첨부파일 모두 읽기 -->
+		<select id="selectList" parameterType="int" resultType="BackQnaFileVO">
+  			select * from back_qnafile where back_Qna_Idx=#{back_Qna_Idx}
+  		</select>
+		<!-- 원본글의 첨부파일 모두 삭제하기 -->
+		<delete id="deleteByRef" parameterType="int">
+  			delete from back_qnafile where back_Qna_Idx=#{back_Qna_Idx}
+  		</delete> 
+</mapper>
+

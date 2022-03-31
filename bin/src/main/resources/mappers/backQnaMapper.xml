@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.sga.gkmarket.qna.dao.BackQnaDAO">
+	<!-- 개수얻기 -->
+	<select id="selectCount" resultType="int">
+		select count(*) from back_qna
+	</select>
+	<!-- 한개 글 가져오기 -->
+	<select id="selectByIdx" parameterType="int"
+		resultType="BackQnaVO">
+		select * from back_qna where back_qna_idx= #{back_qna_idx}
+	</select>
+	<!-- 한페이지 글 가져오기 -->
+	<select id="selectList" parameterType="hashmap"
+		resultType="BackQnaVO">
+		select * from back_qna order by back_qna_idx desc
+		limit #{startNo}, #{pageSize}
+	</select>
+
+	<!-- 저장 -->
+	<insert id="insert" parameterType="BackQnaVO">
+		insert into back_qna
+		(back_Qna_Name,back_Qna_Content,back_Qna_Question,user_idx)
+		values
+		(#{back_Qna_Name},#{back_Qna_Content},#{back_Qna_Question},#{user_Idx})
+	</insert>
+	<!-- 수정 -->
+	<update id="update" parameterType="BackQnaVO">
+		update back_qna
+		set
+		back_Qna_Content= #{back_Qna_Content}
+		where
+		back_Qna_Idx = #{back_Qna_Idx}
+	</update>
+	<!-- 삭제 -->
+	<delete id="delete" parameterType="int">
+		delete from back_qna where back_Qna_Idx = #{back_Qna_Idx}
+	</delete>
+
+	<select id="selectUserName" resultType="QnaUserNameVO">
+		select
+			bq.back_qna_idx, us.user_name
+		from
+			back_qna bq , user us
+		where
+			us.user_idx = bq.user_idx
+	</select>
+</mapper>
