@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.sga.gkmarket.menuControl.dao.AdminMenuControlDAO">
+
+	<!-- 1. 메뉴 목록 전체 얻기 -->
+	<select id="selectListAll" resultType="hashmap">
+		select * from menuDB
+	</select>
+	<!-- 2. 메뉴 목록 1개 얻기 -->
+	<select id="selectOne" parameterType="int" resultType="MenuDBVO">
+		select * from menuDB where menuDB_idx = #{menuDB_idx}
+	</select>
+	<!-- 3. 메뉴 활성 비활성 -->
+	<update id="menuActive" parameterType="int">
+		update menuDB set menuDB_use = if(menuDB_use = 'Y', 'N', 'Y') where menuDB_idx = #{menuDB_idx};
+	</update>
+	<!-- 4. 메뉴 추가 -->
+	<insert id="insertMenu" parameterType="MenuDBVO">
+		insert into menuDB (menuDB_idx, menuDB_name, menuDB_use, menuDB_col1) values(0, #{menuDB_name}, 'Y', #{menuDB_col1});
+	</insert>
+	<!-- 5. 메뉴 삭제(예정) -->
+	
+	
+</mapper>

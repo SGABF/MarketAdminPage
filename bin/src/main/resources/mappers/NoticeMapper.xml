@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.sga.gkmarket.notice.dao.NoticeDAO">
+	
+	<!-- 공지사항 등록 -->
+	<insert id="insertNotice" parameterType="BackNoticeVO">
+	
+		insert into back_notice
+		(back_notice_subject,back_notice_content)
+		values
+		(#{back_Notice_Subject},#{back_Notice_Content})
+	</insert>
+
+	<!-- 공지사항 수정 -->
+	<update id="updateNotice" parameterType="BackNoticeVO">
+		update 
+		back_notice
+		set
+		back_notice_subject = #{back_Notice_Subject},
+		back_notice_content = #{back_Notice_Content}
+		where
+		back_notice_idx=#{back_Notice_Idx}
+	</update>
+	
+	<!-- 공지사항 삭제 -->
+	<delete id="deleteNotice" parameterType="int">
+		delete from back_notice 
+		where
+		back_notice_idx=#{back_Notice_Idx}
+	</delete>
+	
+	<!-- 공지사항 가져오기 -->
+	<select id="getNotice" resultType="BackNoticeVO">
+		select * FROM 
+		back_notice 
+		LEFT JOIN
+		back_noticefile
+		ON
+		back_notice.back_notice_idx 
+		= 
+		back_noticefile.back_notice_idx
+
+	</select>
+	
+	<!-- 현재 저장한 idx 가져오기 -->
+	<select id="selectSeq" resultType="int">
+		select
+		max(back_notice_idx)
+		from
+		back_notice
+	</select>
+	
+	<!--  1개 글 가져오기 -->
+	<select id="selectIdx" resultType="int">
+		select
+		*
+		from
+		back_notice
+		where
+		back_notice_idx = #{back_Notice_Idx}
+	</select>
+
+</mapper>

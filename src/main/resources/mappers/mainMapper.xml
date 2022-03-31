@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.sga.gkmarket.main.dao.MainViewDAO">
+	
+	<!-- 전체 글수 가져오기 -->
+	<select id="selectBoardCount" resultType="int">
+		SELECT COUNT(*) from board; 
+	</select>
+	
+	<!-- board_soldOut 3인 값의 개수 가져오기 -->
+	<select id="selectSoldOut" resultType="int">
+		select COUNT(*) from board WHERE board_soldout = 3
+	</select>
+	
+	<!--  board_soldOut 1인 값의 개수 가져오기 (판매중) -->
+	<select id="selectForSale"  resultType="int">
+		select COUNT(*) from board WHERE board_soldout = 1; 
+	</select>
+	
+	<!-- 해결된 질문 -->
+	<select id="selectReplyDone" resultType="int">
+		SELECT COUNT(*) from back_qna WHERE back_qna_question = 1; 
+	</select>
+	
+</mapper>
