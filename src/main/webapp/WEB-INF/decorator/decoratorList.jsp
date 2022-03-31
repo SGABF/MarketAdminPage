@@ -206,6 +206,11 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>공지사항 설정</span></a>
             </li>
+            
+            
+            
+            <div id="menuCtlDiv"> 
+            </div>
            
             
             <!-- Nav Item - Swagger -->
