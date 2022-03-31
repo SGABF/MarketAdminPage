@@ -176,7 +176,7 @@ public class BackQnaServiceImpl implements BackQnaService {
 	@Override
 	public void notYetComment(int idx) {
 		log.info("BackQnaService 의 notYetComment 실행 ");
-		backQnaDAO.replyDone(idx);
+		backQnaDAO.replyNotYet(idx);
 	}
 
 	@Override

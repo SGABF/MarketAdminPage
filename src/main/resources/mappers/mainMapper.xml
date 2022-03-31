@@ -4,22 +4,22 @@
 	
 	<!-- 전체 글수 가져오기 -->
 	<select id="selectBoardCount" resultType="int">
-		SELECT COUNT(*) from board; 
+		SELECT COUNT(*) from board
 	</select>
 	
 	<!-- board_soldOut 3인 값의 개수 가져오기 -->
 	<select id="selectSoldOut" resultType="int">
-		select COUNT(*) from board WHERE board_soldout = 3
+		select COUNT(*) from board WHERE board_soldout = 2
 	</select>
 	
 	<!--  board_soldOut 1인 값의 개수 가져오기 (판매중) -->
 	<select id="selectForSale"  resultType="int">
-		select COUNT(*) from board WHERE board_soldout = 1; 
+		select COUNT(*) from board WHERE board_soldout = 0
 	</select>
 	
 	<!-- 해결된 질문 -->
 	<select id="selectReplyDone" resultType="int">
-		SELECT COUNT(*) from back_qna WHERE back_qna_question = 1; 
+		SELECT COUNT(*) from back_qna WHERE back_qna_question = 1 
 	</select>
 	
 </mapper>
