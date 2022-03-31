@@ -112,7 +112,7 @@ public class NoticeController {
     	noticeService.deleteNotice(backNotice);
         
     }
-    
+    // 상세보기
     @GetMapping(value = "notice/noticedetail")
     @ResponseBody
     public BackNoticeVO noticeDetail(int notice_Idx) {
