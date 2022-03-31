@@ -55,12 +55,15 @@
 	
 	<!--  1개 글 가져오기 -->
 	<select id="noticeDetail" parameterType="int" resultType="BackNoticeVO">
-		select
-		*
-		from
+		select*from
 		back_notice
-		where
-		back_notice_idx = #{back_Notice_Idx}
+		LEFT JOIN
+		back_noticefile
+		ON
+		back_notice.back_notice_idx = back_noticefile.back_notice_idx
+		WHERE  
+		back_notice.back_notice_idx = #{back_Notice_Idx} 
+
 	</select>
 
 </mapper>

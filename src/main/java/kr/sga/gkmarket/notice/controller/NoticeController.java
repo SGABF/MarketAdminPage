@@ -149,7 +149,7 @@ public class NoticeController {
  // 상세보기
     @GetMapping(value = "MainView/noticeDetail")
     @ResponseBody
-    public BackNoticeVO detailNotice(@RequestParam("notice_Idx")int notice_Idx) {
+    public BackNoticeVO detailNotice(@RequestParam(value = "notice_Idx")int notice_Idx) {
     	BackNoticeVO backNoticeVO = null;
     	if(notice_Idx != 0){
     		backNoticeVO =noticeService.noticeDetail(notice_Idx);
