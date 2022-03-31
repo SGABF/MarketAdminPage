@@ -54,7 +54,7 @@
 	</select>
 	
 	<!--  1개 글 가져오기 -->
-	<select id="selectIdx" resultType="int">
+	<select id="noticeDetail" parameterType="int" resultType="BackNoticeVO">
 		select
 		*
 		from

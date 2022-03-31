@@ -31,7 +31,7 @@
        						+ "<td>" + JSON.stringify(res[data].user_Id).replaceAll("\"", "") + "</td>"
 	       					+ "<td>" + JSON.stringify(res[data].user_Name).replaceAll("\"", "") + "</td>"
 	       					+ "<td>" + JSON.stringify(res[data].user_Banned).replaceAll("\"", "") + "</td>"
-       						+ "<td><button type='button' class='btn btn-danger' onclick='activateBanned("+ JSON.stringify(res[data].user_Idx) +")'> 제재 상태</button> &nbsp;"
+       						+ "<td><button type='button' class='btn btn-danger' onclick='activateBanned("+ JSON.stringify(res[data].user_Idx) +")'>제재상태변경</button> &nbsp;"
        						+ "</tr>"
        				));	       	
         			       	
