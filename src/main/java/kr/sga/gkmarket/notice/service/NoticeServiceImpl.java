@@ -59,4 +59,13 @@ public class NoticeServiceImpl implements NoticeService {
 		
 	}
 
+	@Override
+	public BackNoticeVO noticeDetail(int notice_Idx) {
+		BackNoticeVO dbVO = null;
+		if(notice_Idx!=0) {
+			dbVO=noticeDAO.noticeDetail(notice_Idx);
+		}
+		return dbVO;
+	}
+
 }

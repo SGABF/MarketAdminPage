@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -29,7 +30,8 @@ import kr.sga.gkmarket.notice.vo.BackNoticeVO;
 import lombok.extern.slf4j.Slf4j;
 
 
-@Controller 
+@Controller
+@RestController
 @Slf4j
 public class NoticeController {
 	
@@ -109,8 +111,16 @@ public class NoticeController {
     	
     	noticeService.deleteNotice(backNotice);
         
-        
-        
+    }
+    // 상세보기
+    @GetMapping(value = "notice/noticedetail")
+    @ResponseBody
+    public BackNoticeVO noticeDetail(int notice_Idx) {
+    	BackNoticeVO backNoticeVO = null;
+    	if(notice_Idx != 0){
+    		backNoticeVO =noticeService.noticeDetail(notice_Idx);
+    	}
+		return backNoticeVO;
     }
   
 //----------------------파일 업로드------------------------//
