@@ -44,7 +44,7 @@ import kr.sga.gkmarket.vo.CommVO;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RestController
+@Controller
 public class BackQnaController {
 
 	@Autowired
@@ -59,8 +59,16 @@ public class BackQnaController {
 	private String os = System.getProperty("os.name").toLowerCase();
 
 	
+	 @GetMapping(value = "/MainView/Qna")
+		public String Qna(BackQnaVO backQnaVO, Model model) {
+			log.info("컨트롤러 실행 mainview ");
+			List<BackQnaVO> list = backQnaService.selectList();
+			model.addAttribute("qna", list);
+			return "/Qna";
+		}
 
 	@PostMapping(value = "/MainView/qnaList")
+	@ResponseBody
 	// public String selectList(@ModelAttribute CommVO commVO, Model model) {
 	// POST전송을 받기위한 방법
 	public List<BackQnaVO> selectQnaList()throws JsonProcessingException {
@@ -72,6 +80,7 @@ public class BackQnaController {
 
 	// 내용보기 : 글 1개를 읽어서 보여준다 (댓글이 있으면 댓글도)
 	@SuppressWarnings("unchecked")
+	@ResponseBody
 	@PostMapping(value = "/MainView/qnaView")
 	public BackQnaVO qnaView(@RequestBody BackQnaVO backQnaVO) throws JsonProcessingException{
 		log.info("backQnaController qnaView() 호출");
@@ -212,7 +221,7 @@ public class BackQnaController {
 	}
 
 	// ------------------댓글-----------------------------
-
+	@ResponseBody
 	@PostMapping(value = "/qna/qndInsertComment")
 	public void qndInsertComment(BackQnaReplyVO replyVO) {
 		log.info("{}의 qndInsertComment 호출 : {}", this.getClass().getName(), replyVO);
@@ -223,7 +232,7 @@ public class BackQnaController {
 			backQnaService.doneComment(replyVO.getBack_Qna_Idx());
 		}
 	}
-
+	@ResponseBody
 	@PostMapping(value = "/qna/qnaUpdateComment")
 	public void updateComment(BackQnaReplyVO replyVO) {
 		log.info("{}의 updateComment 호출 : {}", this.getClass().getName(), replyVO);
@@ -231,7 +240,7 @@ public class BackQnaController {
 			backQnaReplyService.update(replyVO);
 		}
 	}
-
+	@ResponseBody
 	@PostMapping(value = "/qna/qnaDeleteComment")
 	public void qnaDeleteComment(BackQnaReplyVO replyVO) {
 		log.info("{}의 qnaDeleteComment 호출 : {}", this.getClass().getName(), replyVO);
