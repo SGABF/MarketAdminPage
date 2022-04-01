@@ -193,4 +193,11 @@ public class BackQnaServiceImpl implements BackQnaService {
 		userIdx = backQnaDAO.selectUserId(userId);
 		return userIdx;
 	}
+
+	@Override
+	public int countList() {
+		int count = 0;
+		count = backQnaDAO.selectCount();
+		return count;
+	}
 }

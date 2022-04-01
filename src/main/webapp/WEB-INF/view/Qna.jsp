@@ -9,6 +9,14 @@
 <head>
 
     <title>Qna</title>
+<%-- 부트스트랩을 사용하기 위한 준비 시작 --%>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<%-- 부트스트랩을 사용하기 위한 준비 끝 --%>
 	<script type="text/javascript">
 	$(document).ready(function(){
 		fullReload();
@@ -52,43 +60,11 @@
 	        }
         });
         
-        $("#fileUp").on('change',function(){
-			  var fileName = $("#fileUp").val();
-			  fileName = fileName.replace('C:\\fakepath\\', '');
-			  $("#addFileName").val(fileName);
-		});
-	    
         
 	});
-	
 	function fullReload(){
 	 	var token = localStorage.getItem("token");
 		
-		$.ajax({
-			type: "GET",
-			url: "/MainView/qnaList", 
-			beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization","Bearer " + token);
-            },
-            success: function(res) {
-            	for(data in res){
-        			    
-            		$("#qnaList").append($("<tr><td>" + JSON.stringify(res[data].back_Qna_Idx) + "</td>"
-            				+ "<td>" +"<img id='img" + data + "' src='/imagePath/"+ JSON.stringify(res[data].back_Qnafile_SaveName).replaceAll("\"", "") +"'>"+ "</td>"
-       						+ "<td>" + JSON.stringify(res[data].back_Notice_Subject).replaceAll("\"", "") + "</td>"
-	       					+ "<td>" + JSON.stringify(res[data].back_Notice_Content).replaceAll("\"", "") + "</td>"
-	       					+ "<td>" + JSON.stringify(res[data].back_Notice_Content).replaceAll("\"", "") + "</td>"
-       						+ "<td><button type='button' class='btn btn-danger' onclick='deleteNotice("+ JSON.stringify(res[data].back_Notice_Idx) +")'>공지사항삭제</button> &nbsp;"
-       						+ "</tr>"
-       				));	       	
-        			       	
-        		}
-        	},
-        	error : function(){
-        		alert('에러!!!');
-        	}
-			
-		});
 	}
 	function fileList(){
 	 	var token = localStorage.getItem("token");
@@ -116,86 +92,62 @@
 		});
 	}
 	
-	function insertFile() {
+	
+	function deleteQnaReply(idx){
 		var token = localStorage.getItem("token");
-		var form_data = new FormData();
+		var ans = confirm("삭제하시겠습니까?");
 		
-		form_data.append( "fileUp", $("#fileUp")[0].files[0] );
-      	$.ajax({
-        	data: form_data,
-        	type: "POST",
-        	url: '/notice/insertFile',
-        	enctype: 'multipart/form-data',
-        	cache: false,
-        	contentType: false,
-        	processData: false,
-        	beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization","Bearer " + token);
-            },
-        	success: function(res) {        
-        		console.log(res);
-        	
-        	},
-        	error : function(){
-        		alert('에러!!!');
-        	}
-      	});
-    }
+		if(ans){
+			var query = {"idx" : idx};
+			$.ajax({
+				type: "post",
+				url: "/qna/replyDelete",
+				data: query, 
+				
+				beforeSend: function (xhr) {
+	                xhr.setRequestHeader("Authorization","Bearer " + token);
+	            },
+	            success: function(res) {
+	            	alert('답변 삭제 완료');
+	            	location.reload();
+	        	},
+	        	error : function(){
+	        		alert('에러!');
+	        	}
+			});
+		}
+	}
 	
 
-	function deleteNotice(id){
-		var token = localStorage.getItem("token");
-		
-		$.ajax({
-			type: "POST",
-			data: {
-				"backNotice" : id
-			},
-			url: "/notice/deleteNotice",
-			beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization","Bearer " + token);
-            },
-            success: function(res) {
-            	alert('삭제완료');
-				location.reload();
-        	},
-        	error : function(){
-        		alert('에러!!!');
-        	}
-			
-		})
-	}
-	function insertNotice(){
+	function insertQnaReply(idx){
 		var form_data = new FormData();
 		var token = localStorage.getItem("token");
+		//var back_Qna_Idx = $("#inputQnaIdx").val();
+		var back_Qna_Reply_Content = $("#inputQnaReply").val();
 		
-		var back_Notice_Subject = $("#inputNoticeSubject").val();
-		var back_Notice_Content = $("#inputNoticeContent").val();
-		
-		if(back_Notice_Subject == "" || back_Notice_Subject == null){
-			alert('제목을 입력해주세요.');
-			$("#inputNoticeSubject").focus();
+		/*if(back_Qna_Idx == "" || back_Qna_Idx == 0){
+			alert('번호를 입력해주세요.');
+			$("#back_Qna_Idx").focus();
 			return
-		}
-		
-		if(back_Notice_Content == "" || back_Notice_Content == null){
+		}*/
+		if(back_Qna_Reply_Content == "" || back_Qna_Reply_Content == null){
 			alert('내용을 입력해주세요.');
-			$("#inputNoticeContent").focus();
+			$("#back_Qna_Reply_Content").focus();
 			return
 		}
 		
 		$.ajax({
 			type: "POST",
-			url: "/notice/insertNotice",
+			url: "/qna/qndInsertComment",
 			data: {
-				"back_Notice_Subject" : back_Notice_Subject,
-				"back_Notice_Content" :  back_Notice_Content
+				"back_Qna_Reply_Content" :  back_Qna_Reply_Content,
+				"back_Qna_Idx" : idx
 			},
 			beforeSend: function (xhr) {
                 xhr.setRequestHeader("Authorization","Bearer " + token);
             },
             success: function(res) {
-            	alert('공지글 추가 성공');
+            	alert('답변 등록 성공');
             	location.reload();
         	},
         	error : function(){
@@ -207,27 +159,9 @@
 	
 	
 	</script>
-	<style type="text/css">
 	
-	#noticeList{
-		border: 3px solid black;
-		margin: 5px;
-		padding: 5px;
-		width: 100%
-	}
-	
-	th {
-		border: 3px solid black;
-		text-align: center;
-		padding: 15px;
-	}
-	
-	td {
-		border: 3px solid black;
-		text-align: center;
-		padding: 15px;
-	}
-	
+<style type="text/css">
+
 	.modal {
         position: absolute;
         top: 0;
@@ -263,58 +197,89 @@
 
        transform: translateX(-50%) translateY(-50%);
      }
-     img {
-     	width: 100px;
-     	height: 100px;
+	* { font-size: 10pt; }
+	table#content{width: 90%; margin: auto;}
+	th {border: 1px solid gray; padding: 10px; text-align: center; font-size: 14pt;}
+	td {border: 1px solid gray; padding: 10px; font-size: 12pt;}
+	td.title {border:none; padding: 10px; text-align: center; font-size: 25pt;}
+	td.info {border:none; padding: 10px; text-align: right; }
+	td.info2 {border: 1px solid gray; padding: 10px; text-align: center; }
+	
+	     img {
+     	width: 80px;
+     	height: 80px;
      }
-</style>    
+</style>  
 </head>
 
-<body id="page-top">
-
-   <!-- Begin Page Content -->
-   <div class="container-fluid">
-	   <!-- Page Heading -->
-	   <h1 class="h3 mb-4 text-gray-800">Qna 답변달기</h1>
-	   
-	   <div class="modal"> 
-			<div class="modal_body">
-				<h1>답변</h1>
-				
-				<div class="input-group mb-3">
-				  <span class="input-group-text">글 번호 : </span>
-				  <input type="text" id="inputNoticeSubject" class="form-control" placeholder="제목 입력" aria-label="back_Notice_Subject" aria-describedby="basic-addon1">
-				</div>
-				
-				<div class="input-group mb-3">
-				  <span class="input-group-text">내용 : </span>
-				  <input type="text" id="inputNoticeContent" class="form-control" placeholder="내용 입력" aria-label="back_Notice_Content" aria-describedby="basic-addon1">
-				</div>
-				<input type="text" id="addFileName" class="form-control" placeholder="첨부파일" aria-label="Recipient's username" aria-describedby="basic-addon1">
-				<br>
-				<br><br>
-				
-				<button class="btn btn-warning btn-confirm" onclick='insertNotice();insertFile();'>확인</button>
-				<button class="btn btn-warning btn-close-popup">취소</button>
-			</div>
-		</div>
-		<button class="btn btn-warning btn-open-popup">답변 추가</button>
-		
-		
-		
-		<table id="qnaList">
-			<tr>
-				<th width="10%">No</th>
-				<th width="10%">사용자아이디</th>
-				<th width="20%">내용</th>
-				<th width="30%">답변완ㄹ</th>
-				<th>답변달기</th>
-			</tr>
-		</table>
-	 
-		</div>
-   <!-- /.container-fluid -->
-                       
+<body>
+<c:set var="imageURL" value="/imagePath/"/>
+<table id="content">
+		<tr>
+			<td colspan="6" class="title">사용자 질문목록</td>
+		</tr>
+		<tr>
+			<th width="5%">No</th>
+			<th width="10%">작성자</th>
+			<th width="8%">이미지</th>
+			<th width="20%">제목</th>
+			<th width="30%">질문내용</th>
+			<th width="20%" style="background-color: #E6E6E6">관리자 답변</th>
+			<th width="10%" style="background-color: #E6E6E6">답변완료</th>
+		</tr>
+			<c:forEach var="vo" items="${qna }" >
+				<tr align="center">
+					<td>${vo.back_Qna_Idx }</td>
+					<td>
+						<c:out value="${vo.user_Name }"></c:out>
+					</td>
+					<td>
+						<img src="${imageURL} ${vo.back_Qnafile_SaveName }"/>
+					</td>
+					<td>
+						<c:out value="${vo.back_Qna_Name}"></c:out>
+					</td>
+					<td>
+						<c:out value="${vo.back_Qna_Content}"></c:out>
+					</td>
+					<td  style="background-color: #F2F2F2">
+						<c:if test="${vo.back_Qna_Reply_Content != null }" >
+							<c:out value="${vo.back_Qna_Reply_Content}"></c:out>
+						</c:if>
+						<c:if test="${vo.back_Qna_Reply_Content == null }" >
+							<c:out value="아직 답변이 없습니다." ></c:out>
+						</c:if>
+					</td>
+					<td style="color: green; background-color: #F2F2F2">
+						<c:if test="${vo.back_Qna_Question == 0 }" >
+							<c:out value="미답변"></c:out>
+							 <div class="modal"> 
+								<div class="modal_body">
+									<h1>답변 등록</h1>
+									<div class="input-group mb-3">
+									</div>
+									<div class="input-group mb-3">
+									  <span class="input-group-text">답변내용 : </span>
+									  <input type="text" id="inputQnaReply" class="form-control" placeholder="내용 입력" aria-label="back_Qna_Reply_Content" aria-describedby="basic-addon1">
+									</div>
+									<br><br>
+									
+									<button class="btn btn-warning btn-confirm" onclick='insertQnaReply(${vo.back_Qna_Idx});'>등록</button>
+									<button class="btn btn-warning btn-close-popup">취소</button>
+								</div>
+							</div>
+							<button style="float: right;" class="btn btn-outline-primary btn-open-popup">답변등록</button>
+						</c:if>
+						<c:if test="${vo.back_Qna_Question == 1 }">
+							<c:out value="답변완료"></c:out>
+							<button type="button" onclick="deleteQnaReply(${vo.back_Qna_Idx})"  class="btn btn-outline-danger " >답변삭제</button>
+						</c:if>
+					</td>
+				</tr>		
+			</c:forEach>
+		<tr>
+		</tr>
+	</table>	            
 </body>
 
 </html>

@@ -37,5 +37,7 @@ public interface BackQnaService {
 	void notYetComment(int idx);
 	// 유저번호 구하기
 	int selectUserIdx(String userId);
+	//  Qna 게시판 수
+	int countList();
 	
 }

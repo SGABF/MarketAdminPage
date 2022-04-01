@@ -16,18 +16,13 @@
 	</select>
 	<!-- 관리자페이지 글 가져오기 -->
 	<select id="selectList" resultType="BackQnaVO">
-		SELECT
-		*
-		FROM
-		back_qna
-		left join
-		back_qnafile
-		on
-		back_qna.back_qna_idx
-		=
-		back_qnafile.back_qna_idx;
+		SELECT q.*, f.* , r.* , u.user_name
+		FROM back_qna q LEFT OUTER JOIN back_qnafile f
+		ON q.back_qna_idx = f.back_qna_idx LEFT OUTER JOIN back_qnaReply r
+		ON q.back_qna_idx = r.back_qna_idx Left outer join user u
+		on q.user_idx = u.user_idx ;
 	</select>
-	
+
 
 	<!-- 저장 -->
 	<insert id="insert" parameterType="BackQnaVO">
@@ -54,7 +49,8 @@
 
 	<select id="selectUserName" resultType="QnaUserNameVO">
 		select
-		bq.back_qna_idx, us.user_name
+		bq.back_qna_idx,
+		us.user_name
 		from
 		back_qna bq , user us
 		where
@@ -99,7 +95,8 @@
 		set
 		back_Qna_Content= #{back_Qna_Content}
 		where
-		back_Qna_Idx = #{back_Qna_Idx}
+		back_Qna_Idx =
+		#{back_Qna_Idx}
 	</update>
 
 	<!-- 받은 userIdx 로 정보 가져오기 -->

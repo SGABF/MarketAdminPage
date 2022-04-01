@@ -15,7 +15,10 @@ public class BackQnaReplyServiceImpl implements BackQnaReplyService {
 	@Override
 	public void insert(BackQnaReplyVO backQnaReplyVO) {
 		if (backQnaReplyVO != null) {
+			
 			backQnaReplyDAO.insert(backQnaReplyVO);
+			System.out.println("backQnaRe   " + backQnaReplyVO + "\n");
+			backQnaReplyDAO.selectContentIdx(backQnaReplyVO);
 		}
 	}
 
@@ -27,10 +30,9 @@ public class BackQnaReplyServiceImpl implements BackQnaReplyService {
 	}
 
 	@Override
-	public void delete(BackQnaReplyVO backQnaReplyVO) {
-		if (backQnaReplyVO != null) {
-			backQnaReplyDAO.delete(backQnaReplyVO.getBack_Qna_Idx());
-		}
+	public void delete(int idx) {
+		System.out.println("delete  " +"\n");
+			backQnaReplyDAO.delete(idx);
 	}
 
 	@Override
