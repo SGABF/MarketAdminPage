@@ -89,31 +89,6 @@
 			
 		});
 	}
-	function fileList(){
-	 	var token = localStorage.getItem("token");
-		
-		$.ajax({
-			type: "GET",
-			url: "/notice/fileList", 
-			beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization","Bearer " + token);
-            },
-            success: function(res) {
-            	console.log(res);
-            	for(data in res){
-            		$("#fileList").append($("<div class='container'><div class='row align-items-center row-cols-4'><div class='col'><img id='img" + data + "' src='/imagePath/"+ JSON.stringify(res[data].back_Noticefile_SaveName).replaceAll("\"", "") +"'></div>"
-            				+ "<div class='col'> id : " + JSON.stringify(res[data].back_Noticefile_Idx) + "</div>"
-            				+ "</div></div><hr>"
-       				));	       	
-        			       	
-        		}
-        	},
-        	error : function(){
-        		alert('에러!!!');
-        	}
-			
-		});
-	}
 	
 	function insertFile() {
 		var token = localStorage.getItem("token");
@@ -133,10 +108,10 @@
             },
         	success: function(res) {        
         		console.log(res);
-        	
+        		location.reload();
         	},
         	error : function(){
-        		alert('에러!!!');
+        		alert('이미지없음');
         	}
       	});
     }
@@ -195,10 +170,10 @@
             },
             success: function(res) {
             	alert('공지글 추가 성공');
-            	location.reload();
+            	insertFile();
         	},
         	error : function(){
-        		alert('에러!');
+        		alert('추가에러!');
         	}
 			
 		});
@@ -296,7 +271,7 @@
 		        	</label>
 				<br><br>
 				
-				<button class="btn btn-warning btn-confirm" onclick='insertNotice();insertFile();'>확인</button>
+				<button class="btn btn-warning btn-confirm" onclick='insertNotice();'>확인</button>
 				<button class="btn btn-warning btn-close-popup">취소</button>
 				<input type="file" name="fileUp" id="fileUp" style="display: none;"/>
 			</div>

@@ -57,22 +57,21 @@ public class NoticeController {
     	return list;
     }
     
-    @SuppressWarnings("deprecation")
     @PostMapping(value = "/notice/insertNotice")
     @ResponseBody
-	public String insertNotice(@RequestBody BackNoticeVO backNoticeVO, @RequestPart(value = "fileUp", required = false) MultipartFile mfile) {
-    	if(backNoticeVO!=null) {
+	public void insertNotice(@RequestBody BackNoticeVO backNoticeVO) {
+    	if(backNoticeVO != null) {
     		noticeService.insertNotice(backNoticeVO); // DB에 저장
     	}
-		
-		return "redirect:/notice/getList";
-	}
-    @SuppressWarnings("deprecation")
+    	
+    }
+    
     @PostMapping(value = "/notice/insertFile")
     @ResponseBody
-    public String insertFile(@RequestPart(value = "fileUp", required = false) MultipartFile mfile) {
-    	BackNoticeFileVO imageFile = new BackNoticeFileVO();
+    public void insertFile(@RequestPart(value = "fileUp", required = false) MultipartFile mfile) {
     	int ref = noticeService.selectSeq();
+    	log.info("noticeService.selectSeq() 리턴 : " +  ref);
+    	BackNoticeFileVO imageFile = new BackNoticeFileVO();
     	String realPath = "";
     	if(mfile != null ) {
 			try {
@@ -89,15 +88,15 @@ public class NoticeController {
 					imageFile.setBack_Notice_Ref(ref);
 					imageFile.setBack_Noticefile_OriName(mfile.getOriginalFilename());
 					imageFile.setBack_Noticefile_SaveName(saveName);
+					noticeFileService.insertFile(imageFile);
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			noticeFileService.insertFile(imageFile);
 		}	
 			
-    	return imageFile.toString();
     }
+    
     
     
    /* 
