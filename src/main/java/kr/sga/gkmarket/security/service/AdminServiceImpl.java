@@ -20,8 +20,8 @@ public class AdminServiceImpl implements AdminService {
 	private AdminDAO adminDAO;
 
 	@Override
-	public AdminVO getUser() {
-		return adminDAO.getUser();
+	public AdminVO getAdminTest() {
+		return adminDAO.getAdminTest();
 	}
 
 	@Override

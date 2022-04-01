@@ -9,7 +9,7 @@ import kr.sga.gkmarket.security.vo.AdminVO;
 
 @Mapper
 public interface AdminDAO {
-	AdminVO getUser();
+	AdminVO getAdminTest();
 	
 	// 1. 1개의 계정 정보 얻기
 	AdminVO getAdminAccount(Map<String, String> map);

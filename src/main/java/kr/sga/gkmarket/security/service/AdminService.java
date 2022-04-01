@@ -6,7 +6,7 @@ import java.util.Map;
 import kr.sga.gkmarket.security.vo.AdminVO;
 
 public interface AdminService {
-	AdminVO getUser();
+	AdminVO getAdminTest();
 	
 	// 1. 1개의 계정 정보 얻기
 	AdminVO getAdminAccount(String admin_id);
