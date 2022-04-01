@@ -30,6 +30,12 @@ public class BackQnaVO {
 	private int back_Qnafile_Idx;
 	private String back_Qnafile_SaveName;
 	private String back_Qnafile_OriName;
-	private int back_Qna_Ref;
+	private int back_Qna_FileIdx;
+	
+	private int back_Qna_Reply_Idx;
+	private String back_Qna_Reply_Content;
+	private int back_Qna_ReplyIdx;
+	
+	private String user_Name;
 	
 }

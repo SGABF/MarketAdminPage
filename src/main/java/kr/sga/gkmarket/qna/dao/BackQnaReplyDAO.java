@@ -17,4 +17,8 @@ public interface BackQnaReplyDAO {
 	int commentCount(int ref);
 	// 게시글의 댓글 가져오기
 	BackQnaReplyVO selectComment(int idx);
+	// 댓글의 글번호 가져오기
+	int selectByContent(BackQnaReplyVO backQnaReplyVO);
+	// 업뎃
+	void selectContentIdx(BackQnaReplyVO backQnaReplyVO);
 }

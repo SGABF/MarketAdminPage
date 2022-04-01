@@ -8,9 +8,9 @@
 	<!-- 저장 (1:1 문의 답변등록) --> 
 	<insert id="insert" parameterType="BackQnaReplyVO">
 		INSERT into 
-			back_qnaReply (back_Qna_Reply_Content, back_Qna_Idx)
+			back_qnaReply (back_Qna_Reply_Content)
 		values
-			(#{back_Qna_Reply_Content}, #{back_Qna_Idx})
+			(#{back_Qna_Reply_Content})
 	</insert>
 	
 	<!-- 수정 (1:1 문의 답변수정)  -->
@@ -35,4 +35,15 @@
 	<select id="selectComment" parameterType="int" resultType="BackQnaReplyVO">
 		select * from back_qnaReply where back_Qna_Idx = #{back_Qna_Idx}
 	</select>
+	
+	<!-- 댓글내용으로 그댓글의 글번호가져오기 -->
+	<select id="selectByContent" parameterType="BackQnaReplyVO" resultType="int">
+	SELECT back_qna_idx  FROM back_qnaReply WHERE back_qna_reply_content = #{back_Qna_Reply_Content}
+	</select>
+	
+	<update id="selectContentIdx" parameterType="BackQnaReplyVO">
+		update back_qnaReply set back_Qna_Idx = #{back_Qna_Idx} where back_Qna_Reply_Content = #{back_Qna_Reply_Content}
+	</update>
+	
+	
 </mapper>
