@@ -118,6 +118,31 @@
 		}
 	}
 	
+	function deleteQnaAdmin(idx){
+		var token = localStorage.getItem("token");
+		var ans = confirm("관리자의 권한으로 질문을 삭제하시겠습니까?");
+		
+		if(ans){
+			var query = {"idx" : idx};
+			$.ajax({
+				type: "post",
+				url: "/MainView/qnaDeleteAdmin",
+				data: query, 
+				
+				beforeSend: function (xhr) {
+	                xhr.setRequestHeader("Authorization","Bearer " + token);
+	            },
+	            success: function(res) {
+	            	alert('질문 삭제 완료');
+	            	location.reload();
+	        	},
+	        	error : function(){
+	        		alert('에러!');
+	        	}
+			});
+		}
+	}
+	
 
 	function insertQnaReply(idx){
 		var form_data = new FormData();
@@ -274,8 +299,9 @@
 							<c:out value="답변완료"></c:out>
 							<button type="button" onclick="deleteQnaReply(${vo.back_Qna_Idx})"  class="btn btn-outline-danger " >답변삭제</button>
 						</c:if>
+							<button type="button" onclick="deleteQnaAdmin(${vo.back_Qna_Idx})"  class="btn btn-outline-danger " >질문삭제</button>
 					</td>
-				</tr>		
+				</tr>	
 			</c:forEach>
 		<tr>
 		</tr>
