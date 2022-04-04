@@ -39,5 +39,4 @@ public interface BackQnaService {
 	int selectUserIdx(String userId);
 	//  Qna 게시판 수
 	int countList();
-	
 }

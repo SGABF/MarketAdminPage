@@ -46,6 +46,7 @@
 		delete from back_qna where
 		back_Qna_Idx = #{back_Qna_Idx}
 	</delete>
+	
 
 	<select id="selectUserName" resultType="QnaUserNameVO">
 		select

@@ -200,4 +200,6 @@ public class BackQnaServiceImpl implements BackQnaService {
 		count = backQnaDAO.selectCount();
 		return count;
 	}
+
+	
 }

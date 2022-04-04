@@ -223,7 +223,7 @@
 					</div>
 				</div>
 
-var context = document
+				var context = document
                 .getElementById('myChart')
                 .getContext('2d');
             var myChart = new Chart(context, { //chart내용 }

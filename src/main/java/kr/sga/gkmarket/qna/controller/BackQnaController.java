@@ -51,7 +51,6 @@ public class BackQnaController {
 		public String Qna(Model model) {
 			log.info("컨트롤러 실행 mainview ");
 			List<BackQnaVO> qna = backQnaService.selectList();
-			System.out.println("dddddddddddddddddddddddddddd" + qna);
 			model.addAttribute("qna", qna);
 			return "/Qna";
 		}
@@ -199,6 +198,17 @@ public class BackQnaController {
 //	}
 
 
+	@PostMapping(value = "/MainView/qnaDeleteAdmin")
+	@ResponseBody
+	public void qnaDeleteAdmin(@RequestParam int idx, HttpServletRequest request, MultipartFile file) {
+		log.info("{}의 qnaDelete 호출 : {}", this.getClass().getName(), request,"backQnaVO : " + idx +"\n");
+		String realPath = request.getRealPath("win");
+		BackQnaVO backQnaVO = null;
+		backQnaVO = backQnaService.selectByIdx(idx);
+		backQnaService.delete(backQnaVO, realPath);
+		
+	}
+	
 	@PostMapping(value = "/MainView/qnaDelete")
 	@ResponseBody
 	public void qnaDelete(@RequestParam BackQnaVO backQnaVO, HttpServletRequest request, MultipartFile file) {
@@ -251,13 +261,6 @@ public class BackQnaController {
 	public void replyDelete(int idx) {
 		backQnaReplyService.delete(idx);
 		backQnaService.notYetComment(idx);
-	}
-	@ResponseBody
-	@PostMapping(value = "/qna/qnaDelete")
-	public void qnaDelete(BackQnaVO vo) {
-		String realpath = null;
-		backQnaService.delete(vo,realpath);
-		backQnaService.notYetComment(vo.getBack_Qna_Idx());
 	}
 	
 }
