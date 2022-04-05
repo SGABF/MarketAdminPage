@@ -70,11 +70,13 @@ public class BackQnaController {
 	@SuppressWarnings("unchecked")
 	@ResponseBody
 	@PostMapping(value = "/MainView/qnaView")
-	public BackQnaVO qnaView(@RequestBody BackQnaVO backQnaVO) throws JsonProcessingException{
+	public BackQnaVO qnaView(@RequestParam (value = "idx")int idx) throws JsonProcessingException{
 		log.info("backQnaController qnaView() 호출");
 		BackQnaVO dbQnaVO = null;
-		dbQnaVO = backQnaService.selectByIdx(backQnaVO.getBack_Qna_Idx());
-		dbQnaVO.setReply(backQnaReplyService.selectComment(backQnaVO.getBack_Qna_Idx()));
+		if(idx >0) {
+		dbQnaVO = backQnaService.selectByIdx(idx);
+		dbQnaVO.setReply(backQnaReplyService.selectComment(idx));
+		}
 		return dbQnaVO;
 	}
 
