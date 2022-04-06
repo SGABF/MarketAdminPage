@@ -2,6 +2,9 @@ package kr.sga.gkmarket.main.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import kr.sga.gkmarket.main.vo.MainViewVO;
+import kr.sga.gkmarket.main.vo.UserAgeVO;
+
 @Mapper
 public interface MainViewDAO {
 	// 전체글수 가져오기
@@ -12,4 +15,8 @@ public interface MainViewDAO {
 	int selectForSale();
 	//  해결된 질문
 	int selectReplyDone();
+	// 월별 가입회원수
+	int selectUserMonth(int month);
+	// 가입회원 연령대
+	UserAgeVO selectUserAge();
 }

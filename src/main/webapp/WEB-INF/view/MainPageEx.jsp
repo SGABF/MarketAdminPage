@@ -198,36 +198,36 @@
 	<!-- 그래프 테스트-->
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script>
-		const labels = [ 'January', 'February', 'March', 'April', 'May',
-				'June', ];
+	
+	
+		const labels = [ '1월', '2월', '3월', '4월', '5월', '6월', '7월' , '8월', '9월', '10월', '11월', '12월' ];
 
-		const data = {
+		const dataChart = {
 			labels : labels,
 			datasets : [ {
-				label : 'My First dataset',
-				backgroundColor : 'rgb(255, 99, 132)',
-				borderColor : 'rgb(255, 99, 132)',
-				data : [ 0, 10, 5, 2, 20, 30, 45 ],
+				label : '회원가입 현황',
+				backgroundColor : 'rgb(255, 182, 193)',
+				borderColor : 'rgb(255, 182, 193)',
+				data : ${mList},
 			} ]
 		};
 
 		const config = {
 			type : 'line',
-			data : data,
+			data : dataChart,
 			options : {}
 		};
 
 		const myChart = new Chart(document.getElementById('myChart'), config);
 	</script>
-
+	
 	<script>
 		const dataDoughtnut = {
-			labels : [ 'Red', 'Blue', 'Yellow' ],
+			labels : [ '20대', '30대', '40대', '50대', '60대이상' ],
 			datasets : [ {
 				label : 'My First Dataset',
-				data : [ 300, 50, 100 ],
-				backgroundColor : [ 'rgb(255, 99, 132)', 'rgb(54, 162, 235)',
-						'rgb(255, 205, 86)' ],
+				data : [ ${age.age_20}, ${age.age_30}, ${age.age_40}, ${age.age_50} , ${age.age_60} ],
+				backgroundColor : [ 'rgb(107, 203, 119)','rgb(77, 150, 255)', 'rgb(255, 107, 107)', 'rgb(255, 217, 61)','rgb(243, 242, 218)' ],
 				hoverOffset : 4
 			} ]
 		};
