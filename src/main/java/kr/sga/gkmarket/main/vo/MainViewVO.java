@@ -1,8 +1,9 @@
 package kr.sga.gkmarket.main.vo;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
-import kr.sga.gkmarket.qna.vo.BackQnaReplyVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,4 +17,11 @@ public class MainViewVO {
 	private int soldOut;
 	private int forSale;
 	private int replyDone;
+	
+	//유저 가입 정보
+	private int userInsertDate;
+	private List<Integer> userAge;
+	private int month;
+	
+
 }

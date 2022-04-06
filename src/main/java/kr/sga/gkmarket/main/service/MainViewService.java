@@ -1,5 +1,7 @@
 package kr.sga.gkmarket.main.service;
 
+import kr.sga.gkmarket.main.vo.UserAgeVO;
+
 public interface MainViewService {
 
 	// 전체글 수 불러오기
@@ -10,4 +12,8 @@ public interface MainViewService {
 	int selectForSale();
 	// 답변완료 수 불러오기
 	int selectReplyDone();
+	// selectUserMonth
+	int selectUserMonth(int month);
+	// 연령층 가져오기
+	UserAgeVO selectUserAge();
 }

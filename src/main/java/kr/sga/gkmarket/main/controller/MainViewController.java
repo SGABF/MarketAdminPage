@@ -1,21 +1,16 @@
 package kr.sga.gkmarket.main.controller;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import kr.sga.gkmarket.main.service.MainViewService;
 import kr.sga.gkmarket.main.vo.MainViewVO;
+import kr.sga.gkmarket.main.vo.UserAgeVO;
 import kr.sga.gkmarket.qna.service.BackQnaService;
-import kr.sga.gkmarket.qna.vo.BackQnaVO;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -36,7 +31,28 @@ public class MainViewController {
 		mainViewVO.setReplyDone(mainViewService.selectReplyDone());
 		mainViewVO.setSoldOut(mainViewService.selectSoldOut());
 		System.out.println("mainViewService.selectAllBoard()     " + mainViewService.selectAllBoard()+ "\n");
-		model.addAttribute("mv", mainViewVO);
+		model.addAttribute("mv", mainViewVO); // 보내기
+		
+		//월별 유저가입수 
+		int userCount = 0; 
+		int tempCount = 0;
+		
+		ArrayList<Integer> monthList = new ArrayList<Integer>();
+		for(int i = 1; i <= 12; i++) {
+			userCount = mainViewService.selectUserMonth(i);
+			System.out.println(i+"월 : "+userCount +"명" );
+			tempCount+= userCount;
+			monthList.add(tempCount);
+		}
+		System.out.println("월별 합" + monthList);
+		model.addAttribute("mList", monthList); // 보내기
+		
+		// 연령층 가입회원수 가져오기
+		UserAgeVO age = mainViewService.selectUserAge();
+		System.out.println("유저 나이" + age);
+		model.addAttribute("age", age);
+		
+		
 		return "/MainPageEx";
 	}
 	
