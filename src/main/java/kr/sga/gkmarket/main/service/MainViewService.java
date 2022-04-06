@@ -16,4 +16,8 @@ public interface MainViewService {
 	int selectUserMonth(int month);
 	// 연령층 가져오기
 	UserAgeVO selectUserAge();
+	// 총 유저 가져오기
+	int selectAllUser();
+	// 밴당한 유저 수
+	int selectUserBanned();
 }

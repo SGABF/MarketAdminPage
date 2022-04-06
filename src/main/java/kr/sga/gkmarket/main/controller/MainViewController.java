@@ -52,6 +52,14 @@ public class MainViewController {
 		System.out.println("유저 나이" + age);
 		model.addAttribute("age", age);
 		
+		// 모든 멤버수 가져오기
+		int allUserCount = mainViewService.selectAllUser();
+		model.addAttribute("allUser", allUserCount); // 보내기
+
+		// 밴 당한 멤버수
+		int allUserBanned = mainViewService.selectUserBanned();
+		model.addAttribute("userBanned", allUserBanned); // 보내기
+
 		
 		return "/MainPageEx";
 	}

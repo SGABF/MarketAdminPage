@@ -60,4 +60,16 @@ public class MainViewServiceImpl implements MainViewService{
 		return userAge;
 	}
 
+	@Override
+	public int selectAllUser() {
+		int count = mainViewDAO.selectAllUser();
+		return count;
+	}
+
+	@Override
+	public int selectUserBanned() {
+		int count = mainViewDAO.userBanned();
+		return count;
+	}
+
 }

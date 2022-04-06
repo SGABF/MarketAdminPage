@@ -38,4 +38,14 @@
 		from user;
 	</select>
 	
+	<!-- 전체 가입자 수 -->
+	<select id="selectAllUser" resultType="int">	
+	SELECT COUNT(*) from user
+	</select>
+	
+	<!-- 밴당한 유저 -->
+	<select id="userBanned" resultType="int">
+	SELECT COUNT(*) from user where user_banned = 1
+	</select>
+	
 </mapper>

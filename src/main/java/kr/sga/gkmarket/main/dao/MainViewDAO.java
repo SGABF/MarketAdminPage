@@ -19,4 +19,8 @@ public interface MainViewDAO {
 	int selectUserMonth(int month);
 	// 가입회원 연령대
 	UserAgeVO selectUserAge();
+	// 총 멤버수
+	int selectAllUser();
+	// 밴 당한 유저수
+	int userBanned();
 }
