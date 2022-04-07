@@ -35,6 +35,8 @@ public interface BackQnaDAO {
 	// 내용만 수정
 	void updateContent(int idx);
 	// 받은 user_Id 로 정보 가져오기 
-	int selectUserId(String userId);
+	int selectUserIdx(String userId);
+	// 현재 게시글의 userIDx 가져오기
+	int selectUserIdxBoard(int board_Idx);
 	
 }

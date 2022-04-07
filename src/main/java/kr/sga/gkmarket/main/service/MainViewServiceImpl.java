@@ -60,4 +60,25 @@ public class MainViewServiceImpl implements MainViewService{
 		return userAge;
 	}
 
+	@Override
+	public int selectAllUser() {
+		int count = mainViewDAO.selectAllUser();
+		return count;
+	}
+
+	@Override
+	public int selectUserBanned() {
+		int count = mainViewDAO.userBanned();
+		return count;
+	}
+
+	@Override
+	public int selectUploadBrd(int month) {
+		int boardCount = 0;
+		if(month > 0) {
+			boardCount = mainViewDAO.selectUploadBrd(month);
+		}
+		return boardCount;
+	}
+
 }
