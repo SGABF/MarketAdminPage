@@ -27,6 +27,11 @@
 		SELECT COUNT(*) from user WHERE DATE_FORMAT(user_insertdate, '%m') = ${month}
 	</select>
 	
+	<!-- 월별 업로드된 게시글수 -->
+	<select id="selectUploadBrd" resultType="int" parameterType="int">
+		select count(*) from board where DATE_FORMAT(board_regDate, '%m') = ${month}
+	</select>
+	
 	<!-- 가입회원 연령층 통계 -->
 	<select id="selectUserAge" resultType="kr.sga.gkmarket.main.vo.UserAgeVO"> 
 		select

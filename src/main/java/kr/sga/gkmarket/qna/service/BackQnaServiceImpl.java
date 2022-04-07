@@ -190,7 +190,7 @@ public class BackQnaServiceImpl implements BackQnaService {
 		log.info("BackQnaService 의 selectUserIdx 실행 ");
 		
 		int userIdx = 0;
-		userIdx = backQnaDAO.selectUserId(userId);
+		userIdx = backQnaDAO.selectUserIdx(userId);
 		return userIdx;
 	}
 
@@ -199,6 +199,15 @@ public class BackQnaServiceImpl implements BackQnaService {
 		int count = 0;
 		count = backQnaDAO.selectCount();
 		return count;
+	}
+
+	@Override
+	public int selectUserIdxBoard(int board_Idx) {
+		int userIdx = 0;
+			if(board_Idx>0) {
+				userIdx = backQnaDAO.selectUserIdxBoard(board_Idx);
+			}
+		return userIdx;
 	}
 
 	

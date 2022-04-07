@@ -32,7 +32,7 @@ import kr.sga.gkmarket.notice.vo.BackNoticeVO;
 import lombok.extern.slf4j.Slf4j;
 
 
-@Controller
+@RestController
 @Slf4j
 public class NoticeController {
 	

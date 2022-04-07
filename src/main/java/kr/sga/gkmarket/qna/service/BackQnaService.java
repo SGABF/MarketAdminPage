@@ -39,4 +39,6 @@ public interface BackQnaService {
 	int selectUserIdx(String userId);
 	//  Qna 게시판 수
 	int countList();
+	// 게시글번호에 저장된 유저idx
+	int selectUserIdxBoard(int board_Idx);
 }

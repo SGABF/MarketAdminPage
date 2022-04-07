@@ -101,8 +101,12 @@
 	</update>
 
 	<!-- 받은 userIdx 로 정보 가져오기 -->
-	<select id="selectUserIdx" parameterType="int"
-		resultType="BackQnaVO">
+	<select id="selectUserIdx" parameterType="String" resultType="int">
 		SELECT user_Idx from user where user_id = #{user_Id}
+	</select>
+	
+	<!-- 게시물에 저장된 user Idx를 가져오기 -->
+	<select id="selectUserIdxBoard" parameterType="int" resultType="int">
+		select user_Idx from back_qna where back_Qna_Idx = #{back_Qna_Idx}
 	</select>
 </mapper>

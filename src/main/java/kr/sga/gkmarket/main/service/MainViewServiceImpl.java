@@ -72,4 +72,13 @@ public class MainViewServiceImpl implements MainViewService{
 		return count;
 	}
 
+	@Override
+	public int selectUploadBrd(int month) {
+		int boardCount = 0;
+		if(month > 0) {
+			boardCount = mainViewDAO.selectUploadBrd(month);
+		}
+		return boardCount;
+	}
+
 }

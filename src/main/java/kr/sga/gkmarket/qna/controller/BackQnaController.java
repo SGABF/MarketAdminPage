@@ -95,14 +95,21 @@ public class BackQnaController {
 
     @SuppressWarnings("deprecation")
     @PostMapping(value = "/MainView/qnaInsert")
-	public void qnaInsert(@RequestPart(value = "testobject") BackQnaVO backQnaVO, @RequestPart(value = "file", required = false) MultipartFile file
+	public void qnaInsert(@RequestBody /*(value = "testobject") */BackQnaVO backQnaVO, @RequestPart(value = "fileUp", required = false) MultipartFile file
 			, @RequestHeader(value = "user_Id") String user_Id ) {
 		log.info("여기는 VO" + backQnaVO + "여기는 파일" + file);
 		
+		BackQnaVO qnaVO = new BackQnaVO();
+		if(backQnaVO != null) {
 		int userIdx = backQnaService.selectUserIdx(user_Id); // 받은 user_Id로 userIdx에 넣어준다
-		backQnaVO.setUser_Idx(userIdx);						 // 그걸 backQnaVO에 set 해준다.
-    	backQnaService.insert(backQnaVO); // DB에 저장
-    	
+		System.out.println("서비스의 userIdx : " + userIdx);
+		qnaVO.setUser_Idx(userIdx);
+		qnaVO.setBack_Qna_Content(backQnaVO.getBack_Qna_Content());
+		qnaVO.setBack_Qna_Name(backQnaVO.getBack_Qna_Name());
+		System.out.println("backQnaVO : " + qnaVO);
+    	backQnaService.insert(qnaVO); // DB에 저장
+    	System.out.println(" insert 완료 " + "\n");
+		}
 		if(file != null ) {
 			BackQnaVO vo =  new BackQnaVO();
 			BackQnaFileVO uploadFile = new BackQnaFileVO();
@@ -213,11 +220,17 @@ public class BackQnaController {
 	
 	@PostMapping(value = "/MainView/qnaDelete")
 	@ResponseBody
-	public void qnaDelete(@RequestParam BackQnaVO backQnaVO, HttpServletRequest request, MultipartFile file) {
-		log.info("{}의 qnaDelete 호출 : {}", this.getClass().getName(), request,"backQnaVO : " + backQnaVO);
+	public void qnaDelete(@RequestBody BackQnaVO backQnaVO, HttpServletRequest request, MultipartFile file
+			, @RequestHeader(value = "user_Id") String user_Id) {
+		log.info("{}의 qnaDelete 호출 : {}", this.getClass().getName(), request,"backQnaVO : " + backQnaVO +"user_Id : " + user_Id);
+		
+		int userIdx = backQnaService.selectUserIdx(user_Id);
+		int userIdxBoard = backQnaService.selectUserIdxBoard(backQnaVO.getBack_Qna_Idx());
+		
+		if(userIdx==userIdxBoard) {
 		String realPath = request.getRealPath("win");
 		backQnaService.delete(backQnaVO, realPath);
-		
+		}
 	}
 	
 	@GetMapping(value = "/MainView/qnaDeleteOk")

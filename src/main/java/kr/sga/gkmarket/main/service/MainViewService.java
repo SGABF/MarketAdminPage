@@ -12,8 +12,10 @@ public interface MainViewService {
 	int selectForSale();
 	// 답변완료 수 불러오기
 	int selectReplyDone();
-	// selectUserMonth
+	// 월별 가입회원수
 	int selectUserMonth(int month);
+	// 월별 업로드된 게시물
+	int selectUploadBrd(int month);
 	// 연령층 가져오기
 	UserAgeVO selectUserAge();
 	// 총 유저 가져오기

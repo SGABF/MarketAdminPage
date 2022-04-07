@@ -47,6 +47,20 @@ public class MainViewController {
 		System.out.println("월별 합" + monthList);
 		model.addAttribute("mList", monthList); // 보내기
 		
+		//월별 게시글 업로드수
+		int boardCount = 0;
+		int tempBoard = 0;
+
+		ArrayList<Integer> boardList = new ArrayList<Integer>();
+		for(int i = 1; i <= 12; i++) {
+			boardCount = mainViewService.selectUploadBrd(i);
+			System.out.println(i+"월 : "+boardCount +"개" );
+			tempBoard+= boardCount;
+			boardList.add(tempBoard);
+		}
+		System.out.println("월별 업로드된 게시물 합" + boardList);
+		model.addAttribute("bList", boardList); // 보내기
+		
 		// 연령층 가입회원수 가져오기
 		UserAgeVO age = mainViewService.selectUserAge();
 		System.out.println("유저 나이" + age);

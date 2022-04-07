@@ -17,6 +17,8 @@ public interface MainViewDAO {
 	int selectReplyDone();
 	// 월별 가입회원수
 	int selectUserMonth(int month);
+	// 월별 업로드된 게시물
+	int selectUploadBrd(int month);
 	// 가입회원 연령대
 	UserAgeVO selectUserAge();
 	// 총 멤버수
