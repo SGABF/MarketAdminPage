@@ -30,7 +30,7 @@ function json_convert(){
 			alert("인증 성공");
 			localStorage.setItem('token', data.token);
 			localStorage.setItem('admin', username.value);
-			location.replace("/MainView/MainPage");
+			location.replace("/MainView/MainPageEx");
 		},
 		error: function(request, error){
 			alert("인증 실패");
