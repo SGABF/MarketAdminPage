@@ -72,10 +72,16 @@ public class BackQnaController {
 	@PostMapping(value = "/MainView/qnaView")
 	public BackQnaVO qnaView(@RequestParam (value = "idx")int idx) throws JsonProcessingException{
 		log.info("backQnaController qnaView() 호출");
-		BackQnaVO dbQnaVO = null;
+		BackQnaVO dbQnaVO = new BackQnaVO();
 		if(idx >0) {
 		dbQnaVO = backQnaService.selectByIdx(idx);
 		dbQnaVO.setReply(backQnaReplyService.selectComment(idx));
+		dbQnaVO.setUser_Name(backQnaService.selectUserName(dbQnaVO.getUser_Idx()));
+		System.out.println("유저이름 : " + dbQnaVO.getUser_Name() + "\n");
+		System.out.println("유저이름 : " + dbQnaVO.getUser_Idx() + "\n");
+		System.out.println("유저이름 : " + backQnaService.selectUserName(dbQnaVO.getUser_Idx()) + "\n");
+		System.out.println("유저이름 : " + backQnaService.selectUserName(5) + "\n");
+		
 		}
 		return dbQnaVO;
 	}
@@ -95,19 +101,15 @@ public class BackQnaController {
 
     @SuppressWarnings("deprecation")
     @PostMapping(value = "/MainView/qnaInsert")
-	public void qnaInsert(@RequestBody /*(value = "testobject") */BackQnaVO backQnaVO, @RequestPart(value = "fileUp", required = false) MultipartFile file
+	public void qnaInsert(@RequestPart(value = "BackQnaVO")BackQnaVO backQnaVO, @RequestPart(value = "file", required = false) MultipartFile file
 			, @RequestHeader(value = "user_Id") String user_Id ) {
-		log.info("여기는 VO" + backQnaVO + "여기는 파일" + file);
+		log.info("여기는 VO" + backQnaVO + "여기는 파일" + file + "여기는 유저" + user_Id);
 		
-		BackQnaVO qnaVO = new BackQnaVO();
 		if(backQnaVO != null) {
 		int userIdx = backQnaService.selectUserIdx(user_Id); // 받은 user_Id로 userIdx에 넣어준다
 		System.out.println("서비스의 userIdx : " + userIdx);
-		qnaVO.setUser_Idx(userIdx);
-		qnaVO.setBack_Qna_Content(backQnaVO.getBack_Qna_Content());
-		qnaVO.setBack_Qna_Name(backQnaVO.getBack_Qna_Name());
-		System.out.println("backQnaVO : " + qnaVO);
-    	backQnaService.insert(qnaVO); // DB에 저장
+		backQnaVO.setUser_Idx(userIdx);
+    	backQnaService.insert(backQnaVO); // DB에 저장
     	System.out.println(" insert 완료 " + "\n");
 		}
 		if(file != null ) {

@@ -38,5 +38,7 @@ public interface BackQnaDAO {
 	int selectUserIdx(String userId);
 	// 현재 게시글의 userIDx 가져오기
 	int selectUserIdxBoard(int board_Idx);
+	// 유저idx로 이름 가져오기
+	String getUserName(int user_idx);
 	
 }

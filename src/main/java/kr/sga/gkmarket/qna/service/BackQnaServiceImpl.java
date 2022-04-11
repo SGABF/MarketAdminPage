@@ -210,5 +210,15 @@ public class BackQnaServiceImpl implements BackQnaService {
 		return userIdx;
 	}
 
+	@Override
+	public String selectUserName(int user_idx) {
+		String userName = "";
+			if(user_idx>0) {
+				userName = backQnaDAO.getUserName(user_idx);
+			}
+			System.out.println("dddd" + backQnaDAO.getUserName(user_idx));
+		return userName;
+	}
+
 	
 }

@@ -109,4 +109,9 @@
 	<select id="selectUserIdxBoard" parameterType="int" resultType="int">
 		select user_Idx from back_qna where back_Qna_Idx = #{back_Qna_Idx}
 	</select>
+	
+	<!--  유저 idx로 유저이름 가져오기 -->
+	<select id="getUserName" parameterType="int" resultType="String">
+		select user_name from user where user_idx = #{user_Idx}
+	</select>
 </mapper>
