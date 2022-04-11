@@ -222,7 +222,7 @@ public class BackQnaController {
 	
 	@PostMapping(value = "/MainView/qnaDelete")
 	@ResponseBody
-	public void qnaDelete(@RequestBody BackQnaVO backQnaVO, HttpServletRequest request, MultipartFile file
+	public void qnaDelete(@RequestParam BackQnaVO backQnaVO, HttpServletRequest request, MultipartFile file
 			, @RequestHeader(value = "user_Id") String user_Id) {
 		log.info("{}의 qnaDelete 호출 : {}", this.getClass().getName(), request,"backQnaVO : " + backQnaVO +"user_Id : " + user_Id);
 		
@@ -246,7 +246,7 @@ public class BackQnaController {
 	// ------------------댓글-----------------------------
 	@ResponseBody
 	@PostMapping(value = "/qna/qndInsertComment")
-	public void qndInsertComment(@RequestBody BackQnaReplyVO replyVO) {
+	public void qndInsertComment(@RequestParam BackQnaReplyVO replyVO) {
 		log.info("{}의 qnaInsertComment 호출 : {}" + replyVO +"\n");
 		if (replyVO != null) {
 			backQnaReplyService.insert(replyVO);
