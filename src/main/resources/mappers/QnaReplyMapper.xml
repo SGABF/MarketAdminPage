@@ -8,9 +8,9 @@
 	<!-- 저장 (1:1 문의 답변등록) --> 
 	<insert id="insert" parameterType="BackQnaReplyVO">
 		INSERT into 
-			back_qnaReply (back_Qna_Reply_Content)
+			back_qnaReply (back_Qna_Reply_Content, back_Qna_Idx)
 		values
-			(#{back_Qna_Reply_Content})
+			(#{back_Qna_Reply_Content}, #{back_Qna_Idx})
 	</insert>
 	
 	<!-- 수정 (1:1 문의 답변수정)  -->

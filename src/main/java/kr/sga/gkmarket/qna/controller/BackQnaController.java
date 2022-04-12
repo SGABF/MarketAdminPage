@@ -246,8 +246,10 @@ public class BackQnaController {
 	// ------------------댓글-----------------------------
 	@ResponseBody
 	@PostMapping(value = "/qna/qndInsertComment")
-	public void qndInsertComment(@RequestParam BackQnaReplyVO replyVO) {
-		log.info("{}의 qnaInsertComment 호출 : {}" + replyVO +"\n");
+	public void qndInsertComment(@RequestParam String back_Qna_Reply_Content, @RequestParam int back_Qna_Idx) {
+		BackQnaReplyVO replyVO = new BackQnaReplyVO();
+		replyVO.setBack_Qna_Idx(back_Qna_Idx);
+		replyVO.setBack_Qna_Reply_Content(back_Qna_Reply_Content);
 		if (replyVO != null) {
 			backQnaReplyService.insert(replyVO);
 			// 댓글 추가시 back_qna_question 값 1이됨
