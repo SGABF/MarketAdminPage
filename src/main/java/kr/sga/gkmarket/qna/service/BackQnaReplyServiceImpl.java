@@ -18,7 +18,6 @@ public class BackQnaReplyServiceImpl implements BackQnaReplyService {
 			
 			backQnaReplyDAO.insert(backQnaReplyVO);
 			System.out.println("backQnaRe   " + backQnaReplyVO + "\n");
-			backQnaReplyDAO.selectContentIdx(backQnaReplyVO);
 		}
 	}
 

@@ -147,7 +147,7 @@
 	function insertQnaReply(idx){
 		var form_data = new FormData();
 		var token = localStorage.getItem("token");
-		//var back_Qna_Idx = $("#inputQnaIdx").val();
+		var back_Qna_Idx = $("#inputQnaIdx").val();
 		var back_Qna_Reply_Content = $("#inputQnaReply").val();
 		
 		/*if(back_Qna_Idx == "" || back_Qna_Idx == 0){
