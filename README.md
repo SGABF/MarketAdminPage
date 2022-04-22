@@ -1,1 +1,3 @@
-<img src="https://img.shields.io/badge/이름-색상코드?style=flat-square&logo=로고명&logoColor=로고색"/>
+[사용자 포털 FE repository](https://github.com/SGABF/MarketWeb) <br>
+[사용자 포털 BE repository](https://github.com/SGABF/MarketWebBack) <br>
+[관리자 포털 BE repository](https://github.com/SGABF/MarketAdminPage) <br>
