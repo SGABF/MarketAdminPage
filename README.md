@@ -5,3 +5,6 @@
 [관리자 포털 BE](https://github.com/SGABF/MarketAdminPage) <br>
 
 
+> 백엔드 기능
+
+ㅇㄴㅇㄴㅇㅁㄴㅇ
