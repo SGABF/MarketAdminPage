@@ -1,3 +1,6 @@
+### 한눈에 보기
+https://drive.google.com/file/d/11kZezNS5T8-SpmvGWp6aL9vAbowP7ZFp/view?usp=sharing
+
 ### 바로이동 🔗
 
 [사용자 포털 FE](https://github.com/SGABF/MarketWeb) <br>
